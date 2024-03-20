@@ -1,5 +1,6 @@
 import funcnodes as fn
 
+__version__ = "0.1.0"
 
 from ._core import *
 
