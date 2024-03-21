@@ -1,6 +1,21 @@
 import funcnodes as fn
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
+
+import numpy as np
+
+# set the print options to display a smaller number of elements for node previews
+np.set_printoptions(threshold=100)
+
+
+def from_np(obj):
+    if isinstance(obj, np.ndarray):
+        return str(obj), True  # return obj.tolist(), True
+    return obj, False
+
+
+fn.JSONEncoder.add_encoder(from_np)
+
 
 from ._core import *
 

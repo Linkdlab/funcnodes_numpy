@@ -221,7 +221,7 @@ def zeros_like(
 @wraps(numpy.full)
 def full(
     shape: shape_like,
-    fill_value: scalar or array_like,
+    fill_value: ndarray_or_scalar,
     dtype: Optional[DTYPE_ENUM] = None,
     # order: OrderCF = "C",
     # like: Optional[array_like] = None,
@@ -769,7 +769,7 @@ def tri(
 )
 @wraps(numpy.tril)
 def tril(
-    m: array_like,
+    m: ndarray,
     k: Optional[int] = 0,
 ):  # params ['m'] ['k'] []
     res = numpy.tril(
@@ -786,7 +786,7 @@ def tril(
 )
 @wraps(numpy.triu)
 def triu(
-    m: array_like,
+    m: ndarray,
     k: Optional[int] = 0,
 ):
     res = numpy.triu(

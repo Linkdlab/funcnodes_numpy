@@ -7,8 +7,10 @@ import exposedfunctionality.function_parser.types as exf_types
 scalar = Union[int, float]
 exf_types.add_type(Union[int, float], "scalar")
 # exf_types.add_type(scalar, "scalar")
-number = Union[int, float, complex]
-exf_types.add_type(Union[int, float, complex], "number")
+number = Union[complex, int, float]
+exf_types.add_type(Union[complex, int, float], "number")
+basic_types = Union[int, float, complex, str, bool]
+exf_types.add_type(Union[int, float, complex, str, bool], "basic_types")
 # exf_types.add_type(number, "number")
 
 ndarray_or_scalar = Union[numpy.ndarray, scalar]
@@ -33,7 +35,7 @@ exf_types.add_type(Union[int, List[int]], "axis_like")
 ndarray = numpy.ndarray
 exf_types.add_type(numpy.ndarray, "ndarray")
 
-array_like = numpy.ndarray
+array_like = Union[numpy.ndarray, basic_types]
 exf_types.add_type(numpy.ndarray, "array_like")
 
 int_array = ndarray

@@ -57,31 +57,35 @@ class TestTypes(unittest.TestCase):
     def test_types_to_sring(self):
         for src, exp, exps in [
             (fnp.DTYPE_ENUM, fnp.DTYPE_ENUM, "funcnodes_numpy._dtypes.DTYPE_ENUM"),
-            (fnp._types.scalar, Union[int, float], "Union[int, float]"),
+            (fnp._types.scalar, Union[float, int], "Union[float, int]"),
             (
                 fnp._types.number,
-                Union[int, float, complex],
-                "Union[int, float, complex]",
+                Union[complex, int, float],
+                "Union[complex, float, int]",
             ),
             (
                 fnp._types.ndarray_or_scalar,
                 Union[np.ndarray, fnp._types.scalar],
-                "Union[ndarray, int, float]",
+                "Union[float, int, ndarray]",
             ),
             (
                 fnp._types.ndarray_or_number,
                 Union[np.ndarray, fnp._types.number],
-                "Union[ndarray, int, float, complex]",
+                "Union[complex, float, int, ndarray]",
             ),
             (
                 fnp._types.indices_or_sections,
-                Union[int, List[int]],
-                "Union[int, List[int]]",
+                Union[List[int], int],
+                "Union[List[int], int]",
             ),
-            (fnp._types.shape_like, Union[int, List[int]], "Union[int, List[int]]"),
-            (fnp._types.axis_like, Union[int, List[int]], "Union[int, List[int]]"),
+            (fnp._types.shape_like, Union[List[int], int], "Union[List[int], int]"),
+            (fnp._types.axis_like, Union[List[int], int], "Union[List[int], int]"),
             (fnp._types.ndarray, np.ndarray, "ndarray"),
-            (fnp._types.array_like, np.ndarray, "ndarray"),
+            (
+                fnp._types.array_like,
+                Union[bool, complex, float, int, np.ndarray, str],
+                "Union[bool, complex, float, int, ndarray, str]",
+            ),
             (fnp._types.int_array, np.ndarray, "ndarray"),
             (fnp._types.bool_array, np.ndarray, "ndarray"),
             (fnp._types.bitarray, np.ndarray, "ndarray"),
@@ -116,12 +120,12 @@ class TestTypes(unittest.TestCase):
             (
                 fnp._types.buffer_like,
                 Union[bytes, bytearray, memoryview, np.ndarray],
-                "Union[bytes, bytearray, memoryview, ndarray]",
+                "Union[bytearray, bytes, memoryview, ndarray]",
             ),
             (
                 fnp._types.str_array,
                 np._ArrayLikeStr_co if TYPE_CHECKING else np._typing._ArrayLikeStr_co,
-                "Union[numpy._typing._array_like._SupportsArray, numpy._typing._nested_sequence._NestedSequence, str, numpy._typing._nested_sequence._NestedSequence]",
+                "Union[numpy._typing._array_like._SupportsArray, numpy._typing._nested_sequence._NestedSequence, numpy._typing._nested_sequence._NestedSequence, str]",
             ),
             (fnp._types.NoValue, np._NoValue, "<no value>"),
             (
