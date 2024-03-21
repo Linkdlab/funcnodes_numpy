@@ -137,7 +137,8 @@ dtype_names = [dtype.name for dtype in dtypes]
 dtypes_char = [dtype.char for dtype in dtypes]
 
 DTYPE_NAME_MAP: Dict[dtype_name_literal, np.dtype] = {
-    dtype.name: dtype for dtype in dtypes
+    **{str(dtype): dtype for dtype in dtypes},
+    **{dtype.name: dtype for dtype in dtypes},
 }
 
 
@@ -147,4 +148,4 @@ def dtype_from_name(name: Union[DTYPE_ENUM, dtype_name_literal, np.dtype]) -> np
     if isinstance(name, DTYPE_ENUM):
         return name.value
     if isinstance(name, str):
-        return DTYPE_NAME_MAP[name]
+        return DTYPE_NAME_MAP.get(name, None)
