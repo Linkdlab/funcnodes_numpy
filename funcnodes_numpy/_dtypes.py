@@ -73,6 +73,9 @@ class DTYPE_ENUM(enum.Enum):
     uint64 = np.dtype("Q")
     void = np.dtype("V")
 
+    def __str__(self):
+        return self.name
+
 
 # generate via:
 # import numpy as np
