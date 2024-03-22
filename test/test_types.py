@@ -21,7 +21,7 @@ def flatten_shelves(shelf: fn.Shelf) -> list[fn.Node]:
 
 class TestTypes(unittest.TestCase):
     def test_typestrings(self):
-        shelf = fnp.NODE_SHELFE
+        shelf = fnp.NODE_SHELF
         nodes = flatten_shelves(shelf)
         for node in nodes:
             ins: fn.Node = node()

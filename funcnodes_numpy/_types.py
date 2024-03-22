@@ -1,5 +1,5 @@
 import numpy
-from typing import List, Union, Literal
+from typing import List, Union, Literal, Callable
 from typing import TYPE_CHECKING
 
 import exposedfunctionality.function_parser.types as exf_types
@@ -36,7 +36,7 @@ ndarray = numpy.ndarray
 exf_types.add_type(numpy.ndarray, "ndarray")
 
 array_like = Union[numpy.ndarray, basic_types]
-exf_types.add_type(numpy.ndarray, "array_like")
+exf_types.add_type(Union[numpy.ndarray, basic_types], "array_like")
 
 int_array = ndarray
 exf_types.add_type(ndarray, "int_array")
@@ -98,3 +98,7 @@ exf_types.add_type(
     Literal["no", "equiv", "safe", "same_kind", "unsafe"], "casting_literal"
 )
 # exf_types.add_type(casting_literal, "casting_literal")
+
+
+Ufunc = Callable
+exf_types.add_type(Callable, "Ufunc")

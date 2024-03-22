@@ -1,4 +1,4 @@
-from functools import wraps
+from exposedfunctionality import controlled_wrapper as wraps
 import numpy
 import funcnodes as fn
 from typing import List, Literal, Optional
@@ -11,7 +11,7 @@ from ._dtypes import DTYPE_ENUM, dtype_from_name
     name="all",
     outputs=[{"name": "out", "type": "bool_or_bool_array"}],
 )
-@wraps(numpy.ndarray.all)
+@wraps(numpy.ndarray.all, wrapper_attribute="__fnwrapped__")
 def all(
     a: ndarray,
     axis: Optional[axis_like] = None,
@@ -25,7 +25,7 @@ def all(
     name="any",
     outputs=[{"name": "out", "type": "bool_or_bool_array"}],
 )
-@wraps(numpy.ndarray.any)
+@wraps(numpy.ndarray.any, wrapper_attribute="__fnwrapped__")
 def any(
     a: ndarray,
     axis: Optional[axis_like] = None,
@@ -39,7 +39,7 @@ def any(
     name="argmax",
     outputs=[{"name": "out", "type": "int_or_int_array"}],
 )
-@wraps(numpy.ndarray.argmax)
+@wraps(numpy.ndarray.argmax, wrapper_attribute="__fnwrapped__")
 def argmax(
     a: ndarray,
     axis: Optional[axis_like] = None,
@@ -53,7 +53,7 @@ def argmax(
     name="argmin",
     outputs=[{"name": "out", "type": "int_or_int_array"}],
 )
-@wraps(numpy.ndarray.argmin)
+@wraps(numpy.ndarray.argmin, wrapper_attribute="__fnwrapped__")
 def argmin(
     a: ndarray,
     axis: Optional[axis_like] = None,
@@ -67,7 +67,7 @@ def argmin(
     name="argpartition",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.argpartition)
+@wraps(numpy.ndarray.argpartition, wrapper_attribute="__fnwrapped__")
 def argpartition(
     a: ndarray,
     kth: int_or_int_array,
@@ -82,7 +82,7 @@ def argpartition(
     name="argsort",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.argsort)
+@wraps(numpy.ndarray.argsort, wrapper_attribute="__fnwrapped__")
 def argsort(
     a: ndarray,
     axis: Optional[axis_like] = -1,
@@ -96,7 +96,7 @@ def argsort(
     name="astype",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.astype)
+@wraps(numpy.ndarray.astype, wrapper_attribute="__fnwrapped__")
 def astype(a: ndarray, dtype: DTYPE_ENUM):
     res = a.astype(
         dtype_from_name(dtype),
@@ -109,7 +109,7 @@ def astype(a: ndarray, dtype: DTYPE_ENUM):
     name="byteswap",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.byteswap)
+@wraps(numpy.ndarray.byteswap, wrapper_attribute="__fnwrapped__")
 def byteswap(
     a: ndarray,
 ):
@@ -122,7 +122,7 @@ def byteswap(
     name="choose",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.choose)
+@wraps(numpy.ndarray.choose, wrapper_attribute="__fnwrapped__")
 def choose(
     a: ndarray,
     choices: ndarray,
@@ -136,7 +136,7 @@ def choose(
     name="clip",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.clip)
+@wraps(numpy.ndarray.clip, wrapper_attribute="__fnwrapped__")
 def clip(
     a: ndarray,
     a_min: Optional[float] = None,
@@ -151,7 +151,7 @@ def clip(
     name="compress",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.compress)
+@wraps(numpy.ndarray.compress, wrapper_attribute="__fnwrapped__")
 def compress(
     a: ndarray,
     condition: ndarray,
@@ -166,7 +166,7 @@ def compress(
     name="conj",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.conj)
+@wraps(numpy.ndarray.conj, wrapper_attribute="__fnwrapped__")
 def conj(
     a: ndarray,
 ):
@@ -179,7 +179,7 @@ def conj(
     name="conjugate",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.conjugate)
+@wraps(numpy.ndarray.conjugate, wrapper_attribute="__fnwrapped__")
 def conjugate(
     a: ndarray,
 ):
@@ -192,7 +192,7 @@ def conjugate(
     name="copy",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.copy)
+@wraps(numpy.ndarray.copy, wrapper_attribute="__fnwrapped__")
 def copy(
     a: ndarray,
 ):
@@ -205,7 +205,7 @@ def copy(
     name="cumprod",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.ndarray.cumprod)
+@wraps(numpy.ndarray.cumprod, wrapper_attribute="__fnwrapped__")
 def cumprod(
     a: ndarray,
     axis: Optional[axis_like] = None,
@@ -219,7 +219,7 @@ def cumprod(
     name="cumsum",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.ndarray.cumsum)
+@wraps(numpy.ndarray.cumsum, wrapper_attribute="__fnwrapped__")
 def cumsum(
     a: ndarray,
     axis: Optional[axis_like] = None,
@@ -233,7 +233,7 @@ def cumsum(
     name="diagonal",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.diagonal)
+@wraps(numpy.ndarray.diagonal, wrapper_attribute="__fnwrapped__")
 def diagonal(
     a: ndarray,
     offset: int = 0,
@@ -249,7 +249,7 @@ def diagonal(
     name="dot",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.dot)
+@wraps(numpy.ndarray.dot, wrapper_attribute="__fnwrapped__")
 def dot(
     a: ndarray,
     b: ndarray,
@@ -263,13 +263,14 @@ def dot(
     name="fill",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.fill)
+@wraps(numpy.ndarray.fill, wrapper_attribute="__fnwrapped__")
 def fill(
     a: ndarray,
     value: float,
 ):
-    res = a.fill(value)
-    return res
+    a = a.copy()
+    a.fill(value)
+    return a
 
 
 @fn.NodeDecorator(
@@ -277,7 +278,7 @@ def fill(
     name="flatten",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.flatten)
+@wraps(numpy.ndarray.flatten, wrapper_attribute="__fnwrapped__")
 def flatten(
     a: ndarray,
 ):
@@ -290,7 +291,7 @@ def flatten(
     name="getfield",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.getfield)
+@wraps(numpy.ndarray.getfield, wrapper_attribute="__fnwrapped__")
 def getfield(
     a: ndarray,
     dtype: DTYPE_ENUM,
@@ -305,7 +306,7 @@ def getfield(
     name="item",
     outputs=[{"name": "out", "type": "scalar"}],
 )
-@wraps(numpy.ndarray.item)
+@wraps(numpy.ndarray.item, wrapper_attribute="__fnwrapped__")
 def item(
     a: ndarray,
     pos: axis_like,
@@ -320,7 +321,7 @@ def item(
     name="itemset",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.itemset)
+@wraps(numpy.ndarray.itemset, wrapper_attribute="__fnwrapped__")
 def itemset(
     a: ndarray,
     pos: axis_like,
@@ -336,7 +337,7 @@ def itemset(
     name="max",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.ndarray.max)
+@wraps(numpy.ndarray.max, wrapper_attribute="__fnwrapped__")
 def max(
     a: ndarray,
     axis: Optional[axis_like] = None,
@@ -352,7 +353,7 @@ def max(
     name="mean",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.ndarray.mean)
+@wraps(numpy.ndarray.mean, wrapper_attribute="__fnwrapped__")
 def mean(
     a: ndarray,
     axis: Optional[axis_like] = None,
@@ -366,7 +367,7 @@ def mean(
     name="min",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.ndarray.min)
+@wraps(numpy.ndarray.min, wrapper_attribute="__fnwrapped__")
 def min(
     a: ndarray,
     axis: Optional[axis_like] = None,
@@ -380,7 +381,7 @@ def min(
     name="newbyteorder",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.newbyteorder)
+@wraps(numpy.ndarray.newbyteorder, wrapper_attribute="__fnwrapped__")
 def newbyteorder(
     a: ndarray,
     new_order: Literal["S", "<", ">", "=", "|"] = "S",
@@ -394,7 +395,7 @@ def newbyteorder(
     name="nonzero",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.nonzero)
+@wraps(numpy.ndarray.nonzero, wrapper_attribute="__fnwrapped__")
 def nonzero(
     a: ndarray,
 ):
@@ -407,7 +408,7 @@ def nonzero(
     name="partition",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.partition)
+@wraps(numpy.ndarray.partition, wrapper_attribute="__fnwrapped__")
 def partition(
     a: ndarray,
     kth: int_or_int_array,
@@ -422,7 +423,7 @@ def partition(
     name="prod",
     outputs=[{"name": "out", "type": "Union[float,int, ndarray]"}],
 )
-@wraps(numpy.ndarray.prod)
+@wraps(numpy.ndarray.prod, wrapper_attribute="__fnwrapped__")
 def prod(
     a: ndarray,
     axis: Optional[axis_like] = None,
@@ -436,7 +437,7 @@ def prod(
     name="ptp",
     outputs=[{"name": "out", "type": "Union[float,int, ndarray]"}],
 )
-@wraps(numpy.ndarray.ptp)
+@wraps(numpy.ndarray.ptp, wrapper_attribute="__fnwrapped__")
 def ptp(
     a: ndarray,
     axis: Optional[axis_like] = None,
@@ -450,15 +451,16 @@ def ptp(
     name="put",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.put)
+@wraps(numpy.ndarray.put, wrapper_attribute="__fnwrapped__")
 def put(
     a: ndarray,
     indices: ndarray,
     values: ndarray,
     mode: Literal["raise", "wrap", "clip"] = "raise",
 ):
+    a = a.copy()
     res = a.put(indices, values, mode)
-    return res
+    return a
 
 
 @fn.NodeDecorator(
@@ -466,7 +468,7 @@ def put(
     name="ravel",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.ravel)
+@wraps(numpy.ndarray.ravel, wrapper_attribute="__fnwrapped__")
 def ravel(
     a: ndarray,
     order: str = "C",
@@ -480,7 +482,7 @@ def ravel(
     name="repeat",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.repeat)
+@wraps(numpy.ndarray.repeat, wrapper_attribute="__fnwrapped__")
 def repeat(
     a: ndarray,
     repeats: int,
@@ -495,7 +497,7 @@ def repeat(
     name="reshape",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.reshape)
+@wraps(numpy.ndarray.reshape, wrapper_attribute="__fnwrapped__")
 def reshape(
     a: ndarray,
     newshape: shape_like,
@@ -509,7 +511,7 @@ def reshape(
     name="resize",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.resize)
+@wraps(numpy.ndarray.resize, wrapper_attribute="__fnwrapped__")
 def resize(
     a: ndarray,
     new_shape: shape_like,
@@ -523,7 +525,7 @@ def resize(
     name="round",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.round)
+@wraps(numpy.ndarray.round, wrapper_attribute="__fnwrapped__")
 def round(
     a: ndarray,
     decimals: int = 0,
@@ -537,7 +539,7 @@ def round(
     name="searchsorted",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.searchsorted)
+@wraps(numpy.ndarray.searchsorted, wrapper_attribute="__fnwrapped__")
 def searchsorted(
     a: ndarray,
     v: ndarray,
@@ -553,7 +555,7 @@ def searchsorted(
     name="sort",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.sort)
+@wraps(numpy.ndarray.sort, wrapper_attribute="__fnwrapped__")
 def sort(
     a: ndarray,
     axis: Optional[int] = -1,
@@ -567,7 +569,7 @@ def sort(
     name="squeeze",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.squeeze)
+@wraps(numpy.ndarray.squeeze, wrapper_attribute="__fnwrapped__")
 def squeeze(
     a: ndarray,
     axis: Optional[axis_like] = None,
@@ -581,7 +583,7 @@ def squeeze(
     name="std",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.ndarray.std)
+@wraps(numpy.ndarray.std, wrapper_attribute="__fnwrapped__")
 def std(
     a: ndarray,
     axis: Optional[axis_like] = None,
@@ -595,7 +597,7 @@ def std(
     name="sum",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.ndarray.sum)
+@wraps(numpy.ndarray.sum, wrapper_attribute="__fnwrapped__")
 def sum(
     a: ndarray,
     axis: Optional[axis_like] = None,
@@ -609,7 +611,7 @@ def sum(
     name="swapaxes",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.swapaxes)
+@wraps(numpy.ndarray.swapaxes, wrapper_attribute="__fnwrapped__")
 def swapaxes(
     a: ndarray,
     axis1: int,
@@ -624,14 +626,14 @@ def swapaxes(
     name="take",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.take)
+@wraps(numpy.ndarray.take, wrapper_attribute="__fnwrapped__")
 def take(
     a: ndarray,
     indices: ndarray,
     axis: Optional[int] = None,
     mode: Literal["raise", "wrap", "clip"] = "raise",
 ):
-    res = a.take(indices, axis, mode)
+    res = a.take(indices, axis=axis, mode=mode)
     return res
 
 
@@ -640,7 +642,7 @@ def take(
     name="tobytes",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.tobytes)
+@wraps(numpy.ndarray.tobytes, wrapper_attribute="__fnwrapped__")
 def tobytes(
     a: ndarray,
 ):
@@ -653,7 +655,7 @@ def tobytes(
     name="tolist",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.tolist)
+@wraps(numpy.ndarray.tolist, wrapper_attribute="__fnwrapped__")
 def tolist(
     a: ndarray,
 ):
@@ -666,7 +668,7 @@ def tolist(
     name="tostring",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.tostring)
+@wraps(numpy.ndarray.tostring, wrapper_attribute="__fnwrapped__")
 def tostring(
     a: ndarray,
 ):
@@ -679,7 +681,7 @@ def tostring(
     name="trace",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.ndarray.trace)
+@wraps(numpy.ndarray.trace, wrapper_attribute="__fnwrapped__")
 def trace(
     a: ndarray,
     offset: int = 0,
@@ -695,7 +697,7 @@ def trace(
     name="transpose",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.transpose)
+@wraps(numpy.ndarray.transpose, wrapper_attribute="__fnwrapped__")
 def transpose(
     a: ndarray,
     axes: Optional[List[int]] = None,
@@ -709,7 +711,7 @@ def transpose(
     name="var",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.ndarray.var)
+@wraps(numpy.ndarray.var, wrapper_attribute="__fnwrapped__")
 def var(
     a: ndarray,
     axis: Optional[axis_like] = None,
@@ -723,7 +725,7 @@ def var(
     name="view",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.view)
+@wraps(numpy.ndarray.view, wrapper_attribute="__fnwrapped__")
 def view(
     a: ndarray,
     dtype: Optional[DTYPE_ENUM] = None,
@@ -732,7 +734,7 @@ def view(
     return res
 
 
-NODE_SHELFE = fn.Shelf(
+NODE_SHELF = fn.Shelf(
     nodes=[
         all,
         any,

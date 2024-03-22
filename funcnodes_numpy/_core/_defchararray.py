@@ -50,7 +50,7 @@ def aschararray(
     return res
 
 
-NODE_SHELFE = fn.Shelf(
+NODE_SHELF = fn.Shelf(
     name="char arrays",
     description="char",
     nodes=[chararray, aschararray],

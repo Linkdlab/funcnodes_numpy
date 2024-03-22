@@ -305,8 +305,8 @@ def slogdet(
 )
 @wraps(numpy.linalg.solve)
 def solve(
-    a: array_like,
-    b: array_like,
+    a: ndarray,
+    b: ndarray,
 ):  # params ['a', 'b'] [] []
     res = numpy.linalg.solve(
         a=a,
@@ -409,7 +409,7 @@ def tensorinv(
     return res
 
 
-NODE_SHELFE = fn.Shelf(
+NODE_SHELF = fn.Shelf(
     name="linalg",
     nodes=[
         multi_dot,

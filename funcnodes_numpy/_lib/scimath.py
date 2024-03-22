@@ -143,7 +143,7 @@ def arctanh(
     return res
 
 
-NODE_SHELFE = fn.Shelf(
+NODE_SHELF = fn.Shelf(
     name="emath",
     nodes=[
         sqrt,

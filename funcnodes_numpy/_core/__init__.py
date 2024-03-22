@@ -23,18 +23,17 @@ from .._types import (
     scalar,
     indices_or_sections,
     ndarray_or_scalar,
-    int_array,
     bitarray,
     int_bool_array,
     int_or_int_array,
     NoValue,
-    real_array,
     buffer_like,
 )
 from ._fromnumeric import *
 from ._multiarray import *
 from ._defchararray import *
 from ._datetime import *
+from .ufuncs import *
 
 
 @fn.NodeDecorator(
@@ -42,7 +41,7 @@ from ._datetime import *
     name="empty",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.empty)
+@wraps(numpy.empty, wrapper_attribute="__fnwrapped__")
 def empty(
     shape: shape_like,
     dtype: DTYPE_ENUM = DTYPE_ENUM.float32,
@@ -63,7 +62,7 @@ def empty(
     name="empty_like",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.empty_like)
+@wraps(numpy.empty_like, wrapper_attribute="__fnwrapped__")
 def empty_like(
     prototype: array_like,
     dtype: Optional[DTYPE_ENUM] = None,
@@ -86,7 +85,7 @@ def empty_like(
     name="eye",
     outputs=[{"name": "I", "type": "ndarray"}],
 )
-@wraps(numpy.eye)
+@wraps(numpy.eye, wrapper_attribute="__fnwrapped__")
 def eye(
     N: int,
     M: Optional[int] = None,
@@ -111,7 +110,7 @@ def eye(
     name="identity",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.identity)
+@wraps(numpy.identity, wrapper_attribute="__fnwrapped__")
 def identity(
     n: int,
     dtype: Optional[DTYPE_ENUM] = None,
@@ -130,7 +129,7 @@ def identity(
     name="ones",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ones)
+@wraps(numpy.ones, wrapper_attribute="__fnwrapped__")
 def ones(
     shape: shape_like,
     dtype: Optional[DTYPE_ENUM] = None,
@@ -151,7 +150,7 @@ def ones(
     name="ones_like",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ones_like)
+@wraps(numpy.ones_like, wrapper_attribute="__fnwrapped__")
 def ones_like(
     a: array_like,
     dtype: Optional[DTYPE_ENUM] = None,
@@ -174,7 +173,7 @@ def ones_like(
     name="zeros",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.zeros)
+@wraps(numpy.zeros, wrapper_attribute="__fnwrapped__")
 def zeros(
     shape: shape_like,
     dtype: DTYPE_ENUM = DTYPE_ENUM.float32,
@@ -195,7 +194,7 @@ def zeros(
     name="zeros_like",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.zeros_like)
+@wraps(numpy.zeros_like, wrapper_attribute="__fnwrapped__")
 def zeros_like(
     a: array_like,
     dtype: Optional[DTYPE_ENUM] = None,
@@ -218,7 +217,7 @@ def zeros_like(
     name="full",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.full)
+@wraps(numpy.full, wrapper_attribute="__fnwrapped__")
 def full(
     shape: shape_like,
     fill_value: ndarray_or_scalar,
@@ -241,7 +240,7 @@ def full(
     name="full_like",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.full_like)
+@wraps(numpy.full_like, wrapper_attribute="__fnwrapped__")
 def full_like(
     a: array_like,
     fill_value: array_like,
@@ -266,7 +265,7 @@ def full_like(
     name="meshgrid",
     outputs=[{"name": "XY", "type": "List[ndarray]"}],
 )
-@wraps(numpy.meshgrid)
+@wraps(numpy.meshgrid, wrapper_attribute="__fnwrapped__")
 def meshgrid(
     xi: List[array_like],
     indexing: Literal["xy", "ij"] = "xy",
@@ -285,7 +284,7 @@ def meshgrid(
     name="array",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.array)
+@wraps(numpy.array, wrapper_attribute="__fnwrapped__")
 def array(
     object: array_like,
     dtype: Optional[DTYPE_ENUM] = None,
@@ -312,7 +311,7 @@ def array(
     name="asarray",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.asarray)
+@wraps(numpy.asarray, wrapper_attribute="__fnwrapped__")
 def asarray(
     a: array_like,
     dtype: Optional[DTYPE_ENUM] = None,
@@ -333,7 +332,7 @@ def asarray(
     name="asanyarray",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.asanyarray)
+@wraps(numpy.asanyarray, wrapper_attribute="__fnwrapped__")
 def asanyarray(
     a: array_like,
     dtype: Optional[DTYPE_ENUM] = None,
@@ -354,7 +353,7 @@ def asanyarray(
     name="ascontiguousarray",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ascontiguousarray)
+@wraps(numpy.ascontiguousarray, wrapper_attribute="__fnwrapped__")
 def ascontiguousarray(
     a: array_like,
     dtype: Optional[DTYPE_ENUM] = None,
@@ -373,7 +372,7 @@ def ascontiguousarray(
     name="atleast_1d",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.atleast_1d)
+@wraps(numpy.atleast_1d, wrapper_attribute="__fnwrapped__")
 def atleast_1d(
     arr: array_like,
 ):
@@ -388,7 +387,7 @@ def atleast_1d(
     name="atleast_2d",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.atleast_2d)
+@wraps(numpy.atleast_2d, wrapper_attribute="__fnwrapped__")
 def atleast_2d(
     arr: array_like,
 ):
@@ -403,7 +402,7 @@ def atleast_2d(
     name="atleast_3d",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.atleast_3d)
+@wraps(numpy.atleast_3d, wrapper_attribute="__fnwrapped__")
 def atleast_3d(
     arr: array_like,
 ):
@@ -418,7 +417,7 @@ def atleast_3d(
     name="copy",
     outputs=[{"name": "arr", "type": "ndarray"}],
 )
-@wraps(numpy.copy)
+@wraps(numpy.copy, wrapper_attribute="__fnwrapped__")
 def copy(
     a: array_like,
     # order: OrderKACF = "K",
@@ -437,7 +436,7 @@ def copy(
     name="frombuffer",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.frombuffer)
+@wraps(numpy.frombuffer, wrapper_attribute="__fnwrapped__")
 def frombuffer(
     buffer: buffer_like,
     dtype: DTYPE_ENUM = DTYPE_ENUM.float32,
@@ -460,12 +459,12 @@ def frombuffer(
     name="from_dlpack",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.from_dlpack)
+@wraps(numpy.from_dlpack, wrapper_attribute="__fnwrapped__")
 def from_dlpack(
     x: object,
 ):  # params ['x'] [] []
     res = numpy.from_dlpack(
-        x=x,
+        x,
     )
     return res
 
@@ -475,7 +474,7 @@ def from_dlpack(
 #     name="fromfile",
 #     outputs=[],
 # )
-# @wraps(numpy.fromfile)
+# @wraps(numpy.fromfile, wrapper_attribute="__fnwrapped__")
 # def fromfile(
 #     file: file or str or Path,
 #     dtype: DTYPE_ENUM = DTYPE_ENUM.float32,
@@ -500,7 +499,7 @@ def from_dlpack(
     name="fromfunction",
     outputs=[{"name": "fromfunction", "type": "ndarray_or_number"}],
 )
-@wraps(numpy.fromfunction)
+@wraps(numpy.fromfunction, wrapper_attribute="__fnwrapped__")
 def fromfunction(
     function: Callable,
     shape: shape_like,
@@ -521,7 +520,7 @@ def fromfunction(
     name="fromiter",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.fromiter)
+@wraps(numpy.fromiter, wrapper_attribute="__fnwrapped__")
 def fromiter(
     iter: Iterable,
     dtype: DTYPE_ENUM,
@@ -542,7 +541,7 @@ def fromiter(
     name="fromstring",
     outputs=[{"name": "arr", "type": "ndarray"}],
 )
-@wraps(numpy.fromstring)
+@wraps(numpy.fromstring, wrapper_attribute="__fnwrapped__")
 def fromstring(
     string: str,
     dtype: DTYPE_ENUM = DTYPE_ENUM.float32,
@@ -565,7 +564,7 @@ def fromstring(
 #     name="loadtxt",
 #     outputs=[{"name": "out", "type": "ndarray"}],
 # )
-# @wraps(numpy.loadtxt)
+# @wraps(numpy.loadtxt, wrapper_attribute="__fnwrapped__")
 # def loadtxt(
 #     fname: file, str,
 #     pathlib.Path, list of str, generator,
@@ -605,7 +604,7 @@ def fromstring(
     name="arange",
     outputs=[{"name": "arange", "type": "ndarray"}],
 )
-@wraps(numpy.arange)
+@wraps(numpy.arange, wrapper_attribute="__fnwrapped__")
 def arange(
     stop: scalar,
     start: Optional[scalar] = 0,
@@ -631,7 +630,7 @@ def arange(
         {"name": "step", "type": "float"},
     ],
 )
-@wraps(numpy.linspace)
+@wraps(numpy.linspace, wrapper_attribute="__fnwrapped__")
 def linspace(
     start: array_like,
     stop: array_like,
@@ -658,7 +657,7 @@ def linspace(
     name="logspace",
     outputs=[{"name": "samples", "type": "ndarray"}],
 )
-@wraps(numpy.logspace)
+@wraps(numpy.logspace, wrapper_attribute="__fnwrapped__")
 def logspace(
     start: array_like,
     stop: array_like,
@@ -685,7 +684,7 @@ def logspace(
     name="geomspace",
     outputs=[{"name": "samples", "type": "ndarray"}],
 )
-@wraps(numpy.geomspace)
+@wraps(numpy.geomspace, wrapper_attribute="__fnwrapped__")
 def geomspace(
     start: array_like,
     stop: array_like,
@@ -710,7 +709,7 @@ def geomspace(
     name="diag",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.diag)
+@wraps(numpy.diag, wrapper_attribute="__fnwrapped__")
 def diag(
     v: array_like,
     k: Optional[int] = 0,
@@ -727,7 +726,7 @@ def diag(
     name="diagflat",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.diagflat)
+@wraps(numpy.diagflat, wrapper_attribute="__fnwrapped__")
 def diagflat(
     v: array_like,
     k: Optional[int] = 0,
@@ -744,7 +743,7 @@ def diagflat(
     name="tri",
     outputs=[{"name": "tri", "type": "ndarray"}],
 )
-@wraps(numpy.tri)
+@wraps(numpy.tri, wrapper_attribute="__fnwrapped__")
 def tri(
     N: int,
     M: Optional[int] = None,
@@ -767,7 +766,7 @@ def tri(
     name="tril",
     outputs=[{"name": "tril", "type": "ndarray"}],
 )
-@wraps(numpy.tril)
+@wraps(numpy.tril, wrapper_attribute="__fnwrapped__")
 def tril(
     m: ndarray,
     k: Optional[int] = 0,
@@ -784,7 +783,7 @@ def tril(
     name="triu",
     outputs=[{"name": "triu", "type": "ndarray"}],
 )
-@wraps(numpy.triu)
+@wraps(numpy.triu, wrapper_attribute="__fnwrapped__")
 def triu(
     m: ndarray,
     k: Optional[int] = 0,
@@ -801,14 +800,14 @@ def triu(
     name="vander",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.vander)
+@wraps(numpy.vander, wrapper_attribute="__fnwrapped__")
 def vander(
     x: array_like,
     N: Optional[int] = None,
     increasing: Optional[bool] = False,
 ):  # params ['x'] ['N', 'increasing'] []
     res = numpy.vander(
-        x=x,
+        x,
         N=N,
         increasing=increasing,
     )
@@ -820,7 +819,7 @@ def vander(
     name="mat",
     outputs=[{"name": "mat", "type": "matrix"}],
 )
-@wraps(numpy.mat)
+@wraps(numpy.mat, wrapper_attribute="__fnwrapped__")
 def mat(
     data: array_like,
     dtype: Optional[DTYPE_ENUM] = None,
@@ -837,7 +836,7 @@ def mat(
     name="bmat",
     outputs=[{"name": "out", "type": "matrix"}],
 )
-@wraps(numpy.bmat)
+@wraps(numpy.bmat, wrapper_attribute="__fnwrapped__")
 def bmat(
     obj: Union[str, ndarray],
     ldict: Optional[dict] = None,
@@ -856,7 +855,7 @@ def bmat(
     name="copyto",
     outputs=[],
 )
-@wraps(numpy.copyto)
+@wraps(numpy.copyto, wrapper_attribute="__fnwrapped__")
 def copyto(
     dst: ndarray,
     src: array_like,
@@ -877,7 +876,7 @@ def copyto(
     name="shape",
     outputs=[{"name": "shape", "type": "shape_like"}],
 )
-@wraps(numpy.shape)
+@wraps(numpy.shape, wrapper_attribute="__fnwrapped__")
 def shape(
     a: array_like,
 ):  # params ['a'] [] []
@@ -892,7 +891,7 @@ def shape(
     name="size",
     outputs=[{"name": "size", "type": "Union[int, int_array]"}],
 )
-@wraps(numpy.size)
+@wraps(numpy.size, wrapper_attribute="__fnwrapped__")
 def size(
     a: array_like,
     axis: Optional[int] = None,
@@ -909,7 +908,7 @@ def size(
     name="ndim",
     outputs=[{"name": "ndim", "type": "int"}],
 )
-@wraps(numpy.ndim)
+@wraps(numpy.ndim, wrapper_attribute="__fnwrapped__")
 def ndim(
     a: array_like,
 ):
@@ -924,7 +923,7 @@ def ndim(
     name="reshape",
     outputs=[{"name": "reshaped_array", "type": "ndarray"}],
 )
-@wraps(numpy.reshape)
+@wraps(numpy.reshape, wrapper_attribute="__fnwrapped__")
 def reshape(
     a: array_like,
     newshape: shape_like,
@@ -943,7 +942,7 @@ def reshape(
     name="ravel",
     outputs=[{"name": "y", "type": "array_like"}],
 )
-@wraps(numpy.ravel)
+@wraps(numpy.ravel, wrapper_attribute="__fnwrapped__")
 def ravel(
     a: array_like,
     # order: Optional[Literal["C", "F", "A", "K"]] = "C",
@@ -960,7 +959,7 @@ def ravel(
     name="moveaxis",
     outputs=[{"name": "result", "type": "ndarray"}],
 )
-@wraps(numpy.moveaxis)
+@wraps(numpy.moveaxis, wrapper_attribute="__fnwrapped__")
 def moveaxis(
     a: ndarray,
     source: axis_like,
@@ -979,7 +978,7 @@ def moveaxis(
     name="rollaxis",
     outputs=[{"name": "res", "type": "ndarray"}],
 )
-@wraps(numpy.rollaxis)
+@wraps(numpy.rollaxis, wrapper_attribute="__fnwrapped__")
 def rollaxis(
     a: ndarray,
     axis: int,
@@ -998,7 +997,7 @@ def rollaxis(
     name="swapaxes",
     outputs=[{"name": "a_swapped", "type": "ndarray"}],
 )
-@wraps(numpy.swapaxes)
+@wraps(numpy.swapaxes, wrapper_attribute="__fnwrapped__")
 def swapaxes(
     a: array_like,
     axis1: int,
@@ -1017,7 +1016,7 @@ def swapaxes(
     name="transpose",
     outputs=[{"name": "p", "type": "ndarray"}],
 )
-@wraps(numpy.transpose)
+@wraps(numpy.transpose, wrapper_attribute="__fnwrapped__")
 def transpose(
     a: array_like,
     axes: Optional[axis_like] = None,
@@ -1034,7 +1033,7 @@ def transpose(
     name="broadcast_to",
     outputs=[{"name": "broadcast", "type": "ndarray"}],
 )
-@wraps(numpy.broadcast_to)
+@wraps(numpy.broadcast_to, wrapper_attribute="__fnwrapped__")
 def broadcast_to(
     array: array_like,
     shape: shape_like,
@@ -1053,7 +1052,7 @@ def broadcast_to(
     name="broadcast_arrays",
     outputs=[{"name": "broadcasted", "type": "List[ndarray]"}],
 )
-@wraps(numpy.broadcast_arrays)
+@wraps(numpy.broadcast_arrays, wrapper_attribute="__fnwrapped__")
 def broadcast_arrays(
     args: Sequence[array_like],
     subok: Optional[bool] = False,
@@ -1070,7 +1069,7 @@ def broadcast_arrays(
     name="expand_dims",
     outputs=[{"name": "result", "type": "ndarray"}],
 )
-@wraps(numpy.expand_dims)
+@wraps(numpy.expand_dims, wrapper_attribute="__fnwrapped__")
 def expand_dims(
     a: array_like,
     axis: axis_like,
@@ -1087,7 +1086,7 @@ def expand_dims(
     name="squeeze",
     outputs=[{"name": "squeezed", "type": "ndarray"}],
 )
-@wraps(numpy.squeeze)
+@wraps(numpy.squeeze, wrapper_attribute="__fnwrapped__")
 def squeeze(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -1104,13 +1103,13 @@ def squeeze(
     name="asmatrix",
     outputs=[{"name": "mat", "type": "matrix"}],
 )
-@wraps(numpy.asmatrix)
+@wraps(numpy.asmatrix, wrapper_attribute="__fnwrapped__")
 def asmatrix(
     data: array_like,
     dtype: Optional[DTYPE_ENUM] = None,
 ):  # params ['data'] ['dtype'] []
     res = numpy.asmatrix(
-        data=data,
+        data,
         dtype=dtype_from_name(dtype),
     )
     return res
@@ -1121,7 +1120,7 @@ def asmatrix(
     name="asfarray",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.asfarray)
+@wraps(numpy.asfarray, wrapper_attribute="__fnwrapped__")
 def asfarray(
     a: array_like,
     dtype: DTYPE_ENUM = DTYPE_ENUM.float64,
@@ -1138,7 +1137,7 @@ def asfarray(
     name="asfortranarray",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.asfortranarray)
+@wraps(numpy.asfortranarray, wrapper_attribute="__fnwrapped__")
 def asfortranarray(
     a: array_like,
     dtype: Optional[DTYPE_ENUM] = None,
@@ -1157,7 +1156,7 @@ def asfortranarray(
     name="asarray_chkfinite",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.asarray_chkfinite)
+@wraps(numpy.asarray_chkfinite, wrapper_attribute="__fnwrapped__")
 def asarray_chkfinite(
     a: array_like,
     dtype: Optional[DTYPE_ENUM] = None,
@@ -1176,7 +1175,7 @@ def asarray_chkfinite(
     name="require",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.require)
+@wraps(numpy.require, wrapper_attribute="__fnwrapped__")
 def require(
     a: array_like,
     dtype: Optional[DTYPE_ENUM] = None,
@@ -1197,7 +1196,7 @@ def require(
     name="concatenate",
     outputs=[{"name": "res", "type": "ndarray"}],
 )
-@wraps(numpy.concatenate)
+@wraps(numpy.concatenate, wrapper_attribute="__fnwrapped__")
 def concatenate(
     arrs: List[ndarray],
     axis: Optional[int] = 0,
@@ -1206,7 +1205,7 @@ def concatenate(
     # casting: casting_literal = "same_kind",
 ):  # params [] ['axis', 'out', 'dtype', 'casting'] []
     res = numpy.concatenate(
-        *arrs,
+        arrs,
         axis=axis,
         # out=out,
         dtype=dtype_from_name(dtype),
@@ -1220,7 +1219,7 @@ def concatenate(
     name="stack",
     outputs=[{"name": "stacked", "type": "ndarray"}],
 )
-@wraps(numpy.stack)
+@wraps(numpy.stack, wrapper_attribute="__fnwrapped__")
 def stack(
     arrays: Sequence[array_like],
     axis: Optional[int] = 0,
@@ -1248,7 +1247,7 @@ def stack(
 #     }
 # ],
 #     )
-# @wraps(numpy.block)
+# @wraps(numpy.block, wrapper_attribute="__fnwrapped__")
 # def block(arrays: nested list of array_like or scalars (but not tuples), ): # params ['arrays'] [] []
 #     res = numpy.block(arrays=arrays, )
 #     return res
@@ -1259,7 +1258,7 @@ def stack(
     name="vstack",
     outputs=[{"name": "stacked", "type": "ndarray"}],
 )
-@wraps(numpy.vstack)
+@wraps(numpy.vstack, wrapper_attribute="__fnwrapped__")
 def vstack(
     tup: Sequence[ndarray],
     dtype: Optional[DTYPE_ENUM] = None,
@@ -1278,7 +1277,7 @@ def vstack(
     name="hstack",
     outputs=[{"name": "stacked", "type": "ndarray"}],
 )
-@wraps(numpy.hstack)
+@wraps(numpy.hstack, wrapper_attribute="__fnwrapped__")
 def hstack(
     tup: Sequence[ndarray],
     dtype: Optional[DTYPE_ENUM] = None,
@@ -1297,7 +1296,7 @@ def hstack(
     name="dstack",
     outputs=[{"name": "stacked", "type": "ndarray"}],
 )
-@wraps(numpy.dstack)
+@wraps(numpy.dstack, wrapper_attribute="__fnwrapped__")
 def dstack(
     tup: Sequence[ndarray],
 ):  # params ['tup'] [] []
@@ -1312,7 +1311,7 @@ def dstack(
     name="column_stack",
     outputs=[{"name": "stacked", "type": "ndarray"}],
 )
-@wraps(numpy.column_stack)
+@wraps(numpy.column_stack, wrapper_attribute="__fnwrapped__")
 def column_stack(
     tup: Sequence[ndarray],
 ):  # params ['tup'] [] []
@@ -1327,7 +1326,7 @@ def column_stack(
     name="row_stack",
     outputs=[{"name": "stacked", "type": "ndarray"}],
 )
-@wraps(numpy.row_stack)
+@wraps(numpy.row_stack, wrapper_attribute="__fnwrapped__")
 def row_stack(
     tup: Sequence[ndarray],
     dtype: Optional[DTYPE_ENUM] = None,
@@ -1346,7 +1345,7 @@ def row_stack(
     name="split",
     outputs=[{"name": "sub-arrays", "type": "List[ndarray]"}],
 )
-@wraps(numpy.split)
+@wraps(numpy.split, wrapper_attribute="__fnwrapped__")
 def split(
     ary: ndarray,
     indices_or_sections: indices_or_sections,
@@ -1365,7 +1364,7 @@ def split(
     name="array_split",
     outputs=[{"name": "sub-arrays", "type": "List[ndarray]"}],
 )
-@wraps(numpy.array_split)
+@wraps(numpy.array_split, wrapper_attribute="__fnwrapped__")
 def array_split(
     ary: ndarray,
     indices_or_sections: shape_like,
@@ -1384,7 +1383,7 @@ def array_split(
     name="dsplit",
     outputs=[{"name": "sub-arrays", "type": "List[ndarray]"}],
 )
-@wraps(numpy.dsplit)
+@wraps(numpy.dsplit, wrapper_attribute="__fnwrapped__")
 def dsplit(
     ary: ndarray,
     indices_or_sections: indices_or_sections,
@@ -1401,7 +1400,7 @@ def dsplit(
     name="hsplit",
     outputs=[{"name": "sub-arrays", "type": "List[ndarray]"}],
 )
-@wraps(numpy.hsplit)
+@wraps(numpy.hsplit, wrapper_attribute="__fnwrapped__")
 def hsplit(
     ary: ndarray,
     indices_or_sections: indices_or_sections,
@@ -1418,7 +1417,7 @@ def hsplit(
     name="vsplit",
     outputs=[{"name": "sub-arrays", "type": "List[ndarray]"}],
 )
-@wraps(numpy.vsplit)
+@wraps(numpy.vsplit, wrapper_attribute="__fnwrapped__")
 def vsplit(
     ary: ndarray,
     indices_or_sections: indices_or_sections,
@@ -1435,7 +1434,7 @@ def vsplit(
     name="tile",
     outputs=[{"name": "c", "type": "ndarray"}],
 )
-@wraps(numpy.tile)
+@wraps(numpy.tile, wrapper_attribute="__fnwrapped__")
 def tile(
     A: array_like,
     reps: array_like,
@@ -1452,7 +1451,7 @@ def tile(
     name="repeat",
     outputs=[{"name": "repeated_array", "type": "ndarray"}],
 )
-@wraps(numpy.repeat)
+@wraps(numpy.repeat, wrapper_attribute="__fnwrapped__")
 def repeat(
     a: array_like,
     repeats: int_or_int_array,
@@ -1471,7 +1470,7 @@ def repeat(
     name="delete",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.delete)
+@wraps(numpy.delete, wrapper_attribute="__fnwrapped__")
 def delete(
     arr: array_like,
     obj: int_or_int_array,
@@ -1490,7 +1489,7 @@ def delete(
     name="insert",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.insert)
+@wraps(numpy.insert, wrapper_attribute="__fnwrapped__")
 def insert(
     arr: array_like,
     obj: int_or_int_array,
@@ -1511,7 +1510,7 @@ def insert(
     name="append",
     outputs=[{"name": "append", "type": "ndarray"}],
 )
-@wraps(numpy.append)
+@wraps(numpy.append, wrapper_attribute="__fnwrapped__")
 def append(
     arr: array_like,
     values: array_like,
@@ -1530,7 +1529,7 @@ def append(
     name="pad",
     outputs=[{"name": "padded", "type": "ndarray"}],
 )
-@wraps(numpy.pad)
+@wraps(numpy.pad, wrapper_attribute="__fnwrapped__")
 def pad(
     array: array_like,
     pad_width: Union[int, Tuple[int, int], List[Tuple[int, int]]],
@@ -1563,7 +1562,7 @@ def pad(
     name="resize",
     outputs=[{"name": "reshaped_array", "type": "ndarray"}],
 )
-@wraps(numpy.resize)
+@wraps(numpy.resize, wrapper_attribute="__fnwrapped__")
 def resize(
     a: array_like,
     new_shape: shape_like,
@@ -1580,7 +1579,7 @@ def resize(
     name="trim_zeros",
     outputs=[{"name": "trimmed", "type": "ndarray"}],
 )
-@wraps(numpy.trim_zeros)
+@wraps(numpy.trim_zeros, wrapper_attribute="__fnwrapped__")
 def trim_zeros(
     filt: List[scalar],
     trim: Optional[str] = "fb",
@@ -1602,7 +1601,7 @@ def trim_zeros(
         {"name": "unique_counts", "type": "Union[ndarray,None]"},
     ],
 )
-@wraps(numpy.unique)
+@wraps(numpy.unique, wrapper_attribute="__fnwrapped__")
 def unique(
     ar: array_like,
     return_index: Optional[bool] = False,
@@ -1647,7 +1646,7 @@ def unique(
     name="flip",
     outputs=[{"name": "out", "type": "array_like"}],
 )
-@wraps(numpy.flip)
+@wraps(numpy.flip, wrapper_attribute="__fnwrapped__")
 def flip(
     m: array_like,
     axis: Optional[axis_like] = None,
@@ -1664,7 +1663,7 @@ def flip(
     name="fliplr",
     outputs=[{"name": "f", "type": "ndarray"}],
 )
-@wraps(numpy.fliplr)
+@wraps(numpy.fliplr, wrapper_attribute="__fnwrapped__")
 def fliplr(
     m: array_like,
 ):  # params ['m'] [] []
@@ -1679,7 +1678,7 @@ def fliplr(
     name="flipud",
     outputs=[{"name": "out", "type": "array_like"}],
 )
-@wraps(numpy.flipud)
+@wraps(numpy.flipud, wrapper_attribute="__fnwrapped__")
 def flipud(
     m: array_like,
 ):  # params ['m'] [] []
@@ -1694,7 +1693,7 @@ def flipud(
     name="roll",
     outputs=[{"name": "res", "type": "ndarray"}],
 )
-@wraps(numpy.roll)
+@wraps(numpy.roll, wrapper_attribute="__fnwrapped__")
 def roll(
     a: array_like,
     shift: axis_like,
@@ -1713,7 +1712,7 @@ def roll(
     name="rot90",
     outputs=[{"name": "y", "type": "ndarray"}],
 )
-@wraps(numpy.rot90)
+@wraps(numpy.rot90, wrapper_attribute="__fnwrapped__")
 def rot90(
     m: array_like,
     k: int = 1,
@@ -1728,214 +1727,18 @@ def rot90(
 
 
 @fn.NodeDecorator(
-    node_id="np.bitwise_and",
-    name="bitwise_and",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.bitwise_and)
-def bitwise_and(
-    x1: int_bool_array,
-    x2: int_bool_array,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where'] []
-    res = numpy.bitwise_and(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.bitwise_or",
-    name="bitwise_or",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.bitwise_or)
-def bitwise_or(
-    x1: int_bool_array,
-    x2: int_bool_array,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.bitwise_or(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.bitwise_xor",
-    name="bitwise_xor",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.bitwise_xor)
-def bitwise_xor(
-    x1: int_bool_array,
-    x2: int_bool_array,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where'] []
-    res = numpy.bitwise_xor(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.invert",
-    name="invert",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.invert)
-def invert(
-    x: int_bool_array,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.invert(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.left_shift",
-    name="left_shift",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.left_shift)
-def left_shift(
-    x1: int_or_int_array,
-    x2: int_or_int_array,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.left_shift(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.right_shift",
-    name="right_shift",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.right_shift)
-def right_shift(
-    x1: int_or_int_array,
-    x2: int_or_int_array,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where'] []
-    res = numpy.right_shift(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
     node_id="np.packbits",
     name="packbits",
     outputs=[{"name": "packed", "type": "ndarray"}],
 )
-@wraps(numpy.packbits)
+@wraps(numpy.packbits, wrapper_attribute="__fnwrapped__")
 def packbits(
     a: int_bool_array,
     axis: Optional[int] = None,
     bitorder: Optional[Literal["big", "little"]] = "big",
 ):  # params ['a'] ['axis', 'bitorder'] []
     res = numpy.packbits(
-        a=a,
+        a,
         axis=axis,
         bitorder=bitorder,
     )
@@ -1947,7 +1750,7 @@ def packbits(
     name="unpackbits",
     outputs=[{"name": "unpacked", "type": "bitarray"}],
 )
-@wraps(numpy.unpackbits)
+@wraps(numpy.unpackbits, wrapper_attribute="__fnwrapped__")
 def unpackbits(
     a: bitarray,
     axis: Optional[int] = None,
@@ -1968,7 +1771,7 @@ def unpackbits(
     name="binary_repr",
     outputs=[{"name": "bin", "type": "str"}],
 )
-@wraps(numpy.binary_repr)
+@wraps(numpy.binary_repr, wrapper_attribute="__fnwrapped__")
 def binary_repr(
     num: int,
     width: Optional[int] = None,
@@ -1985,7 +1788,7 @@ def binary_repr(
     name="dot",
     outputs=[{"name": "output", "type": "ndarray"}],
 )
-@wraps(numpy.dot)
+@wraps(numpy.dot, wrapper_attribute="__fnwrapped__")
 def dot(
     a: array_like,
     b: array_like,
@@ -2004,14 +1807,14 @@ def dot(
     name="vdot",
     outputs=[{"name": "output", "type": "ndarray"}],
 )
-@wraps(numpy.vdot)
+@wraps(numpy.vdot, wrapper_attribute="__fnwrapped__")
 def vdot(
     a: array_like,
     b: array_like,
 ):  # params ['a', 'b'] [] []
     res = numpy.vdot(
-        a=a,
-        b=b,
+        a,
+        b,
     )
     return res
 
@@ -2021,14 +1824,14 @@ def vdot(
     name="inner",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.inner)
+@wraps(numpy.inner, wrapper_attribute="__fnwrapped__")
 def inner(
     a: array_like,
     b: array_like,
 ):  # params ['a', 'b'] [] []
     res = numpy.inner(
-        a=a,
-        b=b,
+        a,
+        b,
     )
     return res
 
@@ -2038,7 +1841,7 @@ def inner(
     name="outer",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.outer)
+@wraps(numpy.outer, wrapper_attribute="__fnwrapped__")
 def outer(
     a: ndarray,
     b: ndarray,
@@ -2057,7 +1860,7 @@ def outer(
     name="matmul",
     outputs=[{"name": "y", "type": "ndarray"}],
 )
-@wraps(numpy.matmul)
+@wraps(numpy.matmul, wrapper_attribute="__fnwrapped__")
 def matmul(
     x1: array_like,
     x2: array_like,
@@ -2070,8 +1873,8 @@ def matmul(
     # extobj: Any = None,
 ):  # params ['x1', 'x2'] ['out', 'casting', 'order'] []
     res = numpy.matmul(
-        x1=x1,
-        x2=x2,
+        x1,
+        x2,
         # out=out,
         # casting=casting,
         # order=order,
@@ -2088,7 +1891,7 @@ def matmul(
     name="tensordot",
     outputs=[{"name": "output", "type": "ndarray"}],
 )
-@wraps(numpy.tensordot)
+@wraps(numpy.tensordot, wrapper_attribute="__fnwrapped__")
 def tensordot(
     a: array_like,
     b: array_like,
@@ -2107,10 +1910,10 @@ def tensordot(
     name="einsum",
     outputs=[{"name": "output", "type": "ndarray"}],
 )
-@wraps(numpy.einsum)
+@wraps(numpy.einsum, wrapper_attribute="__fnwrapped__")
 def einsum(
     subscripts: str,
-    operands: List[array_like],
+    operands: List[ndarray],
     # out: Optional[ndarray] = None,
     dtype: Optional[DTYPE_ENUM] = None,
     # order: OrderKACF = "K",
@@ -2137,7 +1940,7 @@ def einsum(
         {"name": "string_repr", "type": "str"},
     ],
 )
-@wraps(numpy.einsum_path)
+@wraps(numpy.einsum_path, wrapper_attribute="__fnwrapped__")
 def einsum_path(
     subscripts: str,
     operands: List[array_like],
@@ -2156,7 +1959,7 @@ def einsum_path(
     name="kron",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.kron)
+@wraps(numpy.kron, wrapper_attribute="__fnwrapped__")
 def kron(
     a: array_like,
     b: array_like,
@@ -2173,7 +1976,7 @@ def kron(
     name="trace",
     outputs=[{"name": "sum_along_diagonals", "type": "ndarray"}],
 )
-@wraps(numpy.trace)
+@wraps(numpy.trace, wrapper_attribute="__fnwrapped__")
 def trace(
     a: array_like,
     offset: Optional[int] = 0,
@@ -2198,7 +2001,7 @@ def trace(
     name="all",
     outputs=[{"name": "all", "type": "bool_or_bool_array"}],
 )
-@wraps(numpy.all)
+@wraps(numpy.all, wrapper_attribute="__fnwrapped__")
 def all(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -2221,7 +2024,7 @@ def all(
     name="any",
     outputs=[{"name": "any", "type": "bool_or_bool_array"}],
 )
-@wraps(numpy.any)
+@wraps(numpy.any, wrapper_attribute="__fnwrapped__")
 def any(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -2240,141 +2043,17 @@ def any(
 
 
 @fn.NodeDecorator(
-    node_id="np.isfinite",
-    name="isfinite",
-    outputs=[{"name": "y", "type": "bool_or_bool_array"}],
-)
-@wraps(numpy.isfinite)
-def isfinite(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.isfinite(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.isinf",
-    name="isinf",
-    outputs=[{"name": "y", "type": "bool_or_bool_array"}],
-)
-@wraps(numpy.isinf)
-def isinf(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.isinf(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.isnan",
-    name="isnan",
-    outputs=[{"name": "y", "type": "bool_or_bool_array"}],
-)
-@wraps(numpy.isnan)
-def isnan(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.isnan(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.isnat",
-    name="isnat",
-    outputs=[{"name": "y", "type": "bool_or_bool_array"}],
-)
-@wraps(numpy.isnat)
-def isnat(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.isnat(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
     node_id="np.isneginf",
     name="isneginf",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.isneginf)
+@wraps(numpy.isneginf, wrapper_attribute="__fnwrapped__")
 def isneginf(
     x: array_like,
     out: Optional[array_like] = None,
 ):  # params ['x'] ['out'] []
     res = numpy.isneginf(
-        x=x,
+        x,
         # out=out,
     )
     return res
@@ -2385,13 +2064,13 @@ def isneginf(
     name="isposinf",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.isposinf)
+@wraps(numpy.isposinf, wrapper_attribute="__fnwrapped__")
 def isposinf(
     x: array_like,
     out: Optional[array_like] = None,
 ):  # params ['x'] ['out'] []
     res = numpy.isposinf(
-        x=x,
+        x,
         # out=out,
     )
     return res
@@ -2402,12 +2081,12 @@ def isposinf(
     name="iscomplex",
     outputs=[{"name": "out", "type": "bool_or_bool_array"}],
 )
-@wraps(numpy.iscomplex)
+@wraps(numpy.iscomplex, wrapper_attribute="__fnwrapped__")
 def iscomplex(
     x: array_like,
 ):  # params ['x'] [] []
     res = numpy.iscomplex(
-        x=x,
+        x,
     )
     return res
 
@@ -2417,12 +2096,12 @@ def iscomplex(
     name="iscomplexobj",
     outputs=[{"name": "iscomplexobj", "type": "bool"}],
 )
-@wraps(numpy.iscomplexobj)
+@wraps(numpy.iscomplexobj, wrapper_attribute="__fnwrapped__")
 def iscomplexobj(
     x: ndarray_or_number,
 ):  # params ['x'] [] []
     res = numpy.iscomplexobj(
-        x=x,
+        x,
     )
     return res
 
@@ -2432,7 +2111,7 @@ def iscomplexobj(
     name="isfortran",
     outputs=[{"name": "isfortran", "type": "bool"}],
 )
-@wraps(numpy.isfortran)
+@wraps(numpy.isfortran, wrapper_attribute="__fnwrapped__")
 def isfortran(
     a: ndarray,
 ):  # params ['a'] [] []
@@ -2447,12 +2126,12 @@ def isfortran(
     name="isreal",
     outputs=[{"name": "out", "type": "bool_or_bool_array"}],
 )
-@wraps(numpy.isreal)
+@wraps(numpy.isreal, wrapper_attribute="__fnwrapped__")
 def isreal(
     x: array_like,
 ):  # params ['x'] [] []
     res = numpy.isreal(
-        x=x,
+        x,
     )
     return res
 
@@ -2462,12 +2141,12 @@ def isreal(
     name="isrealobj",
     outputs=[{"name": "y", "type": "bool"}],
 )
-@wraps(numpy.isrealobj)
+@wraps(numpy.isrealobj, wrapper_attribute="__fnwrapped__")
 def isrealobj(
     x: ndarray_or_number,
 ):  # params ['x'] [] []
     res = numpy.isrealobj(
-        x=x,
+        x,
     )
     return res
 
@@ -2477,7 +2156,7 @@ def isrealobj(
     name="isscalar",
     outputs=[{"name": "val", "type": "bool"}],
 )
-@wraps(numpy.isscalar)
+@wraps(numpy.isscalar, wrapper_attribute="__fnwrapped__")
 def isscalar(
     element: ndarray_or_number,
 ):  # params ['element'] [] []
@@ -2488,141 +2167,11 @@ def isscalar(
 
 
 @fn.NodeDecorator(
-    node_id="np.logical_and",
-    name="logical_and",
-    outputs=[{"name": "y", "type": "bool_or_bool_array"}],
-)
-@wraps(numpy.logical_and)
-def logical_and(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where'] []
-    res = numpy.logical_and(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.logical_or",
-    name="logical_or",
-    outputs=[{"name": "y", "type": "bool_or_bool_array"}],
-)
-@wraps(numpy.logical_or)
-def logical_or(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.logical_or(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.logical_not",
-    name="logical_not",
-    outputs=[{"name": "y", "type": "bool_or_bool_array"}],
-)
-@wraps(numpy.logical_not)
-def logical_not(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting'] []
-    res = numpy.logical_not(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.logical_xor",
-    name="logical_xor",
-    outputs=[{"name": "y", "type": "bool_or_bool_array"}],
-)
-@wraps(numpy.logical_xor)
-def logical_xor(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where'] []
-    res = numpy.logical_xor(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
     node_id="np.allclose",
     name="allclose",
     outputs=[{"name": "allclose", "type": "bool"}],
 )
-@wraps(numpy.allclose)
+@wraps(numpy.allclose, wrapper_attribute="__fnwrapped__")
 def allclose(
     a: array_like,
     b: array_like,
@@ -2645,7 +2194,7 @@ def allclose(
     name="isclose",
     outputs=[{"name": "y", "type": "array_like"}],
 )
-@wraps(numpy.isclose)
+@wraps(numpy.isclose, wrapper_attribute="__fnwrapped__")
 def isclose(
     a: array_like,
     b: array_like,
@@ -2668,7 +2217,7 @@ def isclose(
     name="array_equal",
     outputs=[{"name": "b", "type": "bool"}],
 )
-@wraps(numpy.array_equal)
+@wraps(numpy.array_equal, wrapper_attribute="__fnwrapped__")
 def array_equal(
     a1: array_like,
     a2: array_like,
@@ -2687,7 +2236,7 @@ def array_equal(
     name="array_equiv",
     outputs=[{"name": "out", "type": "bool"}],
 )
-@wraps(numpy.array_equiv)
+@wraps(numpy.array_equiv, wrapper_attribute="__fnwrapped__")
 def array_equiv(
     a1: array_like,
     a2: array_like,
@@ -2700,505 +2249,11 @@ def array_equiv(
 
 
 @fn.NodeDecorator(
-    node_id="np.greater",
-    name="greater",
-    outputs=[{"name": "y", "type": "bool_or_bool_array"}],
-)
-@wraps(numpy.greater)
-def greater(
-    x1: ndarray_or_scalar,
-    x2: ndarray_or_scalar,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):
-    return numpy.greater(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-    )
-
-
-@fn.NodeDecorator(
-    node_id="np.greater_equal",
-    name="greater_equal",
-    outputs=[{"name": "y", "type": "bool_or_bool_array"}],
-)
-@wraps(numpy.greater_equal)
-def greater_equal(
-    x1: ndarray_or_scalar,
-    x2: ndarray_or_scalar,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):
-    return numpy.greater_equal(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-    )
-
-
-@fn.NodeDecorator(
-    node_id="np.less",
-    name="less",
-    outputs=[{"name": "y", "type": "bool_or_bool_array"}],
-)
-@wraps(numpy.less)
-def less(
-    x1: ndarray_or_scalar,
-    x2: ndarray_or_scalar,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):
-    return numpy.less(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-    )
-
-
-@fn.NodeDecorator(
-    node_id="np.less_equal",
-    name="less_equal",
-    outputs=[{"name": "y", "type": "bool_or_bool_array"}],
-)
-@wraps(numpy.less_equal)
-def less_equal(
-    x1: ndarray_or_scalar,
-    x2: ndarray_or_scalar,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):
-    return numpy.less_equal(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-    )
-
-
-@fn.NodeDecorator(
-    node_id="np.equal",
-    name="equal",
-    outputs=[{"name": "y", "type": "bool_or_bool_array"}],
-)
-@wraps(numpy.equal)
-def equal(
-    x1: ndarray_or_scalar,
-    x2: ndarray_or_scalar,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):
-    return numpy.equal(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-    )
-
-
-@fn.NodeDecorator(
-    node_id="np.not_equal",
-    name="not_equal",
-    outputs=[{"name": "y", "type": "bool_or_bool_array"}],
-)
-@wraps(numpy.not_equal)
-def not_equal(
-    x1: ndarray_or_scalar,
-    x2: ndarray_or_scalar,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):
-    return numpy.not_equal(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-    )
-
-
-@fn.NodeDecorator(
-    node_id="np.sin",
-    name="sin",
-    outputs=[{"name": "y", "type": "array_like"}],
-)
-@wraps(numpy.sin)
-def sin(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.sin(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.cos",
-    name="cos",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.cos)
-def cos(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.cos(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.tan",
-    name="tan",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.tan)
-def tan(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.tan(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.arcsin",
-    name="arcsin",
-    outputs=[{"name": "angle", "type": "ndarray"}],
-)
-@wraps(numpy.arcsin)
-def arcsin(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.arcsin(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.arccos",
-    name="arccos",
-    outputs=[{"name": "angle", "type": "ndarray"}],
-)
-@wraps(numpy.arccos)
-def arccos(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.arccos(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.arctan",
-    name="arctan",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.arctan)
-def arctan(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.arctan(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.hypot",
-    name="hypot",
-    outputs=[{"name": "z", "type": "ndarray"}],
-)
-@wraps(numpy.hypot)
-def hypot(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.hypot(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.arctan2",
-    name="arctan2",
-    outputs=[{"name": "angle", "type": "ndarray"}],
-)
-@wraps(numpy.arctan2)
-def arctan2(
-    x1: real_array,
-    x2: real_array,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.arctan2(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.degrees",
-    name="degrees",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.degrees)
-def degrees(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.degrees(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.radians",
-    name="radians",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.radians)
-def radians(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.radians(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
     node_id="np.unwrap",
     name="unwrap",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.unwrap)
+@wraps(numpy.unwrap, wrapper_attribute="__fnwrapped__")
 def unwrap(
     p: array_like,
     discont: Optional[float] = None,
@@ -3215,259 +2270,11 @@ def unwrap(
 
 
 @fn.NodeDecorator(
-    node_id="np.deg2rad",
-    name="deg2rad",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.deg2rad)
-def deg2rad(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.deg2rad(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.rad2deg",
-    name="rad2deg",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.rad2deg)
-def rad2deg(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.rad2deg(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.sinh",
-    name="sinh",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.sinh)
-def sinh(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.sinh(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.cosh",
-    name="cosh",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.cosh)
-def cosh(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.cosh(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.tanh",
-    name="tanh",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.tanh)
-def tanh(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.tanh(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.arcsinh",
-    name="arcsinh",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.arcsinh)
-def arcsinh(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.arcsinh(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.arccosh",
-    name="arccosh",
-    outputs=[{"name": "arccosh", "type": "ndarray"}],
-)
-@wraps(numpy.arccosh)
-def arccosh(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.arccosh(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.arctanh",
-    name="arctanh",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.arctanh)
-def arctanh(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.arctanh(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
     node_id="np.round",
     name="round",
     outputs=[{"name": "rounded_array", "type": "ndarray"}],
 )
-@wraps(numpy.round)
+@wraps(numpy.round, wrapper_attribute="__fnwrapped__")
 def round(
     a: array_like,
     decimals: Optional[int] = 0,
@@ -3482,142 +2289,18 @@ def round(
 
 
 @fn.NodeDecorator(
-    node_id="np.rint",
-    name="rint",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.rint)
-def rint(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.rint(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
     node_id="np.fix",
     name="fix",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.fix)
+@wraps(numpy.fix, wrapper_attribute="__fnwrapped__")
 def fix(
     x: array_like,
     # out: Optional[ndarray] = None,
 ):  # params ['x'] ['out'] []
     res = numpy.fix(
-        x=x,
+        x,
         # out=out,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.floor",
-    name="floor",
-    outputs=[{"name": "y", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.floor)
-def floor(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.floor(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.ceil",
-    name="ceil",
-    outputs=[{"name": "y", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.ceil)
-def ceil(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.ceil(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.trunc",
-    name="trunc",
-    outputs=[{"name": "y", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.trunc)
-def trunc(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.trunc(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
     )
     return res
 
@@ -3627,7 +2310,7 @@ def trunc(
     name="prod",
     outputs=[{"name": "product_along_axis", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.prod)
+@wraps(numpy.prod, wrapper_attribute="__fnwrapped__")
 def prod(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -3654,7 +2337,7 @@ def prod(
     name="sum",
     outputs=[{"name": "sum_along_axis", "type": "ndarray"}],
 )
-@wraps(numpy.sum)
+@wraps(numpy.sum, wrapper_attribute="__fnwrapped__")
 def sum(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -3681,7 +2364,7 @@ def sum(
     name="nanprod",
     outputs=[{"name": "nanprod", "type": "ndarray"}],
 )
-@wraps(numpy.nanprod)
+@wraps(numpy.nanprod, wrapper_attribute="__fnwrapped__")
 def nanprod(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -3708,7 +2391,7 @@ def nanprod(
     name="nansum",
     outputs=[{"name": "nansum", "type": "ndarray."}],
 )
-@wraps(numpy.nansum)
+@wraps(numpy.nansum, wrapper_attribute="__fnwrapped__")
 def nansum(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -3735,7 +2418,7 @@ def nansum(
     name="cumprod",
     outputs=[{"name": "cumprod", "type": "ndarray"}],
 )
-@wraps(numpy.cumprod)
+@wraps(numpy.cumprod, wrapper_attribute="__fnwrapped__")
 def cumprod(
     a: array_like,
     axis: Optional[int] = None,
@@ -3756,7 +2439,7 @@ def cumprod(
     name="cumsum",
     outputs=[{"name": "cumsum_along_axis", "type": "ndarray."}],
 )
-@wraps(numpy.cumsum)
+@wraps(numpy.cumsum, wrapper_attribute="__fnwrapped__")
 def cumsum(
     a: array_like,
     axis: Optional[int] = None,
@@ -3777,7 +2460,7 @@ def cumsum(
     name="nancumprod",
     outputs=[{"name": "nancumprod", "type": "ndarray"}],
 )
-@wraps(numpy.nancumprod)
+@wraps(numpy.nancumprod, wrapper_attribute="__fnwrapped__")
 def nancumprod(
     a: array_like,
     axis: Optional[int] = None,
@@ -3798,7 +2481,7 @@ def nancumprod(
     name="nancumsum",
     outputs=[{"name": "nancumsum", "type": "ndarray."}],
 )
-@wraps(numpy.nancumsum)
+@wraps(numpy.nancumsum, wrapper_attribute="__fnwrapped__")
 def nancumsum(
     a: array_like,
     axis: Optional[int] = None,
@@ -3819,7 +2502,7 @@ def nancumsum(
     name="diff",
     outputs=[{"name": "diff", "type": "ndarray"}],
 )
-@wraps(numpy.diff)
+@wraps(numpy.diff, wrapper_attribute="__fnwrapped__")
 def diff(
     a: array_like,
     n: Optional[int] = 1,
@@ -3842,7 +2525,7 @@ def diff(
     name="ediff1d",
     outputs=[{"name": "ediff1d", "type": "ndarray"}],
 )
-@wraps(numpy.ediff1d)
+@wraps(numpy.ediff1d, wrapper_attribute="__fnwrapped__")
 def ediff1d(
     ary: array_like,
     to_end: Optional[array_like] = None,
@@ -3861,13 +2544,15 @@ def ediff1d(
     name="gradient",
     outputs=[{"name": "gradient", "type": "Union[ndarray, List[ndarray]]"}],
 )
-@wraps(numpy.gradient)
+@wraps(numpy.gradient, wrapper_attribute="__fnwrapped__")
 def gradient(
     f: array_like,
-    varargs: List[ndarray_or_scalar],
+    varargs: Optional[List[ndarray_or_scalar]] = None,
     edge_order: Optional[Literal[1, 2]] = 1,
     axis: Optional[axis_like] = None,
 ):  # params ['f'] ['varargs', 'axis', 'edge_order'] []
+    if varargs is None:
+        varargs = []
     res = numpy.gradient(
         f,
         *varargs,
@@ -3882,7 +2567,7 @@ def gradient(
     name="cross",
     outputs=[{"name": "c", "type": "ndarray"}],
 )
-@wraps(numpy.cross)
+@wraps(numpy.cross, wrapper_attribute="__fnwrapped__")
 def cross(
     a: array_like,
     b: array_like,
@@ -3907,7 +2592,7 @@ def cross(
     name="trapz",
     outputs=[{"name": "trapz", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.trapz)
+@wraps(numpy.trapz, wrapper_attribute="__fnwrapped__")
 def trapz(
     y: array_like,
     x: Optional[array_like] = None,
@@ -3924,299 +2609,16 @@ def trapz(
 
 
 @fn.NodeDecorator(
-    node_id="np.exp",
-    name="exp",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.exp)
-def exp(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.exp(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.expm1",
-    name="expm1",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.expm1)
-def expm1(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.expm1(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.exp2",
-    name="exp2",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.exp2)
-def exp2(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.exp2(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.log",
-    name="log",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.log)
-def log(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.log(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.log10",
-    name="log10",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.log10)
-def log10(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.log10(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.log2",
-    name="log2",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.log2)
-def log2(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.log2(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.log1p",
-    name="log1p",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.log1p)
-def log1p(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.log1p(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.logaddexp",
-    name="logaddexp",
-    outputs=[{"name": "result", "type": "ndarray"}],
-)
-@wraps(numpy.logaddexp)
-def logaddexp(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.logaddexp(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.logaddexp2",
-    name="logaddexp2",
-    outputs=[{"name": "result", "type": "ndarray"}],
-)
-@wraps(numpy.logaddexp2)
-def logaddexp2(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.logaddexp2(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
     node_id="np.i0",
     name="i0",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.i0)
+@wraps(numpy.i0, wrapper_attribute="__fnwrapped__")
 def i0(
     x: ndarray,
 ):  # params ['x'] [] []
     res = numpy.i0(
-        x=x,
+        x,
     )
     return res
 
@@ -4226,808 +2628,12 @@ def i0(
     name="sinc",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.sinc)
+@wraps(numpy.sinc, wrapper_attribute="__fnwrapped__")
 def sinc(
     x: ndarray,
 ):  # params ['x'] [] []
     res = numpy.sinc(
-        x=x,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.signbit",
-    name="signbit",
-    outputs=[{"name": "result", "type": "ndarray"}],
-)
-@wraps(numpy.signbit)
-def signbit(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.signbit(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.copysign",
-    name="copysign",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.copysign)
-def copysign(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.copysign(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.frexp",
-    name="frexp",
-    outputs=[
-        {"name": "mantissa", "type": "ndarray"},
-        {"name": "exponent", "type": "ndarray"},
-    ],
-)
-@wraps(numpy.frexp)
-def frexp(
-    x: array_like,
-    out1: Union[ndarray, None],
-    out2: Union[ndarray, None],
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):
-    res = numpy.frexp(
-        x=x,
-        out1=out1,
-        out2=out2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.ldexp",
-    name="ldexp",
-    outputs=[{"name": "y", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.ldexp)
-def ldexp(
-    x1: array_like,
-    x2: array_like,
-    int,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.ldexp(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.nextafter",
-    name="nextafter",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.nextafter)
-def nextafter(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.nextafter(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.spacing",
-    name="spacing",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.spacing)
-def spacing(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.spacing(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.lcm",
-    name="lcm",
-    outputs=[{"name": "y", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.lcm)
-def lcm(
-    x1: int_array,
-    x2: int_array,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.lcm(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.gcd",
-    name="gcd",
-    outputs=[{"name": "y", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.gcd)
-def gcd(
-    x1: int_array,
-    x2: int_array,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.gcd(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.add",
-    name="add",
-    outputs=[{"name": "add", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.add)
-def add(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.add(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.reciprocal",
-    name="reciprocal",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.reciprocal)
-def reciprocal(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting'] []
-    res = numpy.reciprocal(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.positive",
-    name="positive",
-    outputs=[{"name": "y", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.positive)
-def positive(
-    x: array_like or scalar,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.positive(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.negative",
-    name="negative",
-    outputs=[{"name": "y", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.negative)
-def negative(
-    x: array_like or scalar,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.negative(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.multiply",
-    name="multiply",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.multiply)
-def multiply(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.multiply(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.divide",
-    name="divide",
-    outputs=[{"name": "y", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.divide)
-def divide(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.divide(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.power",
-    name="power",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.power)
-def power(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.power(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.subtract",
-    name="subtract",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.subtract)
-def subtract(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.subtract(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.true_divide",
-    name="true_divide",
-    outputs=[{"name": "y", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.true_divide)
-def true_divide(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where'] []
-    res = numpy.true_divide(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.floor_divide",
-    name="floor_divide",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.floor_divide)
-def floor_divide(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where'] []
-    res = numpy.floor_divide(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.float_power",
-    name="float_power",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.float_power)
-def float_power(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where'] []
-    res = numpy.float_power(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.fmod",
-    name="fmod",
-    outputs=[{"name": "y", "type": "array_like"}],
-)
-@wraps(numpy.fmod)
-def fmod(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.fmod(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.mod",
-    name="mod",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.mod)
-def mod(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.mod(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.modf",
-    name="modf",
-    outputs=[{"name": "y1", "type": "ndarray"}, {"name": "y2", "type": "ndarray"}],
-)
-@wraps(numpy.modf)
-def modf(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    out1: Optional[ndarray] = None,
-    out2: Optional[ndarray] = None,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out'] ['out1', 'out2']
-    res = numpy.modf(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        out1=out1,
-        out2=out2,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.remainder",
-    name="remainder",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.remainder)
-def remainder(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.remainder(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.divmod",
-    name="divmod",
-    outputs=[{"name": "out1", "type": "ndarray"}, {"name": "out2", "type": "ndarray"}],
-)
-@wraps(numpy.divmod)
-def divmod(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    out1: Optional[ndarray] = None,
-    out2: Optional[ndarray] = None,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out'] ['out1', 'out2']
-    res = numpy.divmod(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        out1=out1,
-        out2=out2,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
+        x,
     )
     return res
 
@@ -5037,7 +2643,7 @@ def divmod(
     name="angle",
     outputs=[{"name": "angle", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.angle)
+@wraps(numpy.angle, wrapper_attribute="__fnwrapped__")
 def angle(
     z: array_like,
     deg: Optional[bool] = False,
@@ -5054,7 +2660,7 @@ def angle(
     name="real",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.real)
+@wraps(numpy.real, wrapper_attribute="__fnwrapped__")
 def real(
     val: array_like,
 ):  # params ['val'] [] []
@@ -5069,7 +2675,7 @@ def real(
     name="imag",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.imag)
+@wraps(numpy.imag, wrapper_attribute="__fnwrapped__")
 def imag(
     val: array_like,
 ):  # params ['val'] [] []
@@ -5080,106 +2686,11 @@ def imag(
 
 
 @fn.NodeDecorator(
-    node_id="np.conj",
-    name="conj",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.conj)
-def conj(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.conj(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.conjugate",
-    name="conjugate",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.conjugate)
-def conjugate(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting'] []
-    res = numpy.conjugate(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.maximum",
-    name="maximum",
-    outputs=[{"name": "y", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.maximum)
-def maximum(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.maximum(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
     node_id="np.max",
     name="max",
     outputs=[{"name": "max", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.max)
+@wraps(numpy.max, wrapper_attribute="__fnwrapped__")
 def max(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -5200,44 +2711,11 @@ def max(
 
 
 @fn.NodeDecorator(
-    node_id="np.fmax",
-    name="fmax",
-    outputs=[{"name": "y", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.fmax)
-def fmax(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.fmax(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
     node_id="np.nanmax",
     name="nanmax",
     outputs=[{"name": "nanmax", "type": "ndarray"}],
 )
-@wraps(numpy.nanmax)
+@wraps(numpy.nanmax, wrapper_attribute="__fnwrapped__")
 def nanmax(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -5258,44 +2736,11 @@ def nanmax(
 
 
 @fn.NodeDecorator(
-    node_id="np.minimum",
-    name="minimum",
-    outputs=[{"name": "y", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.minimum)
-def minimum(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.minimum(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
     node_id="np.min",
     name="min",
     outputs=[{"name": "min", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.min)
+@wraps(numpy.min, wrapper_attribute="__fnwrapped__")
 def min(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -5316,44 +2761,11 @@ def min(
 
 
 @fn.NodeDecorator(
-    node_id="np.fmin",
-    name="fmin",
-    outputs=[{"name": "y", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.fmin)
-def fmin(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.fmin(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
     node_id="np.nanmin",
     name="nanmin",
     outputs=[{"name": "nanmin", "type": "ndarray"}],
 )
-@wraps(numpy.nanmin)
+@wraps(numpy.nanmin, wrapper_attribute="__fnwrapped__")
 def nanmin(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -5378,7 +2790,7 @@ def nanmin(
     name="convolve",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.convolve)
+@wraps(numpy.convolve, wrapper_attribute="__fnwrapped__")
 def convolve(
     a: ndarray,
     v: ndarray,
@@ -5397,7 +2809,7 @@ def convolve(
     name="clip",
     outputs=[{"name": "clipped_array", "type": "ndarray"}],
 )
-@wraps(numpy.clip)
+@wraps(numpy.clip, wrapper_attribute="__fnwrapped__")
 def clip(
     a: array_like,
     a_min: array_like or None,
@@ -5428,230 +2840,11 @@ def clip(
 
 
 @fn.NodeDecorator(
-    node_id="np.sqrt",
-    name="sqrt",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.sqrt)
-def sqrt(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.sqrt(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.cbrt",
-    name="cbrt",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.cbrt)
-def cbrt(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.cbrt(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.square",
-    name="square",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.square)
-def square(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.square(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.absolute",
-    name="absolute",
-    outputs=[{"name": "absolute", "type": "ndarray"}],
-)
-@wraps(numpy.absolute)
-def absolute(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.absolute(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.fabs",
-    name="fabs",
-    outputs=[{"name": "y", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.fabs)
-def fabs(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.fabs(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.sign",
-    name="sign",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.sign)
-def sign(
-    x: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x'] ['out', 'where', 'casting', 'order'] []
-    res = numpy.sign(
-        x=x,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.heaviside",
-    name="heaviside",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.heaviside)
-def heaviside(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'where', 'casting'] []
-    res = numpy.heaviside(
-        x1=x1,
-        x2=x2,
-        # out=out,
-        # where=where,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
     node_id="np.nan_to_num",
     name="nan_to_num",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.nan_to_num)
+@wraps(numpy.nan_to_num, wrapper_attribute="__fnwrapped__")
 def nan_to_num(
     x: ndarray_or_scalar,
     copy: Optional[bool] = True,
@@ -5660,7 +2853,7 @@ def nan_to_num(
     neginf: Union[int, float, None] = None,
 ):  # params ['x'] ['copy', 'nan', 'posinf', 'neginf'] []
     res = numpy.nan_to_num(
-        x=x,
+        x,
         copy=copy,
         nan=nan,
         posinf=posinf,
@@ -5674,7 +2867,7 @@ def nan_to_num(
     name="real_if_close",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.real_if_close)
+@wraps(numpy.real_if_close, wrapper_attribute="__fnwrapped__")
 def real_if_close(
     a: array_like,
     tol: float = 100,
@@ -5691,7 +2884,7 @@ def real_if_close(
     name="interp",
     outputs=[{"name": "y", "type": "ndarray_or_number"}],
 )
-@wraps(numpy.interp)
+@wraps(numpy.interp, wrapper_attribute="__fnwrapped__")
 def interp(
     x: array_like,
     xp: Sequence[float],
@@ -5701,7 +2894,7 @@ def interp(
     period: Optional[float] = None,
 ):  # params ['x', 'xp', 'fp'] ['left', 'right', 'period'] []
     res = numpy.interp(
-        x=x,
+        x,
         xp=xp,
         fp=fp,
         left=left,
@@ -5716,7 +2909,7 @@ def interp(
     name="ptp",
     outputs=[{"name": "ptp", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.ptp)
+@wraps(numpy.ptp, wrapper_attribute="__fnwrapped__")
 def ptp(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -5737,7 +2930,7 @@ def ptp(
     name="percentile",
     outputs=[{"name": "percentile", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.percentile)
+@wraps(numpy.percentile, wrapper_attribute="__fnwrapped__")
 def percentile(
     a: ndarray,
     q: ndarray,
@@ -5766,7 +2959,7 @@ def percentile(
     name="nanpercentile",
     outputs=[{"name": "percentile", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.nanpercentile)
+@wraps(numpy.nanpercentile, wrapper_attribute="__fnwrapped__")
 def nanpercentile(
     a: array_like,
     q: ndarray,
@@ -5795,7 +2988,7 @@ def nanpercentile(
     name="quantile",
     outputs=[{"name": "quantile", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.quantile)
+@wraps(numpy.quantile, wrapper_attribute="__fnwrapped__")
 def quantile(
     a: ndarray,
     q: ndarray,
@@ -5824,7 +3017,7 @@ def quantile(
     name="nanquantile",
     outputs=[{"name": "quantile", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.nanquantile)
+@wraps(numpy.nanquantile, wrapper_attribute="__fnwrapped__")
 def nanquantile(
     a: array_like,
     q: ndarray,
@@ -5853,7 +3046,7 @@ def nanquantile(
     name="median",
     outputs=[{"name": "median", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.median)
+@wraps(numpy.median, wrapper_attribute="__fnwrapped__")
 def median(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -5879,7 +3072,7 @@ def median(
         {"name": "sum_of_weights", "type": "ndarray_or_scalar"},
     ],
 )
-@wraps(numpy.average)
+@wraps(numpy.average, wrapper_attribute="__fnwrapped__")
 def average(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -5902,7 +3095,7 @@ def average(
     name="mean",
     outputs=[{"name": "m", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.mean)
+@wraps(numpy.mean, wrapper_attribute="__fnwrapped__")
 def mean(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -5927,7 +3120,7 @@ def mean(
     name="std",
     outputs=[{"name": "standard_deviation", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.std)
+@wraps(numpy.std, wrapper_attribute="__fnwrapped__")
 def std(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -5954,7 +3147,7 @@ def std(
     name="var",
     outputs=[{"name": "variance", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.var)
+@wraps(numpy.var, wrapper_attribute="__fnwrapped__")
 def var(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -5981,7 +3174,7 @@ def var(
     name="nanmedian",
     outputs=[{"name": "median", "type": "ndarray"}],
 )
-@wraps(numpy.nanmedian)
+@wraps(numpy.nanmedian, wrapper_attribute="__fnwrapped__")
 def nanmedian(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -6004,7 +3197,7 @@ def nanmedian(
     name="nanmean",
     outputs=[{"name": "m", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.nanmean)
+@wraps(numpy.nanmean, wrapper_attribute="__fnwrapped__")
 def nanmean(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -6029,7 +3222,7 @@ def nanmean(
     name="nanstd",
     outputs=[{"name": "standard_deviation", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.nanstd)
+@wraps(numpy.nanstd, wrapper_attribute="__fnwrapped__")
 def nanstd(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -6056,7 +3249,7 @@ def nanstd(
     name="nanvar",
     outputs=[{"name": "variance", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.nanvar)
+@wraps(numpy.nanvar, wrapper_attribute="__fnwrapped__")
 def nanvar(
     a: array_like,
     axis: Optional[axis_like] = None,
@@ -6083,7 +3276,7 @@ def nanvar(
     name="corrcoef",
     outputs=[{"name": "R", "type": "ndarray"}],
 )
-@wraps(numpy.corrcoef)
+@wraps(numpy.corrcoef, wrapper_attribute="__fnwrapped__")
 def corrcoef(
     x: array_like,
     y: Optional[array_like] = None,
@@ -6091,7 +3284,7 @@ def corrcoef(
     dtype: Optional[DTYPE_ENUM] = None,
 ):  # params ['x'] ['y', 'rowvar', 'bias', 'ddof', 'dtype'] []
     res = numpy.corrcoef(
-        x=x,
+        x,
         y=y,
         rowvar=rowvar,
         dtype=dtype_from_name(dtype),
@@ -6104,7 +3297,7 @@ def corrcoef(
     name="correlate",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.correlate)
+@wraps(numpy.correlate, wrapper_attribute="__fnwrapped__")
 def correlate(
     a: array_like,
     v: array_like,
@@ -6119,7 +3312,7 @@ def correlate(
     name="cov",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.cov)
+@wraps(numpy.cov, wrapper_attribute="__fnwrapped__")
 def cov(
     m: array_like,
     y: Optional[array_like] = None,
@@ -6151,7 +3344,7 @@ def cov(
         {"name": "bin_edges", "type": "ndarray"},
     ],
 )
-@wraps(numpy.histogram)
+@wraps(numpy.histogram, wrapper_attribute="__fnwrapped__")
 def histogram(
     a: array_like,
     bins: Union[int, Union[Sequence[scalar], Sequence[str]]] = 10,
@@ -6178,7 +3371,7 @@ def histogram(
         {"name": "yedges", "type": "ndarray"},
     ],
 )
-@wraps(numpy.histogram2d)
+@wraps(numpy.histogram2d, wrapper_attribute="__fnwrapped__")
 def histogram2d(
     x: array_like,
     y: array_like,
@@ -6188,7 +3381,7 @@ def histogram2d(
     weights: Optional[array_like] = None,
 ):  # params ['x', 'y'] ['bins', 'range', 'density'] []
     res = numpy.histogram2d(
-        x=x,
+        x,
         y=y,
         bins=bins,
         range=range,
@@ -6203,7 +3396,7 @@ def histogram2d(
     name="histogramdd",
     outputs=[{"name": "H", "type": "ndarray"}, {"name": "edges", "type": "list"}],
 )
-@wraps(numpy.histogramdd)
+@wraps(numpy.histogramdd, wrapper_attribute="__fnwrapped__")
 def histogramdd(
     sample: array_like,
     bins: Union[int, Sequence[int]] = 10,
@@ -6226,14 +3419,14 @@ def histogramdd(
     name="bincount",
     outputs=[{"name": "out", "type": "int_array"}],
 )
-@wraps(numpy.bincount)
+@wraps(numpy.bincount, wrapper_attribute="__fnwrapped__")
 def bincount(
     x: bitarray,
     weights: Optional[array_like] = None,
     minlength: Optional[int] = 0,
 ):  # params ['x'] ['weights', 'minlength'] []
     res = numpy.bincount(
-        x=x,
+        x,
         weights=weights,
         minlength=minlength,
     )
@@ -6245,7 +3438,7 @@ def bincount(
     name="histogram_bin_edges",
     outputs=[{"name": "bin_edges", "type": "ndarray"}],
 )
-@wraps(numpy.histogram_bin_edges)
+@wraps(numpy.histogram_bin_edges, wrapper_attribute="__fnwrapped__")
 def histogram_bin_edges(
     a: array_like,
     bins: Union[int, Union[Sequence[scalar], Sequence[str]]] = 10,
@@ -6266,14 +3459,14 @@ def histogram_bin_edges(
     name="digitize",
     outputs=[{"name": "indices", "type": "int_array"}],
 )
-@wraps(numpy.digitize)
+@wraps(numpy.digitize, wrapper_attribute="__fnwrapped__")
 def digitize(
     x: array_like,
     bins: array_like,
     right: Optional[bool] = False,
 ):  # params ['x', 'bins'] ['right'] []
     res = numpy.digitize(
-        x=x,
+        x,
         bins=bins,
         right=right,
     )
@@ -6285,7 +3478,7 @@ def digitize(
     name="where",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.where)
+@wraps(numpy.where, wrapper_attribute="__fnwrapped__")
 def where(
     condition: Union[array_like],
     x: Optional[array_like] = None,

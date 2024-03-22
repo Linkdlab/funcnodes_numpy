@@ -25,15 +25,16 @@ from ._linalg import *
 from ._ndarray import *
 
 
-from ._ndarray import NODE_SHELFE as NODE_SHELFE_ndarray
-from ._linalg import NODE_SHELFE as NODE_SHELFE_linalg
-from ._lib import EMATH_NODE_SHELFE
+from ._ndarray import NODE_SHELF as NODE_SHELF_ndarray
+from ._linalg import NODE_SHELF as NODE_SHELF_linalg
+from ._lib import EMATH_NODE_SHELF
 
 
 from . import _core as core
 from . import _linalg as linalg
 from . import _ndarray as ndarray
-from ._core._defchararray import NODE_SHELFE as CHAR_NODE_SHELFE
+from ._core._defchararray import NODE_SHELF as CHAR_NODE_SHELF
+from .constants import NODE_SHELF as CONSTANTS_NODE_SHELF
 from . import _types
 
 from ._dtypes import DTYPE_ENUM
@@ -503,11 +504,12 @@ DATETIME_SHELF = fn.Shelf(
     subshelves=[],
 )
 
-NODE_SHELFE = fn.Shelf(
+NODE_SHELF = fn.Shelf(
     name="numpy",
     nodes=[],
     subshelves=[
         ARRAY_CREATION_SHELF,
+        CONSTANTS_NODE_SHELF,
         MATH_OPERATIONS_SHELF,
         STATISTICAL_OPERATIONS_SHELF,
         ARRAY_MANIPULATION_SHELF,
@@ -517,10 +519,10 @@ NODE_SHELFE = fn.Shelf(
         DECOMPOSITION_SHELF,
         LINEAR_ALGEBRA_SHELF,
         MATRIX_OPERATIONS_SHELF,
-        CHAR_NODE_SHELFE,
-        NODE_SHELFE_ndarray,
-        NODE_SHELFE_linalg,
-        EMATH_NODE_SHELFE,
+        CHAR_NODE_SHELF,
+        NODE_SHELF_ndarray,
+        NODE_SHELF_linalg,
+        EMATH_NODE_SHELF,
         DATETIME_SHELF,
     ],
     description="numpy functionalities for FuncNodes",
