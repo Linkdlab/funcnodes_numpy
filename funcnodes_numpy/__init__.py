@@ -1,6 +1,6 @@
 import funcnodes as fn
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 
 import numpy as np
 
@@ -13,7 +13,7 @@ def from_np(obj, preview=False):
         if preview:
             return str(obj), True
         else:
-            return obj.to_list(), True
+            return obj.tolist(), True
 
     return obj, False
 
