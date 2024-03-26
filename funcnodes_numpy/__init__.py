@@ -1,6 +1,6 @@
 import funcnodes as fn
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 
 import numpy as np
 
@@ -8,9 +8,13 @@ import numpy as np
 np.set_printoptions(threshold=100)
 
 
-def from_np(obj):
+def from_np(obj, preview=False):
     if isinstance(obj, np.ndarray):
-        return str(obj), True  # return obj.tolist(), True
+        if preview:
+            return str(obj), True
+        else:
+            return obj.to_list(), True
+
     return obj, False
 
 
@@ -38,6 +42,14 @@ from .constants import NODE_SHELF as CONSTANTS_NODE_SHELF
 from . import _types
 
 from ._dtypes import DTYPE_ENUM
+
+from exposedfunctionality.function_parser.types import type_to_string
+
+FUNCNODES_RENDER_OPTIONS: fn.RenderOptions = {
+    "typemap": {
+        type_to_string(numpy.ndarray): "str",
+    },
+}
 
 ARRAY_CREATION_SHELF = fn.Shelf(
     name="Array Creation",
