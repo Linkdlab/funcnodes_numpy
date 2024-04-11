@@ -25,15 +25,15 @@ indices_or_sections = Union[int, List[int]]
 # exf_types.add_type(Union[int, List[int]], "indices_or_sections")
 exf_types.add_type(indices_or_sections, "indices_or_sections")
 
+ndarray = numpy.ndarray
+exf_types.add_type(numpy.ndarray, "ndarray")
 
-shape_like = Union[int, List[int]]
-exf_types.add_type(Union[int, List[int]], "shape_like")
+shape_like = Union[ndarray, int, List[int]]
+exf_types.add_type(Union[ndarray, int, List[int]], "shape_like")
 
 axis_like = Union[int, List[int]]
 exf_types.add_type(Union[int, List[int]], "axis_like")
 
-ndarray = numpy.ndarray
-exf_types.add_type(numpy.ndarray, "ndarray")
 
 array_like = Union[numpy.ndarray, basic_types]
 exf_types.add_type(Union[numpy.ndarray, basic_types], "array_like")

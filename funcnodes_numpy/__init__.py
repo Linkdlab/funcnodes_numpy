@@ -1,25 +1,5 @@
 import funcnodes as fn
 
-__version__ = "0.1.5"
-
-import numpy as np
-
-# set the print options to display a smaller number of elements for node previews
-np.set_printoptions(threshold=100)
-
-
-def from_np(obj, preview=False):
-    if isinstance(obj, np.ndarray):
-        if preview:
-            return str(obj), True
-        else:
-            return obj.tolist(), True
-
-    return obj, False
-
-
-fn.JSONEncoder.add_encoder(from_np)
-
 
 from ._core import *
 
@@ -45,12 +25,34 @@ from ._dtypes import DTYPE_ENUM
 
 from exposedfunctionality.function_parser.types import type_to_string
 
+import numpy as np
+
+__version__ = "0.1.51"
+
+
+# set the print options to display a smaller number of elements for node previews
+np.set_printoptions(threshold=100)
+
+
+def from_np(obj, preview=False):
+    if isinstance(obj, np.ndarray):
+        if preview:
+            return str(obj), True
+        else:
+            return obj.tolist(), True
+
+    return obj, False
+
+
+fn.JSONEncoder.add_encoder(from_np)
+
+
 FUNCNODES_RENDER_OPTIONS: fn.RenderOptions = {
     "typemap": {
         type_to_string(np.ndarray): "str",
     },
     "inputconverter": {
-        type_to_string(np.ndarray): "str_to_json",
+        type_to_string(np.ndarray): "str_to_list",
     },
 }
 
