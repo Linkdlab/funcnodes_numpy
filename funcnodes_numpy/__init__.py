@@ -1,6 +1,6 @@
 import funcnodes as fn
 
-__version__ = "0.1.4"
+__version__ = "0.1.5"
 
 import numpy as np
 
@@ -47,7 +47,10 @@ from exposedfunctionality.function_parser.types import type_to_string
 
 FUNCNODES_RENDER_OPTIONS: fn.RenderOptions = {
     "typemap": {
-        type_to_string(numpy.ndarray): "str",
+        type_to_string(np.ndarray): "str",
+    },
+    "inputconverter": {
+        type_to_string(np.ndarray): "str_to_json",
     },
 }
 
