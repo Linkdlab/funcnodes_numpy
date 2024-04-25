@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "funcnodes-numpy"
-version = "0.1.51"
+version = "0.1.52"
 description = ""
 authors = ["Julian Kimmig <julian.kimmig@gmx.net>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
-funcnodes = "^0.1.11"
+funcnodes = ">=0.1.42 <1.0.0"
 numpy = "^1.26.4"
 
 
