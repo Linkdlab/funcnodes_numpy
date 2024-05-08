@@ -1215,6 +1215,30 @@ def concatenate(
 
 
 @fn.NodeDecorator(
+    node_id="np.concatenate2",
+    name="concatenate2",
+    outputs=[{"name": "res", "type": "ndarray"}],
+)
+@wraps(numpy.concatenate, wrapper_attribute="__fnwrapped__")
+def concatenate2(
+    a: ndarray,
+    b: ndarray,
+    axis: Optional[int] = 0,
+    # out: Optional[ndarray] = None,
+    dtype: Optional[DTYPE_ENUM] = None,
+    # casting: casting_literal = "same_kind",
+):  # params [] ['axis', 'out', 'dtype', 'casting'] []
+    res = numpy.concatenate(
+        (a, b),
+        axis=axis,
+        # out=out,
+        dtype=dtype_from_name(dtype),
+        # casting=casting,
+    )
+    return res
+
+
+@fn.NodeDecorator(
     node_id="np.stack",
     name="stack",
     outputs=[{"name": "stacked", "type": "ndarray"}],
