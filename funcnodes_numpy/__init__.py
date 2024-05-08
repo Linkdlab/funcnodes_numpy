@@ -27,7 +27,7 @@ from exposedfunctionality.function_parser.types import type_to_string
 
 import numpy as np
 
-__version__ = "0.1.52"
+__version__ = "0.1.53"
 
 
 # set the print options to display a smaller number of elements for node previews
@@ -52,7 +52,7 @@ FUNCNODES_RENDER_OPTIONS: fn.RenderOptions = {
         type_to_string(np.ndarray): "str",
     },
     "inputconverter": {
-        type_to_string(np.ndarray): "str_to_list",
+        type_to_string(np.ndarray): "str_to_json",
     },
 }
 
