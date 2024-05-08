@@ -27,7 +27,7 @@ from exposedfunctionality.function_parser.types import type_to_string
 
 import numpy as np
 
-__version__ = "0.1.56"
+__version__ = "0.1.57"
 
 
 # set the print options to display a smaller number of elements for node previews
@@ -345,7 +345,7 @@ ARRAY_MANIPULATION_SHELF = fn.Shelf(
             description="Joining and Splitting",
             nodes=[
                 core.concatenate,
-                core.concatenat2,
+                core.concatenate2,
                 core.stack,
                 core.stack2,
                 core.vstack,
