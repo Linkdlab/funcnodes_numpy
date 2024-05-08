@@ -1237,6 +1237,30 @@ def stack(
     return res
 
 
+@fn.NodeDecorator(
+    node_id="np.stack2",
+    name="stack2",
+    outputs=[{"name": "stacked", "type": "ndarray"}],
+)
+@wraps(numpy.stack, wrapper_attribute="__fnwrapped__")
+def stack2(
+    a: array_like,
+    b: array_like,
+    axis: Optional[int] = 0,
+    # out: Optional[ndarray] = None,
+    dtype: Optional[DTYPE_ENUM] = None,
+    # casting: casting_literal = "same_kind",
+):  # params ['arrays'] ['axis', 'out', 'dtype', 'casting'] []
+    res = numpy.stack(
+        arrays=(a, b),
+        axis=axis,
+        # out=out,
+        dtype=dtype_from_name(dtype),
+        # casting=casting,
+    )
+    return res
+
+
 # @fn.NodeDecorator(
 #     node_id="np.block",
 #     name="block",
@@ -1273,6 +1297,26 @@ def vstack(
 
 
 @fn.NodeDecorator(
+    node_id="np.vstack2",
+    name="vstack2",
+    outputs=[{"name": "stacked", "type": "ndarray"}],
+)
+@wraps(numpy.vstack, wrapper_attribute="__fnwrapped__")
+def vstack2(
+    a: array_like,
+    b: array_like,
+    dtype: Optional[DTYPE_ENUM] = None,
+    # casting: casting_literal = "same_kind",
+):  # params ['tup'] ['dtype', 'casting'] []
+    res = numpy.vstack(
+        tup=(a, b),
+        dtype=dtype_from_name(dtype),
+        # casting=casting,
+    )
+    return res
+
+
+@fn.NodeDecorator(
     node_id="np.hstack",
     name="hstack",
     outputs=[{"name": "stacked", "type": "ndarray"}],
@@ -1285,6 +1329,26 @@ def hstack(
 ):  # params ['tup'] ['dtype', 'casting'] []
     res = numpy.hstack(
         tup=tup,
+        dtype=dtype_from_name(dtype),
+        # casting=casting,
+    )
+    return res
+
+
+@fn.NodeDecorator(
+    node_id="np.hstack2",
+    name="hstack2",
+    outputs=[{"name": "stacked", "type": "ndarray"}],
+)
+@wraps(numpy.hstack, wrapper_attribute="__fnwrapped__")
+def hstack2(
+    a: array_like,
+    b: array_like,
+    dtype: Optional[DTYPE_ENUM] = None,
+    # casting: casting_literal = "same_kind",
+):  # params ['tup'] ['dtype', 'casting'] []
+    res = numpy.hstack(
+        tup=(a, b),
         dtype=dtype_from_name(dtype),
         # casting=casting,
     )
@@ -1307,6 +1371,22 @@ def dstack(
 
 
 @fn.NodeDecorator(
+    node_id="np.dstack2",
+    name="dstack2",
+    outputs=[{"name": "stacked", "type": "ndarray"}],
+)
+@wraps(numpy.dstack, wrapper_attribute="__fnwrapped__")
+def dstack2(
+    a: array_like,
+    b: array_like,
+):  # params ['tup'] [] []
+    res = numpy.dstack(
+        tup=(a, b),
+    )
+    return res
+
+
+@fn.NodeDecorator(
     node_id="np.column_stack",
     name="column_stack",
     outputs=[{"name": "stacked", "type": "ndarray"}],
@@ -1317,6 +1397,22 @@ def column_stack(
 ):  # params ['tup'] [] []
     res = numpy.column_stack(
         tup=tup,
+    )
+    return res
+
+
+@fn.NodeDecorator(
+    node_id="np.column_stack2",
+    name="column_stack2",
+    outputs=[{"name": "stacked", "type": "ndarray"}],
+)
+@wraps(numpy.column_stack, wrapper_attribute="__fnwrapped__")
+def column_stack2(
+    a: array_like,
+    b: array_like,
+):  # params ['tup'] [] []
+    res = numpy.column_stack(
+        tup=(a, b),
     )
     return res
 
@@ -1334,6 +1430,26 @@ def row_stack(
 ):  # params ['tup'] ['dtype', 'casting'] []
     res = numpy.row_stack(
         tup=tup,
+        dtype=dtype_from_name(dtype),
+        # casting=casting,
+    )
+    return res
+
+
+@fn.NodeDecorator(
+    node_id="np.row_stack2",
+    name="row_stack2",
+    outputs=[{"name": "stacked", "type": "ndarray"}],
+)
+@wraps(numpy.row_stack, wrapper_attribute="__fnwrapped__")
+def row_stack2(
+    a: array_like,
+    b: array_like,
+    dtype: Optional[DTYPE_ENUM] = None,
+    # casting: casting_literal = "same_kind",
+):  # params ['tup'] ['dtype', 'casting'] []
+    res = numpy.row_stack(
+        tup=(a, b),
         dtype=dtype_from_name(dtype),
         # casting=casting,
     )
