@@ -27,17 +27,24 @@ from exposedfunctionality.function_parser.types import type_to_string
 
 import numpy as np
 
-__version__ = "0.1.53"
+__version__ = "0.1.54"
 
 
 # set the print options to display a smaller number of elements for node previews
-np.set_printoptions(threshold=100)
+np.set_printoptions(
+    threshold=100,
+    formatter={
+        # float_kind is used to format floats in scientific notation
+        # there should be at least one digit after the decimal point
+        "float_kind": lambda x: np.format_float_scientific(x, trim="0")
+    },
+)
 
 
 def from_np(obj, preview=False):
     if isinstance(obj, np.ndarray):
         if preview:
-            return str(obj), True
+            return np.array2string(obj, separator=", "), True
         else:
             return obj.tolist(), True
 
