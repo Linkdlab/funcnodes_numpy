@@ -27,7 +27,7 @@ from exposedfunctionality.function_parser.types import type_to_string
 
 import numpy as np
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 
 # set the print options to display a smaller number of elements for node previews
