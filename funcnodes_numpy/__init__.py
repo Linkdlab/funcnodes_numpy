@@ -27,7 +27,7 @@ from exposedfunctionality.function_parser.types import type_to_string
 
 import numpy as np
 
-__version__ = "0.1.57"
+__version__ = "0.2.0"
 
 
 # set the print options to display a smaller number of elements for node previews
@@ -101,7 +101,6 @@ ARRAY_CREATION_SHELF = fn.Shelf(
                 core.asanyarray,
                 core.ascontiguousarray,
                 core.asarray_chkfinite,
-                core.asfarray,
                 core.asfortranarray,
                 core.asmatrix,
                 core.copy,
@@ -117,7 +116,6 @@ ARRAY_CREATION_SHELF = fn.Shelf(
                 core.broadcast_arrays,
                 core.broadcast_to,
                 core.copyto,
-                core.mat,
                 core.bmat,
                 core.from_dlpack,
             ],

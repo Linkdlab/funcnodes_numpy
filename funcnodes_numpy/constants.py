@@ -22,6 +22,3 @@ NODE_SHELF = fn.Shelf(
     nodes=[e, euler_gamma, pi],
     subshelves=[],
 )
-
-
-numpy.geterrobj

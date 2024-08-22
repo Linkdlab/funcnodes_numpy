@@ -12,11 +12,11 @@ import funcnodes as fn
 )
 @wraps(numpy.datetime64)
 def datetime64(
-    date: Union[str, int, ndarray],
+    x: Union[str, int, ndarray],
     unit: Optional[str] = None,
 ):
     res = numpy.datetime64(
-        date,
+        x,
         unit=unit,
     )
     return res

@@ -815,23 +815,6 @@ def vander(
 
 
 @fn.NodeDecorator(
-    node_id="np.mat",
-    name="mat",
-    outputs=[{"name": "mat", "type": "matrix"}],
-)
-@wraps(numpy.mat, wrapper_attribute="__fnwrapped__")
-def mat(
-    data: array_like,
-    dtype: Optional[DTYPE_ENUM] = None,
-):  # params ['data'] ['dtype'] []
-    res = numpy.mat(
-        data=data,
-        dtype=dtype_from_name(dtype),
-    )
-    return res
-
-
-@fn.NodeDecorator(
     node_id="np.bmat",
     name="bmat",
     outputs=[{"name": "out", "type": "matrix"}],
@@ -1110,23 +1093,6 @@ def asmatrix(
 ):  # params ['data'] ['dtype'] []
     res = numpy.asmatrix(
         data,
-        dtype=dtype_from_name(dtype),
-    )
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.asfarray",
-    name="asfarray",
-    outputs=[{"name": "out", "type": "ndarray"}],
-)
-@wraps(numpy.asfarray, wrapper_attribute="__fnwrapped__")
-def asfarray(
-    a: array_like,
-    dtype: DTYPE_ENUM = DTYPE_ENUM.float64,
-):  # params ['a'] ['dtype'] []
-    res = numpy.asfarray(
-        a=a,
         dtype=dtype_from_name(dtype),
     )
     return res
@@ -2190,7 +2156,7 @@ def any(
 @wraps(numpy.isneginf, wrapper_attribute="__fnwrapped__")
 def isneginf(
     x: array_like,
-    out: Optional[array_like] = None,
+    # out: Optional[array_like] = None,
 ):  # params ['x'] ['out'] []
     res = numpy.isneginf(
         x,
@@ -2207,7 +2173,7 @@ def isneginf(
 @wraps(numpy.isposinf, wrapper_attribute="__fnwrapped__")
 def isposinf(
     x: array_like,
-    out: Optional[array_like] = None,
+    # out: Optional[array_like] = None,
 ):  # params ['x'] ['out'] []
     res = numpy.isposinf(
         x,

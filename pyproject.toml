@@ -1,22 +1,18 @@
 [tool.poetry]
 name = "funcnodes-numpy"
-version = "0.1.57"
+version = "0.2.0"
 description = ""
 authors = ["Julian Kimmig <julian.kimmig@gmx.net>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.9,<4.0"
-funcnodes = ">=0.1.42 <1.0.0"
-numpy = "^1.26.4"
+python = "^3.10"
+funcnodes = "*"
+numpy = "^2.0"
 
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.1.1"
-beautifulsoup4 = "^4.12.3"
-requests = "^2.31.0"
-sphinx = "^7.2.6"
-numpydoc = "^1.6.0"
+pytest = "*"
 
 [build-system]
 requires = ["poetry-core"]
