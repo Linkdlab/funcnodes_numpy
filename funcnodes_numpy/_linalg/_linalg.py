@@ -16,7 +16,7 @@ from .._types import (
     name="multi_dot",
     outputs=[{"name": "output", "type": "ndarray"}],
 )
-@wraps(numpy.linalg.multi_dot)
+@wraps(numpy.linalg.multi_dot, wrapper_attribute="__fnwrapped__")
 def multi_dot(
     arrays: Sequence[array_like],
     out: Optional[ndarray] = None,
@@ -33,7 +33,7 @@ def multi_dot(
     name="matrix_power",
     outputs=[{"name": "an", "type": "ndarray"}],
 )
-@wraps(numpy.linalg.matrix_power)
+@wraps(numpy.linalg.matrix_power, wrapper_attribute="__fnwrapped__")
 def matrix_power(
     a: array_like,
     n: int,
@@ -50,12 +50,12 @@ def matrix_power(
     name="cholesky",
     outputs=[{"name": "L", "type": "ndarray"}],
 )
-@wraps(numpy.linalg.cholesky)
+@wraps(numpy.linalg.cholesky, wrapper_attribute="__fnwrapped__")
 def cholesky(
     a: array_like,
 ):  # params ['a'] [] []
     res = numpy.linalg.cholesky(
-        a=a,
+        a,
     )
     return res
 
@@ -87,7 +87,7 @@ def cholesky(
         },
     ],
 )
-@wraps(numpy.linalg.qr)
+@wraps(numpy.linalg.qr, wrapper_attribute="__fnwrapped__")
 def qr(
     a: array_like,
     mode: Literal["reduced", "complete", "r", "raw"] = "reduced",
@@ -125,7 +125,7 @@ def qr(
         },
     ],
 )
-@wraps(numpy.linalg.svd)
+@wraps(numpy.linalg.svd, wrapper_attribute="__fnwrapped__")
 def svd(
     a: array_like,
     full_matrices: bool = True,
@@ -149,7 +149,7 @@ def svd(
         {"name": "eigenvectors", "type": "ndarray"},
     ],
 )
-@wraps(numpy.linalg.eig)
+@wraps(numpy.linalg.eig, wrapper_attribute="__fnwrapped__")
 def eig(
     a: ndarray,
 ):  # params ['a'] [] []
@@ -167,7 +167,7 @@ def eig(
         {"name": "eigenvectors", "type": "ndarray"},
     ],
 )
-@wraps(numpy.linalg.eigh)
+@wraps(numpy.linalg.eigh, wrapper_attribute="__fnwrapped__")
 def eigh(a: ndarray, UPLO: Literal["L", "U"] = "L"):  # params ['a'] ['UPLO'] []
     res = numpy.linalg.eigh(
         a=a,
@@ -181,7 +181,7 @@ def eigh(a: ndarray, UPLO: Literal["L", "U"] = "L"):  # params ['a'] ['UPLO'] []
     name="eigvals",
     outputs=[{"name": "w", "type": "ndarray"}],
 )
-@wraps(numpy.linalg.eigvals)
+@wraps(numpy.linalg.eigvals, wrapper_attribute="__fnwrapped__")
 def eigvals(
     a: array_like,
 ):  # params ['a'] [] []
@@ -196,7 +196,7 @@ def eigvals(
     name="eigvalsh",
     outputs=[{"name": "w", "type": "ndarray"}],
 )
-@wraps(numpy.linalg.eigvalsh)
+@wraps(numpy.linalg.eigvalsh, wrapper_attribute="__fnwrapped__")
 def eigvalsh(
     a: array_like,
     UPLO: Literal["L", "U"] = "L",
@@ -213,7 +213,7 @@ def eigvalsh(
     name="norm",
     outputs=[{"name": "n", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.linalg.norm)
+@wraps(numpy.linalg.norm, wrapper_attribute="__fnwrapped__")
 def norm(
     x: array_like,
     ord: float | Literal["fro", "nuc"] | None = None,
@@ -234,7 +234,7 @@ def norm(
     name="cond",
     outputs=[{"name": "c", "type": "float"}],
 )
-@wraps(numpy.linalg.cond)
+@wraps(numpy.linalg.cond, wrapper_attribute="__fnwrapped__")
 def cond(
     x: array_like,
     p: float | Literal["fro", "nuc"] | None = None,
@@ -251,7 +251,7 @@ def cond(
     name="det",
     outputs=[{"name": "det", "type": "array_like"}],
 )
-@wraps(numpy.linalg.det)
+@wraps(numpy.linalg.det, wrapper_attribute="__fnwrapped__")
 def det(
     a: array_like,
 ):  # params ['a'] [] []
@@ -266,7 +266,7 @@ def det(
     name="matrix_rank",
     outputs=[{"name": "rank", "type": "array_like"}],
 )
-@wraps(numpy.linalg.matrix_rank)
+@wraps(numpy.linalg.matrix_rank, wrapper_attribute="__fnwrapped__")
 def matrix_rank(
     A: array_like,
     tol: Union[float, array_like, None] = None,
@@ -288,7 +288,7 @@ def matrix_rank(
         {"name": "logabsdet", "type": "array_like"},
     ],
 )
-@wraps(numpy.linalg.slogdet)
+@wraps(numpy.linalg.slogdet, wrapper_attribute="__fnwrapped__")
 def slogdet(
     a: array_like,
 ):  # params ['a'] [] []
@@ -303,7 +303,7 @@ def slogdet(
     name="solve",
     outputs=[{"name": "x", "type": "ndarray"}],
 )
-@wraps(numpy.linalg.solve)
+@wraps(numpy.linalg.solve, wrapper_attribute="__fnwrapped__")
 def solve(
     a: ndarray,
     b: ndarray,
@@ -320,7 +320,7 @@ def solve(
     name="tensorsolve",
     outputs=[{"name": "x", "type": "ndarray"}],
 )
-@wraps(numpy.linalg.tensorsolve)
+@wraps(numpy.linalg.tensorsolve, wrapper_attribute="__fnwrapped__")
 def tensorsolve(
     a: array_like,
     b: array_like,
@@ -344,7 +344,7 @@ def tensorsolve(
         {"name": "s", "type": "ndarray"},
     ],
 )
-@wraps(numpy.linalg.lstsq)
+@wraps(numpy.linalg.lstsq, wrapper_attribute="__fnwrapped__")
 def lstsq(
     a: array_like,
     b: array_like,
@@ -363,7 +363,7 @@ def lstsq(
     name="inv",
     outputs=[{"name": "ainv", "type": "ndarray"}],
 )
-@wraps(numpy.linalg.inv)
+@wraps(numpy.linalg.inv, wrapper_attribute="__fnwrapped__")
 def inv(
     a: array_like,
 ):  # params ['a'] [] []
@@ -378,7 +378,7 @@ def inv(
     name="pinv",
     outputs=[{"name": "B", "type": "ndarray"}],
 )
-@wraps(numpy.linalg.pinv)
+@wraps(numpy.linalg.pinv, wrapper_attribute="__fnwrapped__")
 def pinv(
     a: array_like,
     rcond: ndarray_or_scalar = 1e-15,
@@ -397,7 +397,7 @@ def pinv(
     name="tensorinv",
     outputs=[{"name": "b", "type": "ndarray"}],
 )
-@wraps(numpy.linalg.tensorinv)
+@wraps(numpy.linalg.tensorinv, wrapper_attribute="__fnwrapped__")
 def tensorinv(
     a: array_like,
     ind: int = 2,

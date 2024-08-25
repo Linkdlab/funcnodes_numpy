@@ -1,18 +1,8 @@
-import unittest
+from all_nodes_test_base import TestAllNodesBase
+import numpy as np
 import funcnodes_numpy as fnp
 import funcnodes as fn
-
-
-def flatten_shelves(shelf: fn.Shelf):
-    nodes = shelf["nodes"].copy()
-    subshelves = shelf["subshelves"]
-    for subshelf in subshelves:
-        nodes.extend(flatten_shelves(subshelf))
-    return set(nodes)
-
-
-from pprint import pprint
-import numpy as np
+import unittest
 
 
 samplemap = {
@@ -22,6 +12,7 @@ samplemap = {
         np.array([1, 2, 3, 4]).reshape(2, 2),
         np.arange(2 * 2 * 2).reshape(2, 2, 2),
         np.array([1, 2, 3], dtype=np.float32),
+        np.array([[2], [7], [23]], dtype=np.uint8),
     ],
     "Union[bool, complex, float, int, ndarray, str]": lambda: [
         True,
@@ -84,7 +75,7 @@ samplemap = {
     ],
     "Union[bytearray, bytes, memoryview, ndarray]": lambda: [
         bytearray(b"hello"),
-        b"12345678",
+        np.array([1, 2, 3]).tobytes(),
         memoryview(b"hello"),
         np.array([1, 2, 3]),
         np.array([1, 2, 3, 4]).reshape(2, 2),
@@ -101,22 +92,10 @@ samplemap = {
         np.array([1, 2, 3, 4]).reshape(2, 2),
         "str",
     ],
-    "Union[int, ndarray]": lambda: [
-        1,
-        np.array([1, 2, 3, 4]).reshape(2, 2),
-        np.array([1, 2, 3]),
-    ],
     "Union[Literal['big', 'little'], None]": lambda: ["big", "little", None],
-    "Union[None, bool]": lambda: [None, True],
-    "Union[None, int]": lambda: [None, 1],
     "Union[None, int, ndarray]": lambda: [
         None,
         1,
-        np.array([1, 2, 3, 4]).reshape(2, 2),
-        np.array([1, 2, 3]),
-    ],
-    "Union[None, ndarray]": lambda: [
-        None,
         np.array([1, 2, 3, 4]).reshape(2, 2),
         np.array([1, 2, 3]),
     ],
@@ -126,7 +105,6 @@ samplemap = {
         "same",
         None,
     ],
-    "Union[None, float]": lambda: [None, 1.0],
     "Union[None, Tuple[float, float]]": lambda: [None, (1.0, 2.0)],
     "Union[None, bool, complex, float, int, ndarray, str]": lambda: [
         None,
@@ -162,7 +140,8 @@ samplemap = {
         [
             np.array([3, 2, 1]),
             np.array([1, 2, 3]),
-        ]
+        ],
+        np.arange(25).reshape(1, 5, 5),
     ],
     "typing.Callable": lambda: [lambda x: x],
     "funcnodes_numpy._dtypes.DTYPE_ENUM": lambda: ["f", bool],
@@ -192,7 +171,7 @@ samplemap = {
         [np.array([4, 3, 2]), np.array([1, 2, 3])],
     ],
     "Literal['L', 'U']": lambda: ["L", "U"],
-    "builtins.object": lambda: [object()],
+    "builtins.object": lambda: [object(), np.array([1, 2, 3])],
     "Literal['raise', 'wrap', 'clip']": lambda: ["raise", "wrap", "clip"],
     "Sequence[Union[bool, complex, float, int, ndarray, str]]": lambda: [
         [True, 1j, 1.0, 1, np.array([1, 2, 3]), "str"]
@@ -229,41 +208,194 @@ samplemap = {
         "wrap",
         "empty",
     ],
-    "str": lambda: ["str", "ii"],
+    "str": lambda: ["str", "ii", "ij,jk,kl->il", "2005-02-25"],
     "Union[List[Union[float, int, ndarray]], None]": lambda: [
         [1.0, 1, np.array([1, 2, 3])],
         None,
     ],
+    "Union[int, List[int], None]": lambda: [1, [1, 2, 3], None],
+    "Union[ndarray, int, List[int]]": lambda: [
+        np.array([1, 2, 3]),
+        1,
+        [1, 2, 3],
+        [-1, 1],
+    ],
+    "Union[str, int, ndarray]": lambda: ["str", 1, np.array([1, 2, 3]), "2005-02-25"],
+    "Union[int, float, Tuple[Union[int, float], Union[int, float]]]": lambda: [
+        1,
+        1.0,
+        (1, 2),
+    ],
+    "Union[List[Union[int, float, ndarray]], None]": lambda: [
+        [1, 1.0, np.array([1, 2, 3])],
+        None,
+    ],
+    "Union[int, float, complex, str, bool, ndarray]": lambda: [
+        1,
+        1.0,
+        1j,
+        "str",
+        True,
+        np.array([1, 2, 3]),
+        np.arange(2 * 2 * 2).reshape(2, 2, 2),
+        np.array([[1, -2j], [2j, 5]]),
+        np.eye(4 * 6).reshape(4, 6, 8, 3),
+        np.datetime64("NaT"),
+        np.nan,
+    ],
+    "Union[int, float, complex, str, bool, ndarray, None]": lambda: [
+        1,
+        1.0,
+        1j,
+        "str",
+        True,
+        np.array([1, 2, 3]),
+        None,
+    ],
+    "Union[int, Tuple[int, int], List[Tuple[int, int]]]": lambda: [
+        1,
+        (1, 2),
+        [(1, 2), (3, 4)],
+    ],
+    "Sequence[Union[int, float, complex, str, bool, ndarray]]": lambda: [
+        [1, 1.0, 1j, "str", True, np.array([1, 2, 3])],
+        np.arange(2 * 2 * 2).reshape(2, 2, 2).tolist(),
+    ],
+    "Union[int, float, ndarray]": lambda: [
+        1,
+        1.0,
+        np.array([1, 2, 3]),
+        np.array([1, 2, 3, 4]).reshape(2, 2),
+    ],
+    "Union[int, ndarray, Tuple[Union[int, ndarray], Union[int, ndarray]]]": lambda: [
+        1,
+        np.array([1, 2, 3]),
+        (1, np.array([1, 2, 3])),
+        (1, 0),
+    ],
+    "Union[complex, int, float, ndarray]": lambda: [
+        1j,
+        1,
+        1.0,
+        np.array([1, 2, 3]),
+        np.array([1, 2, 3, 4]).reshape(2, 2),
+    ],
+    "Union[float, int, complex, str, bool, ndarray, None]": lambda: [
+        1.0,
+        1,
+        1j,
+        "str",
+        True,
+        np.array([1, 2, 3]),
+        None,
+    ],
+    "List[Union[int, float, complex, str, bool, ndarray]]": lambda: [
+        [
+            1,
+            1.0,
+            1j,
+            "str",
+            True,
+            np.array([1, 2, 3]),
+        ],
+        [np.arange(2), np.arange(3)],
+        [np.random.rand(2, 2), np.random.rand(2, 5), np.random.rand(5, 2)],
+    ],
+    "Union[bytes, bytearray, memoryview, ndarray]": lambda: [
+        b"12345678",
+        np.array([1, 2, 3]).tobytes(),
+        bytearray(b"hello"),
+        memoryview(b"hello"),
+        np.array([1, 2, 3]),
+        np.array([1, 2, 3, 4]).reshape(2, 2),
+    ],
+    "Union[numpy._typing._array_like._SupportsArray, numpy._typing._nested_sequence._NestedSequence, str, numpy._typing._nested_sequence._NestedSequence]": lambda: [
+        np.array([1, 2, 3]),
+        [[1, 2, 3]],
+        [[[1, 2, 3]]],
+        "str",
+    ],
 }
 
+samplemap["Union[int, float]"] = samplemap["Union[float, int]"]
+samplemap["Union[float, None]"] = samplemap["Union[None, float]"]
+samplemap["Union[ndarray, None]"] = samplemap["Union[None, ndarray]"]
+samplemap["Union[dict, None]"] = samplemap["Union[None, dict]"]
+samplemap["Union[int, None]"] = samplemap["Union[None, int]"]
+samplemap["Union[bool, None]"] = samplemap["Union[None, bool]"]
+samplemap["Union[str, None]"] = samplemap["Union[None, str]"]
+samplemap["Union[float, int, None]"] = samplemap["Union[None, float, int]"]
+samplemap["Union[Tuple[float, float], None]"] = samplemap[
+    "Union[None, Tuple[float, float]]"
+]
+samplemap["Union[Sequence[Tuple[float, float]], None]"] = samplemap[
+    "Union[None, Sequence[Tuple[float, float]]]"
+]
+samplemap["Union[Sequence[int], None]"] = samplemap["Union[None, Sequence[int]]"]
+samplemap["Union[Sequence[Union[float, int]], None]"] = samplemap[
+    "Union[None, Sequence[Union[float, int]]]"
+]
 
-class TestNodes(unittest.IsolatedAsyncioTestCase):
+
+samplemap["Union[float, int, None]"] = samplemap["Union[None, float, int]"]
+samplemap["Union[funcnodes_numpy._dtypes.DTYPE_ENUM, None]"] = samplemap[
+    "Union[None, funcnodes_numpy._dtypes.DTYPE_ENUM]"
+]
+samplemap["Union[int, Sequence[int]]"] = samplemap["Union[Sequence[int], int]"]
+samplemap["Union[int, float, ndarray, None]"] = samplemap[
+    "Union[None, float, int, ndarray]"
+]
+samplemap["List[Union[int, float]]"] = samplemap["List[Union[float, int]]"]
+samplemap["Union[int, List[int]]"] = samplemap["Union[List[int], int]"]
+samplemap["Union[int, Sequence[Union[int, float]], Sequence[str]]"] = samplemap[
+    "Union[Sequence[Union[float, int]], Sequence[str], int]"
+]
+samplemap["Union[str, ndarray]"] = samplemap["Union[ndarray, str]"]
+samplemap["Union[float, Literal['fro', 'nuc'], None]"] = samplemap[
+    "Union[Literal['fro', 'nuc'], None, float]"
+]
+samplemap["Union[int, float, None]"] = samplemap["Union[None, float, int]"]
+
+
+def flatten_shelves(shelf: fn.Shelf):
+    nodes = shelf["nodes"].copy()
+    subshelves = shelf["subshelves"]
+    for subshelf in subshelves:
+        nodes.extend(flatten_shelves(subshelf))
+    return set(nodes)
+
+
+class TestLocalTypes(unittest.IsolatedAsyncioTestCase):
     async def test_missing_types(self):
         shelvenodes = flatten_shelves(fnp.NODE_SHELF)
         missing_types = set()
+        missing_nodes = set()
         for node in shelvenodes:
             exf = node.func.ef_funcmeta
             for ip in exf["input_params"]:
                 if ip["type"] not in samplemap:
+                    missing_nodes.add(node.node_name)
                     missing_types.add(ip["type"])
                     continue
 
-        self.assertEqual(len(missing_types), 0, missing_types)
+        self.assertEqual(len(missing_types), 0, f"{missing_types} from {missing_nodes}")
         for node in shelvenodes:
             exf = node.func.ef_funcmeta
             for ip in exf["input_params"]:
                 assert isinstance(
-                    samplemap[ip["type"]], list
+                    samplemap[ip["type"]](), list
                 ), f"{ip['type']} not a list"
 
+
+class TestAllNodes(TestAllNodesBase):
+    ### in this test class all nodes should be triggered at least once to mark them as testing
     async def test_nodes(self):
-        shelvenodes = flatten_shelves(fnp.NODE_SHELF)
-        ignore = [fnp.clip]
-        for node in shelvenodes:
-            if node in ignore:
-                continue
+        # shelvenodes = flatten_shelves(fnp.NODE_SHELF)
+
+        for node in self.all_nodes:
             ins = node()
             exf = node.func.ef_funcmeta
+
             kwargs = {}
             args = []
             types = []
@@ -271,7 +403,12 @@ class TestNodes(unittest.IsolatedAsyncioTestCase):
                 if ip["positional"]:
                     newargs = []
                     types.append(ip["type"])
-                    options = samplemap[ip["type"]]()
+                    try:
+                        options = samplemap[ip["type"]]()
+                    except KeyError as e:
+                        raise KeyError(
+                            f"KeyError for {node.node_name}{ip['type']}"
+                        ) from e
                     for option in options:
                         if len(args) == 0:
                             newargs.append([option])
@@ -284,7 +421,8 @@ class TestNodes(unittest.IsolatedAsyncioTestCase):
             res = None
             errors = []
             if len(args) == 0:
-                raise ValueError(f"len args 0 for  {node.node_name} ")
+                args = [()]
+                # raise ValueError(f"len args 0 for  {node.node_name} ")
             run = False
             for a in args:
                 try:
@@ -292,11 +430,13 @@ class TestNodes(unittest.IsolatedAsyncioTestCase):
                         *a,
                     )
                     run = True
+                    self.nodes_to_test.remove(node)
+                    break
                 except Exception as e:
                     errors.append((str(e), a))
-            if res is None:
+            if not run:
                 print(types)
-                print(errors)
+                errors = "\n".join([f"{e[0]} with {e[1]}" for e in errors])
                 raise Exception(
                     f"Failed to run {node.node_name} with types {types}:\n {errors} \n {run}"
                 )
