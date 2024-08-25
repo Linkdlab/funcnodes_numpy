@@ -445,7 +445,7 @@ def frombuffer(
     # like: Optional[array_like] = None,
 ):  # params ['buffer'] ['dtype', 'count', 'offset', 'like'] []
     res = numpy.frombuffer(
-        buffer=buffer_like,
+        buffer=buffer,
         dtype=dtype_from_name(dtype),
         count=count,
         offset=offset,
@@ -494,25 +494,25 @@ def from_dlpack(
 #     return res
 
 
-@fn.NodeDecorator(
-    node_id="np.fromfunction",
-    name="fromfunction",
-    outputs=[{"name": "fromfunction", "type": "ndarray_or_number"}],
-)
-@wraps(numpy.fromfunction, wrapper_attribute="__fnwrapped__")
-def fromfunction(
-    function: Callable,
-    shape: shape_like,
-    dtype: DTYPE_ENUM = DTYPE_ENUM.float32,
-    # like: Optional[array_like] = None,
-):  # params ['function', 'shape'] ['dtype', 'like'] []
-    res = numpy.fromfunction(
-        function=function,
-        shape=shape,
-        dtype=dtype_from_name(dtype),
-        # like=like,
-    )
-    return res
+# @fn.NodeDecorator(
+#     node_id="np.fromfunction",
+#     name="fromfunction",
+#     outputs=[{"name": "fromfunction", "type": "ndarray_or_number"}],
+# )
+# @wraps(numpy.fromfunction, wrapper_attribute="__fnwrapped__")
+# def fromfunction(
+#     function: Callable,
+#     shape: shape_like,
+#     dtype: DTYPE_ENUM = DTYPE_ENUM.float32,
+#     # like: Optional[array_like] = None,
+# ):  # params ['function', 'shape'] ['dtype', 'like'] []
+#     res = numpy.fromfunction(
+#         function=function,
+#         shape=shape,
+#         dtype=dtype_from_name(dtype),
+#         # like=like,
+#     )
+#     return res
 
 
 @fn.NodeDecorator(
@@ -833,25 +833,25 @@ def bmat(
     return res
 
 
-@fn.NodeDecorator(
-    node_id="np.copyto",
-    name="copyto",
-    outputs=[],
-)
-@wraps(numpy.copyto, wrapper_attribute="__fnwrapped__")
-def copyto(
-    dst: ndarray,
-    src: array_like,
-    # casting: casting_literal = "same_kind",
-    # where: Union[bool_array, bool] = True,
-):  # params ['dst', 'src'] ['casting', 'where'] []
-    res = numpy.copyto(
-        dst=dst,
-        src=src,
-        # casting=casting,
-        # where=where,
-    )
-    return res
+# @fn.NodeDecorator(
+#     node_id="np.copyto",
+#     name="copyto",
+#     outputs=[],
+# )
+# @wraps(numpy.copyto, wrapper_attribute="__fnwrapped__")
+# def copyto(
+#     dst: ndarray,
+#     src: array_like,
+#     # casting: casting_literal = "same_kind",
+#     # where: Union[bool_array, bool] = True,
+# ):  # params ['dst', 'src'] ['casting', 'where'] []
+#     res = numpy.copyto(
+#         dst=dst,
+#         src=src,
+#         # casting=casting,
+#         # where=where,
+#     )
+#     return res
 
 
 @fn.NodeDecorator(
@@ -913,7 +913,7 @@ def reshape(
     # order: Optional[Literal["C", "F", "A"]] = "C",
 ):  # params ['a', 'newshape'] ['order'] []
     res = numpy.reshape(
-        a=a,
+        a,
         newshape=newshape,
         # order=order,
     )
@@ -1674,8 +1674,8 @@ def resize(
     new_shape: shape_like,
 ):  # params ['a', 'new_shape'] [] []
     res = numpy.resize(
-        a=a,
-        new_shape=new_shape,
+        a.copy(),
+        new_shape,
     )
     return res
 
@@ -1864,7 +1864,7 @@ def unpackbits(
     bitorder: Optional[Literal["big", "little"]] = "big",
 ):  # params ['a'] ['axis', 'count', 'bitorder'] []
     res = numpy.unpackbits(
-        a=a,
+        a,
         axis=axis,
         count=count,
         bitorder=bitorder,
@@ -3190,9 +3190,11 @@ def average(
         a=a,
         axis=axis,
         weights=weights,
+        returned=True,
         # returned=returned,
         # keepdims=keepdims,
     )
+    print("AAA", res)
     return res
 
 
@@ -3590,9 +3592,11 @@ def where(
     x: Optional[array_like] = None,
     y: Optional[array_like] = None,
 ):
+    args = condition
+    if x is not None and y is not None:
+        args += (x, y)
+
     res = numpy.where(
-        condition=condition,
-        x=x,
-        y=y,
+        *args,
     )
     return res
