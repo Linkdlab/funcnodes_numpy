@@ -330,6 +330,26 @@ def bitwise_and(
 
 
 @fn.NodeDecorator(
+    node_id="np.bitwise_count",
+    name="bitwise_count",
+    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
+)
+@wraps(numpy.bitwise_count, wrapper_attribute="__fnwrapped__")
+def bitwise_count(
+    x: int_bool_array,
+    # out: Optional[ndarray] = None,
+    # where: Union[bool_array, bool] = True,
+    # casting: casting_literal = "same_kind",
+    # order: OrderKACF = "K",
+    # dtype: Optional[DTYPE_ENUM] = None,
+    # subok: bool = True,
+    # signature: Any = None,
+    # extobj: Any = None,
+):
+    return numpy.bitwise_count(x)
+
+
+@fn.NodeDecorator(
     node_id="np.bitwise_or",
     name="bitwise_or",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
@@ -1158,23 +1178,23 @@ def frexp(
     return res
 
 
-@fn.NodeDecorator(
-    node_id="np.frompyfunc",
-    name="frompyfunc",
-    outputs=[{"name": "ufunc", "type": "Ufunc"}],
-)
-@wraps(numpy.frompyfunc, wrapper_attribute="__fnwrapped__")
-def frompyfunc(
-    func: Callable,
-    nin: int,
-    nout: int,
-):
-    res = numpy.frompyfunc(
-        func,
-        nin=nin,
-        nout=nout,
-    )
-    return res
+# @fn.NodeDecorator(
+#     node_id="np.frompyfunc",
+#     name="frompyfunc",
+#     outputs=[{"name": "ufunc", "type": "Ufunc"}],
+# )
+# @wraps(numpy.frompyfunc, wrapper_attribute="__fnwrapped__")
+# def frompyfunc(
+#     func: Callable,
+#     nin: int,
+#     nout: int,
+# ):
+#     res = numpy.frompyfunc(
+#         func,
+#         nin=nin,
+#         nout=nout,
+#     )
+#     return res
 
 
 @fn.NodeDecorator(
@@ -2902,6 +2922,7 @@ NODE_SHELF = fn.Shelf(
         arctan2,
         arctanh,
         bitwise_and,
+        bitwise_count,
         bitwise_or,
         bitwise_xor,
         cbrt,

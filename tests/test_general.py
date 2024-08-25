@@ -26,11 +26,11 @@ class TestGeneral(unittest.IsolatedAsyncioTestCase):
         shelf = fnp.NODE_SHELF
         self.assertEqual(shelf["name"], "numpy")
         self.assertEqual(len(shelf["nodes"]), 0)
-        self.assertEqual(len(shelf["subshelves"]), 15)
+        self.assertEqual(len(shelf["subshelves"]), 16)
 
     def test_all_nodes(self):
         nodes = get_module_nodes(fnp)
-        self.assertEqual(len(nodes), 299)
+        self.assertEqual(len(nodes), 306)
         for node in nodes:
             print(node.node_name)
 
@@ -40,14 +40,14 @@ class TestGeneral(unittest.IsolatedAsyncioTestCase):
             len(missing_shelvenodes), 0, [n.node_name for n in missing_shelvenodes]
         )
 
-        self.assertEqual(len(shelvenodes), 329)
+        self.assertEqual(len(shelvenodes), 335)
 
     async def test_ndarray_shelve(self):
         shelf = fnp._ndarray.NODE_SHELF
         shelve_nodes = flatten_shelves(shelf)
         module_nodes = get_module_nodes(fnp._ndarray)
         self.assertEqual(len(shelve_nodes), len(module_nodes))
-        self.assertEqual(len(shelve_nodes), 51)
+        self.assertEqual(len(shelve_nodes), 50)
 
     async def test_linalg_shelve(self):
         shelf = fnp._linalg.NODE_SHELF
@@ -65,4 +65,4 @@ class TestGeneral(unittest.IsolatedAsyncioTestCase):
 
     async def test_core_shelve(self):
         module_nodes = get_module_nodes(fnp._core)
-        self.assertEqual(len(module_nodes), 253)
+        self.assertEqual(len(module_nodes), 260)

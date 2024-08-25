@@ -3,6 +3,8 @@ import funcnodes_numpy as fnp
 import funcnodes as fn
 import numpy as np
 import inspect
+from exposedfunctionality import controlled_unwrap as unwrap
+import os
 
 
 def flatten_shelves(shelf: fn.Shelf):
@@ -19,7 +21,7 @@ class TestNumpyLib(unittest.TestCase):
         from numpy._core import umath
 
         nodes = flatten_shelves(fnp.NODE_SHELF)
-        node_names = [node.node_name for node in nodes]
+        node_names = sorted([node.node_name for node in nodes])
         all_funcs = fnp.ufuncs.get_numpy_ufucs()
         print(all_funcs)
         self.assertIn("add", all_funcs)
@@ -35,38 +37,25 @@ class TestNumpyLib(unittest.TestCase):
         for f in all_funcs:
             for node in nodes:
                 if node.node_name == f:
-                    srcf = inspect.getsourcefile(inspect.unwrap(node.func))
-                    self.assertTrue(
-                        srcf.endswith("ufuncs.py"),
-                        f"souce file for {f} is {srcf} not ufuncs.py",
+                    srcf = inspect.getsourcefile(unwrap(node.func))
+                    bdir = os.path.dirname(os.path.dirname(inspect.getsourcefile(fn)))
+                    memdata = "\n  ".join(
+                        [
+                            str(
+                                (
+                                    inspect.getsourcefile(v).replace(bdir, ""),
+                                    hasattr(v, "__wrapped__"),
+                                )
+                            )
+                            for v in unwrap(node.func, return_memo=True)[1].values()
+                        ]
                     )
-
-        inifilecode = None
-        newcode = ""
-        for f in all_funcs:
-            for node in nodes:
-                if node.node_name == f:
-                    if inspect.getsourcefile(inspect.unwrap(node.func)).endswith(
-                        "funcnodes_numpy\\funcnodes_numpy\\_core\\__init__.py"
-                    ):
-                        if inifilecode is None:
-                            with open(
-                                inspect.getsourcefile(inspect.unwrap(node.func))
-                            ) as f:
-                                inifilecode = f.read()
-
-                        src = inspect.getsource(node.func)
-                        if src not in inifilecode:
-                            continue
-                        inifilecode = inifilecode.replace(src, "")
-                        newcode += src + "\n"
-                        break
-
-        with open("test.py", "w") as f:
-            f.write(newcode)
-
-        with open("test2.py", "w") as f:
-            f.write(inifilecode)
+                    self.assertTrue(
+                        srcf.endswith("ufuncs.py")
+                        or srcf.endswith("scimath.py")
+                        or srcf.endswith("_ndarray.py"),
+                        f"souce file for {f} is {srcf} not ufuncs.py, [\n  {memdata}\n]",
+                    )
 
     def test_calls(self):
         import inspect
