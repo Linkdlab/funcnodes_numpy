@@ -327,9 +327,10 @@ def itemset(
     pos: axis_like,
     value: float,
 ):
-    pos = numpy.atleast_1d(pos)
-    res = a.itemset(*pos, value)
-    return res
+    arr = numpy.atleast_1d(a).copy()
+    arr = numpy.array(a)
+    arr[pos] = value
+    return arr
 
 
 @fn.NodeDecorator(
@@ -386,8 +387,7 @@ def newbyteorder(
     a: ndarray,
     new_order: Literal["S", "<", ">", "=", "|"] = "S",
 ):
-    res = a.newbyteorder(new_order)
-    return res
+    return a.view(a.dtype.newbyteorder(new_order)).copy()
 
 
 @fn.NodeDecorator(
@@ -429,20 +429,6 @@ def prod(
     axis: Optional[axis_like] = None,
 ):
     res = a.prod(axis)
-    return res
-
-
-@fn.NodeDecorator(
-    node_id="np.a.ptp",
-    name="ptp",
-    outputs=[{"name": "out", "type": "Union[float,int, ndarray]"}],
-)
-@wraps(numpy.ndarray.ptp, wrapper_attribute="__fnwrapped__")
-def ptp(
-    a: ndarray,
-    axis: Optional[axis_like] = None,
-):
-    res = a.ptp(axis)
     return res
 
 
@@ -516,7 +502,7 @@ def resize(
     a: ndarray,
     new_shape: shape_like,
 ):
-    a.resize(new_shape)
+    a.copy().resize(new_shape)
     return a
 
 
@@ -702,7 +688,7 @@ def transpose(
     a: ndarray,
     axes: Optional[List[int]] = None,
 ):
-    res = a.transpose(*axes)
+    res = a.transpose(axes)
     return res
 
 
@@ -766,7 +752,6 @@ NODE_SHELF = fn.Shelf(
         nonzero,
         partition,
         prod,
-        ptp,
         put,
         ravel,
         repeat,

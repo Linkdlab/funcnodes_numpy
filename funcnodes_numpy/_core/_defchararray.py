@@ -11,7 +11,7 @@ from .._types import str_array
     name="array",
     outputs=[],
 )
-@wraps(numpy.char.array)
+@wraps(numpy.char.array, wrapper_attribute="__fnwrapped__")
 def chararray(
     obj: str_array,
     itemsize: Optional[int] = None,
@@ -34,7 +34,7 @@ def chararray(
     name="asarray",
     outputs=[],
 )
-@wraps(numpy.char.asarray)
+@wraps(numpy.char.asarray, wrapper_attribute="__fnwrapped__")
 def aschararray(
     obj: str_array,
     itemsize: Optional[int],

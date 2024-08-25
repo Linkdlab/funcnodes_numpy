@@ -9,7 +9,7 @@ import funcnodes as fn
     name="sqrt",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.emath.sqrt)
+@wraps(numpy.emath.sqrt, wrapper_attribute="__fnwrapped__")
 def sqrt(
     x: ndarray_or_scalar,
 ):  # params ['x'] [] []
@@ -24,7 +24,7 @@ def sqrt(
     name="log",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.emath.log)
+@wraps(numpy.emath.log, wrapper_attribute="__fnwrapped__")
 def log(
     x: ndarray_or_scalar,
 ):  # params ['x'] [] []
@@ -39,7 +39,7 @@ def log(
     name="log2",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.emath.log2)
+@wraps(numpy.emath.log2, wrapper_attribute="__fnwrapped__")
 def log2(
     x: ndarray_or_scalar,
 ):  # params ['x'] [] []
@@ -54,7 +54,7 @@ def log2(
     name="logn",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.emath.logn)
+@wraps(numpy.emath.logn, wrapper_attribute="__fnwrapped__")
 def logn(
     n: int,
     x: ndarray_or_scalar,
@@ -71,7 +71,7 @@ def logn(
     name="log10",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.emath.log10)
+@wraps(numpy.emath.log10, wrapper_attribute="__fnwrapped__")
 def log10(
     x: ndarray_or_scalar,
 ):  # params ['x'] [] []
@@ -86,7 +86,7 @@ def log10(
     name="power",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.emath.power)
+@wraps(numpy.emath.power, wrapper_attribute="__fnwrapped__")
 def power(
     x: ndarray_or_scalar,
     p: ndarray_or_scalar,
@@ -103,7 +103,7 @@ def power(
     name="arccos",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.emath.arccos)
+@wraps(numpy.emath.arccos, wrapper_attribute="__fnwrapped__")
 def arccos(
     x: ndarray_or_scalar,
 ):  # params ['x'] [] []
@@ -118,7 +118,7 @@ def arccos(
     name="arcsin",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.emath.arcsin)
+@wraps(numpy.emath.arcsin, wrapper_attribute="__fnwrapped__")
 def arcsin(
     x: ndarray_or_scalar,
 ):  # params ['x'] [] []
@@ -133,7 +133,7 @@ def arcsin(
     name="arctanh",
     outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.emath.arctanh)
+@wraps(numpy.emath.arctanh, wrapper_attribute="__fnwrapped__")
 def arctanh(
     x: ndarray_or_scalar,
 ):  # params ['x'] [] []

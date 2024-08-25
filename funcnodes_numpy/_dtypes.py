@@ -144,6 +144,11 @@ DTYPE_NAME_MAP: Dict[dtype_name_literal, np.dtype] = {
     **{dtype.name: dtype for dtype in dtypes},
 }
 
+import exposedfunctionality.function_parser.types as exf_types
+
+for k, v in DTYPE_NAME_MAP.items():
+    exf_types.add_type(v, k)
+
 
 def dtype_from_name(name: Union[DTYPE_ENUM, dtype_name_literal, np.dtype]) -> np.dtype:
     if isinstance(name, np.dtype):
