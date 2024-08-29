@@ -1,5 +1,5 @@
 import numpy
-from typing import Callable, Optional
+from typing import Optional
 from exposedfunctionality import controlled_wrapper as wraps
 import funcnodes as fn
 from .._types import (
@@ -10,6 +10,7 @@ from .._types import (
     ndarray_or_scalar,
     int_or_int_array,
 )
+from funcnodes_numpy._version import np_version
 from .._dtypes import dtype_from_name, DTYPE_ENUM
 
 
@@ -329,24 +330,26 @@ def bitwise_and(
     return res
 
 
-@fn.NodeDecorator(
-    node_id="np.bitwise_count",
-    name="bitwise_count",
-    outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
-)
-@wraps(numpy.bitwise_count, wrapper_attribute="__fnwrapped__")
-def bitwise_count(
-    x: int_bool_array,
-    # out: Optional[ndarray] = None,
-    # where: Union[bool_array, bool] = True,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    # dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):
-    return numpy.bitwise_count(x)
+if np_version["major_int"] >= 2:
+
+    @fn.NodeDecorator(
+        node_id="np.bitwise_count",
+        name="bitwise_count",
+        outputs=[{"name": "out", "type": "ndarray_or_scalar"}],
+    )
+    @wraps(numpy.bitwise_count, wrapper_attribute="__fnwrapped__")
+    def bitwise_count(
+        x: int_bool_array,
+        # out: Optional[ndarray] = None,
+        # where: Union[bool_array, bool] = True,
+        # casting: casting_literal = "same_kind",
+        # order: OrderKACF = "K",
+        # dtype: Optional[DTYPE_ENUM] = None,
+        # subok: bool = True,
+        # signature: Any = None,
+        # extobj: Any = None,
+    ):
+        return numpy.bitwise_count(x)
 
 
 @fn.NodeDecorator(
@@ -2922,7 +2925,6 @@ NODE_SHELF = fn.Shelf(
         arctan2,
         arctanh,
         bitwise_and,
-        bitwise_count,
         bitwise_or,
         bitwise_xor,
         cbrt,
@@ -3004,6 +3006,7 @@ NODE_SHELF = fn.Shelf(
         tanh,
         true_divide,
         trunc,
-    ],
+    ]
+    + ([bitwise_count] if np_version["major_int"] >= 2 else []),
     subshelves=[],
 )

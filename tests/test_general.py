@@ -1,7 +1,6 @@
 import unittest
 import funcnodes_numpy as fnp
-from pprint import pprint
-import numpy as np
+
 import funcnodes as fn
 
 
@@ -30,7 +29,12 @@ class TestGeneral(unittest.IsolatedAsyncioTestCase):
 
     def test_all_nodes(self):
         nodes = get_module_nodes(fnp)
-        self.assertEqual(len(nodes), 306)
+        exp = 306
+        exp_shelfnodes = 335
+        if fnp.np_version["major_int"] < 2:
+            exp -= 1
+            exp_shelfnodes -= 1
+        self.assertEqual(len(nodes), exp)
         for node in nodes:
             print(node.node_name)
 
@@ -40,7 +44,7 @@ class TestGeneral(unittest.IsolatedAsyncioTestCase):
             len(missing_shelvenodes), 0, [n.node_name for n in missing_shelvenodes]
         )
 
-        self.assertEqual(len(shelvenodes), 335)
+        self.assertEqual(len(shelvenodes), exp_shelfnodes)
 
     async def test_ndarray_shelve(self):
         shelf = fnp._ndarray.NODE_SHELF
@@ -64,5 +68,8 @@ class TestGeneral(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(len(shelve_nodes), 9)
 
     async def test_core_shelve(self):
+        exp_nodes = 260
+        if fnp.np_version["major_int"] < 2:
+            exp_nodes -= 1
         module_nodes = get_module_nodes(fnp._core)
-        self.assertEqual(len(module_nodes), 260)
+        self.assertEqual(len(module_nodes), exp_nodes)
