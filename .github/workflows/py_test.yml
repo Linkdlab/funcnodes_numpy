@@ -26,7 +26,9 @@ jobs:
           python_version: ${{ matrix.python-version }}
 
       - name: specify numpy version
-        run: poetry add numpy@${{ matrix.numpy-version }}
+        run: |
+          source .venv/bin/activate
+          poetry add numpy@${{ matrix.numpy-version }}
 
       - name: Run Tests
         run: poetry run pytest
