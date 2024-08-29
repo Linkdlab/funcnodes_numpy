@@ -1,12 +1,13 @@
 import funcnodes as fn
 
+from ._version import np_version, version
 
-from ._core import *
+from ._core import *  # noqa F401
 
 
-from ._lib import *
-from ._linalg import *
-from ._ndarray import *
+from ._lib import *  # noqa F401
+from ._linalg import *  # noqa F401
+from ._ndarray import *  # noqa F401
 
 
 from ._ndarray import NODE_SHELF as NODE_SHELF_ndarray
@@ -19,15 +20,15 @@ from . import _linalg as linalg
 from . import _ndarray as ndarray
 from ._core._defchararray import NODE_SHELF as CHAR_NODE_SHELF
 from .constants import NODE_SHELF as CONSTANTS_NODE_SHELF
-from . import _types
+from . import _types  # noqa: F401
 
-from ._dtypes import DTYPE_ENUM
+from ._dtypes import DTYPE_ENUM  # noqa: F401
 
 from exposedfunctionality.function_parser.types import type_to_string
 
 import numpy as np
 
-__version__ = "0.2.1"
+__version__ = version
 
 
 # set the print options to display a smaller number of elements for node previews
@@ -422,12 +423,18 @@ BITWISE_OPERATIONS_SHELF = fn.Shelf(
         core.bitwise_and,
         core.bitwise_or,
         core.bitwise_xor,
-        core.bitwise_count,
         core.invert,
         core.left_shift,
         core.right_shift,
         core.packbits,
-    ],
+    ]
+    + (
+        [
+            core.bitwise_count,
+        ]
+        if np_version["major_int"] >= 2
+        else []
+    ),
     subshelves=[],
 )
 
