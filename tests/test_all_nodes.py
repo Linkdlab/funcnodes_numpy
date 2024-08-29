@@ -13,6 +13,7 @@ samplemap = {
         np.arange(2 * 2 * 2).reshape(2, 2, 2),
         np.array([1, 2, 3], dtype=np.float32),
         np.array([[2], [7], [23]], dtype=np.uint8),
+        np.array([1 + 2j, 3 + 4j]),
     ],
     "Union[bool, complex, float, int, ndarray, str]": lambda: [
         True,
@@ -55,7 +56,10 @@ samplemap = {
         np.array([1, 2, 3]),
         np.array([1, 2, 3, 4]).reshape(2, 2),
     ],
-    "Union[numpy._typing._array_like._SupportsArray, numpy._typing._nested_sequence._NestedSequence, numpy._typing._nested_sequence._NestedSequence, str]": lambda: [
+    (
+        "Union[numpy._typing._array_like._SupportsArray, numpy._typing._nested_sequence._NestedSequence, "
+        "numpy._typing._nested_sequence._NestedSequence, str]"
+    ): lambda: [
         np.array([1, 2, 3]),
         [[1, 2, 3]],
         [[[1, 2, 3]]],
@@ -195,7 +199,10 @@ samplemap = {
     "Any": lambda: [1, 1.0, "str", True],
     "Literal['S', '<', '>', '=', '|']": lambda: ["S", "<", ">", "=", "|"],
     "typing.Iterable": lambda: [[1, 2, 3]],
-    "Literal['constant', 'edge', 'linear_ramp', 'maximum', 'mean', 'median', 'minimum', 'reflect', 'symmetric', 'wrap', 'empty']": lambda: [
+    (
+        "Literal['constant', 'edge', 'linear_ramp', 'maximum', 'mean', 'median', 'minimum', "
+        "'reflect', 'symmetric', 'wrap', 'empty']"
+    ): lambda: [
         "constant",
         "edge",
         "linear_ramp",
@@ -309,7 +316,10 @@ samplemap = {
         np.array([1, 2, 3]),
         np.array([1, 2, 3, 4]).reshape(2, 2),
     ],
-    "Union[numpy._typing._array_like._SupportsArray, numpy._typing._nested_sequence._NestedSequence, str, numpy._typing._nested_sequence._NestedSequence]": lambda: [
+    (
+        "Union[numpy._typing._array_like._SupportsArray, numpy._typing._nested_sequence._NestedSequence, "
+        "str, numpy._typing._nested_sequence._NestedSequence]"
+    ): lambda: [
         np.array([1, 2, 3]),
         [[1, 2, 3]],
         [[[1, 2, 3]]],
@@ -388,11 +398,13 @@ class TestLocalTypes(unittest.IsolatedAsyncioTestCase):
 
 
 class TestAllNodes(TestAllNodesBase):
-    ### in this test class all nodes should be triggered at least once to mark them as testing
+    # in this test class all nodes should be triggered at least once to mark them as testing
     async def test_nodes(self):
         # shelvenodes = flatten_shelves(fnp.NODE_SHELF)
-
+        skip = [fnp.clip]
         for node in self.all_nodes:
+            if node in skip:
+                continue
             ins = node()
             exf = node.func.ef_funcmeta
 
@@ -418,7 +430,7 @@ class TestAllNodes(TestAllNodesBase):
                     args = newargs
                 else:
                     kwargs[ip["name"]] = samplemap[ip["type"]]()[0]
-            res = None
+
             errors = []
             if len(args) == 0:
                 args = [()]
@@ -426,7 +438,7 @@ class TestAllNodes(TestAllNodesBase):
             run = False
             for a in args:
                 try:
-                    res = await ins.func(
+                    _ = await ins.func(
                         *a,
                     )
                     run = True
@@ -441,5 +453,10 @@ class TestAllNodes(TestAllNodesBase):
                     f"Failed to run {node.node_name} with types {types}:\n {errors} \n {run}"
                 )
 
+    async def test_clip(self):
+        node = fnp.clip()
+        node.inputs["a"].value = np.array([0, 1, 2, 3])
+        node.inputs["a_min"].value = 1
+        await node
 
-np.test("full")
+        self.assertTrue(np.all(node.outputs["out"].value == np.array([1, 1, 2, 3])))
