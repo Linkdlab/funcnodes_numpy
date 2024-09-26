@@ -1,5 +1,5 @@
 import numpy
-from typing import Optional, TYPE_CHECKING
+from typing import Optional
 from exposedfunctionality import controlled_wrapper as wraps
 import funcnodes as fn
 
@@ -8,8 +8,7 @@ from .._types import str_array
 
 @fn.NodeDecorator(
     node_id="np.char.array",
-    name="array",
-    outputs=[],
+    name="chararray",
 )
 @wraps(numpy.char.array, wrapper_attribute="__fnwrapped__")
 def chararray(
@@ -32,7 +31,6 @@ def chararray(
 @fn.NodeDecorator(
     node_id="np.char.asarray",
     name="asarray",
-    outputs=[],
 )
 @wraps(numpy.char.asarray, wrapper_attribute="__fnwrapped__")
 def aschararray(
