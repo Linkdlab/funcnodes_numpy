@@ -326,17 +326,17 @@ licensecheck = {version = ">=2024.3", markers = "python_version >= \"3.11\" and 
 
 [[package]]
 name = "funcnodes-react-flow"
-version = "0.1.9"
+version = "0.1.11"
 description = "funcnodes frontend for react flow"
 optional = false
 python-versions = ">=3.11"
 files = [
-    {file = "funcnodes_react_flow-0.1.9-py3-none-any.whl", hash = "sha256:71f12e814de259e24b8d8dbf3d2b74993652bf7aec96f091c0b968e21d5f3aba"},
-    {file = "funcnodes_react_flow-0.1.9.tar.gz", hash = "sha256:4e1b6f7c5b053069cd4855324f9ded3015e581af09e457185c9ad15c0bf28c67"},
+    {file = "funcnodes_react_flow-0.1.11-py3-none-any.whl", hash = "sha256:c2dd6bf55693b6519134c6d1fa21168c49e08e2de4aaa9624792de7d404c4f86"},
+    {file = "funcnodes_react_flow-0.1.11.tar.gz", hash = "sha256:a58525008322dd828b32b571b7025d0436ea5673b206db15a71d87cd79c3e028"},
 ]
 
 [package.dependencies]
-funcnodes = "*"
+funcnodes = ">=0.4.11"
 
 [[package]]
 name = "identify"
