@@ -9,7 +9,7 @@ This library enables **no-code** workflows for **numpy** by providing drag-and-d
 Install the package with:
 
 ```bash
-pip install funcnodes-pandas
+pip install funcnodes-numpy
 ```
 
 ## Getting Started
