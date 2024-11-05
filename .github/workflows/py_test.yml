@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
-        numpy-version: ["numpy<=1.99", "numpy>=2.0"]
+        numpy-version: ["numpy=^1", "numpy=^2"]
         os: [ubuntu-latest, windows-latest, macOS-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -26,7 +26,7 @@ jobs:
           python_version: ${{ matrix.python-version }}
 
       - name: Install Numpy
-        run: poetry run pip install "${{ matrix.numpy-version }}" --upgrade
+        run: poetry add ${{ matrix.numpy-version }}
 
       - name: Run Tests
         run: poetry run pytest
