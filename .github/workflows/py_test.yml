@@ -26,6 +26,7 @@ jobs:
           python_version: ${{ matrix.python-version }}
 
       - name: Install Numpy Windows
+        shell: cmd
         run: poetry run pip install "numpy${{ matrix.numpy-version }}" --upgrade
         if: runner.os == 'Windows'
 
