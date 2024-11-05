@@ -1,15 +1,5 @@
 import funcnodes as fn
-from typing import (
-    Union,
-    List,
-    Optional,
-    Iterable,
-    Tuple,
-    Sequence,
-    Literal,
-    Any,
-    Callable,
-)
+from typing import Union, List, Optional, Iterable, Tuple, Sequence, Literal
 
 from exposedfunctionality import controlled_wrapper as wraps
 import numpy
@@ -29,11 +19,11 @@ from .._types import (
     NoValue,
     buffer_like,
 )
-from ._fromnumeric import *
-from ._multiarray import *
-from ._defchararray import *
-from ._datetime import *
-from .ufuncs import *
+from ._fromnumeric import *  # noqa
+from ._multiarray import *  # noqa
+from ._defchararray import *  # noqa
+from ._datetime import *  # noqa
+from .ufuncs import *  # noqa
 
 
 @fn.NodeDecorator(
@@ -2954,9 +2944,9 @@ def clip(
 def nan_to_num(
     x: ndarray_or_scalar,
     copy: Optional[bool] = True,
-    nan: Union[int, float] = 0.0,
-    posinf: Union[int, float, None] = None,
-    neginf: Union[int, float, None] = None,
+    nan: Union[float, int] = 0.0,
+    posinf: Union[float, int, None] = None,
+    neginf: Union[float, int, None] = None,
 ):  # params ['x'] ['copy', 'nan', 'posinf', 'neginf'] []
     res = numpy.nan_to_num(
         x,
