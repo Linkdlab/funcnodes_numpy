@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
-        numpy-version: ["<2.0", ">=2.0"]
+        numpy-version: ["numpy<=1.99", "numpy>=2.0"]
         os: [ubuntu-latest, windows-latest, macOS-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -25,14 +25,8 @@ jobs:
         with:
           python_version: ${{ matrix.python-version }}
 
-      - name: Install Numpy Windows
-        shell: cmd
-        run: poetry run pip install "numpy${{ matrix.numpy-version }}" --upgrade
-        if: runner.os == 'Windows'
-
-      - name: Install Numpy not Windows
-        run: poetry run pip install "numpy${{ matrix.numpy-version }}" --upgrade
-        if: runner.os != 'Windows'
+      - name: Install Numpy
+        run: poetry run pip install "${{ matrix.numpy-version }}" --upgrade
 
       - name: Run Tests
         run: poetry run pytest
