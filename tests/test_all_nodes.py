@@ -367,17 +367,9 @@ samplemap["Union[float, Literal['fro', 'nuc'], None]"] = samplemap[
 samplemap["Union[int, float, None]"] = samplemap["Union[None, float, int]"]
 
 
-def flatten_shelves(shelf: fn.Shelf):
-    nodes = shelf["nodes"].copy()
-    subshelves = shelf["subshelves"]
-    for subshelf in subshelves:
-        nodes.extend(flatten_shelves(subshelf))
-    return set(nodes)
-
-
 class TestLocalTypes(unittest.IsolatedAsyncioTestCase):
     async def test_missing_types(self):
-        shelvenodes = flatten_shelves(fnp.NODE_SHELF)
+        shelvenodes, _ = fn.flatten_shelf(fnp.NODE_SHELF)
         missing_types = set()
         missing_nodes = set()
         for node in shelvenodes:
