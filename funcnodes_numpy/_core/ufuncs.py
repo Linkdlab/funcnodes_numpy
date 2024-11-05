@@ -1556,7 +1556,6 @@ def lcm(
 def ldexp(
     x1: array_like,
     x2: array_like,
-    int,
     # out: Optional[ndarray] = None,
     # where: Union[bool_array, bool] = True,
     # casting: casting_literal = "same_kind",
