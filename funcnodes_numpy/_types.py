@@ -4,13 +4,13 @@ from typing import TYPE_CHECKING
 
 import exposedfunctionality.function_parser.types as exf_types
 
-scalar = Union[int, float]
-exf_types.add_type(Union[int, float], "scalar")
+scalar = Union[float, int]
+exf_types.add_type(Union[float, int], "scalar")
 # exf_types.add_type(scalar, "scalar")
-number = Union[complex, int, float]
-exf_types.add_type(Union[complex, int, float], "number")
-basic_types = Union[int, float, complex, str, bool]
-exf_types.add_type(Union[int, float, complex, str, bool], "basic_types")
+number = Union[complex, float, int]
+exf_types.add_type(Union[complex, float, int], "number")
+basic_types = Union[float, int, complex, str, bool]
+exf_types.add_type(Union[float, int, complex, str, bool], "basic_types")
 # exf_types.add_type(number, "number")
 
 ndarray_or_scalar = Union[
@@ -63,7 +63,7 @@ exf_types.add_type(int_bool_array, "int_bool_array")
 
 int_or_int_array = Union[int, int_array]
 exf_types.add_type(int_or_int_array, "int_or_int_array")
-##exf_types.add_type(int_or_int_array, "int_or_int_array")
+# exf_types.add_type(int_or_int_array, "int_or_int_array")
 
 real_array = ndarray
 exf_types.add_type(real_array, "real_array")
@@ -93,7 +93,7 @@ if TYPE_CHECKING:
 else:
     str_array = numpy._typing._ArrayLikeStr_co
     exf_types.add_type(str_array, "str_array")
-##exf_types.add_type(str_array, "str_array")
+# exf_types.add_type(str_array, "str_array")
 
 UNSET = object()
 NoValue = numpy._NoValue
