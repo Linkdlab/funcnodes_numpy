@@ -6,21 +6,17 @@ import inspect
 from exposedfunctionality import controlled_unwrap as unwrap
 import os
 
+from exposedfunctionality import controlled_wrapper as wraps
 
-def flatten_shelves(shelf: fn.Shelf):
-    nodes = shelf["nodes"].copy()
-    subshelves = shelf["subshelves"]
-    for subshelf in subshelves:
-        nodes.extend(flatten_shelves(subshelf))
-    return set(nodes)
+
+@wraps(np.e, wrapper_attribute="__fnwrapped__")
+def testf():
+    return 1
 
 
 class TestNumpyLib(unittest.TestCase):
     def test_ufunc_completness(self):
-        from numpy import _core as np_core
-        from numpy._core import umath
-
-        nodes = flatten_shelves(fnp.NODE_SHELF)
+        nodes, _ = fn.flatten_shelf(fnp.NODE_SHELF)
         node_names = sorted([node.node_name for node in nodes])
         all_funcs = fnp.ufuncs.get_numpy_ufucs()
         print(all_funcs)
@@ -61,11 +57,3 @@ class TestNumpyLib(unittest.TestCase):
         import inspect
 
         print(inspect.getsource(testf))
-
-
-from exposedfunctionality import controlled_wrapper as wraps
-
-
-@wraps(np.e, wrapper_attribute="__fnwrapped__")
-def testf():
-    return 1

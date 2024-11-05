@@ -1,7 +1,6 @@
 import unittest
 import funcnodes_numpy as fnp
 from typing import Union, List, Literal, TYPE_CHECKING
-from pprint import pprint
 import numpy as np
 import json
 import funcnodes as fn
@@ -23,7 +22,7 @@ def flatten_shelves(shelf: fn.Shelf) -> list[fn.Node]:
 class TestTypes(unittest.TestCase):
     def test_typestrings(self):
         shelf = fnp.NODE_SHELF
-        nodes = flatten_shelves(shelf)
+        nodes, _ = fn.flatten_shelf(shelf)
 
         def _test_typestring(t):
             if isinstance(t, str):
@@ -163,7 +162,8 @@ class TestTypes(unittest.TestCase):
                     np._ArrayLikeStr_co
                     if TYPE_CHECKING
                     else np._typing._ArrayLikeStr_co,
-                    "Union[numpy._typing._array_like._SupportsArray, numpy._typing._nested_sequence._NestedSequence, str, numpy._typing._nested_sequence._NestedSequence]",
+                    "Union[numpy._typing._array_like._SupportsArray, numpy._typing._nested_sequence._NestedSequence, "
+                    "str, numpy._typing._nested_sequence._NestedSequence]",
                 ),  # 22
                 (fnp._types.NoValue, np._NoValue, "<no value>"),  # 23
                 (
