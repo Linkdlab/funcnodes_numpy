@@ -216,10 +216,6 @@ samplemap = {
         "empty",
     ],
     "str": lambda: ["str", "ii", "ij,jk,kl->il", "2005-02-25"],
-    "Union[List[Union[float, int, ndarray]], None]": lambda: [
-        [1.0, 1, np.array([1, 2, 3])],
-        None,
-    ],
     "Union[int, List[int], None]": lambda: [1, [1, 2, 3], None],
     "Union[ndarray, int, List[int]]": lambda: [
         np.array([1, 2, 3]),
@@ -228,16 +224,16 @@ samplemap = {
         [-1, 1],
     ],
     "Union[str, int, ndarray]": lambda: ["str", 1, np.array([1, 2, 3]), "2005-02-25"],
-    "Union[int, float, Tuple[Union[int, float], Union[int, float]]]": lambda: [
+    "Union[float, int, Tuple[Union[float, int], Union[float, int]]]": lambda: [
         1,
         1.0,
         (1, 2),
     ],
-    "Union[List[Union[int, float, ndarray]], None]": lambda: [
+    "Union[List[Union[float, int, ndarray]], None]": lambda: [
         [1, 1.0, np.array([1, 2, 3])],
         None,
     ],
-    "Union[int, float, complex, str, bool, ndarray]": lambda: [
+    "Union[float, int, complex, str, bool, ndarray]": lambda: [
         1,
         1.0,
         1j,
@@ -250,7 +246,7 @@ samplemap = {
         np.datetime64("NaT"),
         np.nan,
     ],
-    "Union[int, float, complex, str, bool, ndarray, None]": lambda: [
+    "Union[float, int, complex, str, bool, ndarray, None]": lambda: [
         1,
         1.0,
         1j,
@@ -264,15 +260,9 @@ samplemap = {
         (1, 2),
         [(1, 2), (3, 4)],
     ],
-    "Sequence[Union[int, float, complex, str, bool, ndarray]]": lambda: [
+    "Sequence[Union[float, int, complex, str, bool, ndarray]]": lambda: [
         [1, 1.0, 1j, "str", True, np.array([1, 2, 3])],
         np.arange(2 * 2 * 2).reshape(2, 2, 2).tolist(),
-    ],
-    "Union[int, float, ndarray]": lambda: [
-        1,
-        1.0,
-        np.array([1, 2, 3]),
-        np.array([1, 2, 3, 4]).reshape(2, 2),
     ],
     "Union[int, ndarray, Tuple[Union[int, ndarray], Union[int, ndarray]]]": lambda: [
         1,
@@ -280,23 +270,7 @@ samplemap = {
         (1, np.array([1, 2, 3])),
         (1, 0),
     ],
-    "Union[complex, int, float, ndarray]": lambda: [
-        1j,
-        1,
-        1.0,
-        np.array([1, 2, 3]),
-        np.array([1, 2, 3, 4]).reshape(2, 2),
-    ],
-    "Union[float, int, complex, str, bool, ndarray, None]": lambda: [
-        1.0,
-        1,
-        1j,
-        "str",
-        True,
-        np.array([1, 2, 3]),
-        None,
-    ],
-    "List[Union[int, float, complex, str, bool, ndarray]]": lambda: [
+    "List[Union[float, int, complex, str, bool, ndarray]]": lambda: [
         [
             1,
             1.0,
@@ -327,7 +301,7 @@ samplemap = {
     ],
 }
 
-samplemap["Union[int, float]"] = samplemap["Union[float, int]"]
+samplemap["Union[float, int]"] = samplemap["Union[float, int]"]
 samplemap["Union[float, None]"] = samplemap["Union[None, float]"]
 samplemap["Union[ndarray, None]"] = samplemap["Union[None, ndarray]"]
 samplemap["Union[dict, None]"] = samplemap["Union[None, dict]"]
@@ -352,19 +326,19 @@ samplemap["Union[funcnodes_numpy._dtypes.DTYPE_ENUM, None]"] = samplemap[
     "Union[None, funcnodes_numpy._dtypes.DTYPE_ENUM]"
 ]
 samplemap["Union[int, Sequence[int]]"] = samplemap["Union[Sequence[int], int]"]
-samplemap["Union[int, float, ndarray, None]"] = samplemap[
+samplemap["Union[float, int, ndarray, None]"] = samplemap[
     "Union[None, float, int, ndarray]"
 ]
-samplemap["List[Union[int, float]]"] = samplemap["List[Union[float, int]]"]
+samplemap["List[Union[float, int]]"] = samplemap["List[Union[float, int]]"]
 samplemap["Union[int, List[int]]"] = samplemap["Union[List[int], int]"]
-samplemap["Union[int, Sequence[Union[int, float]], Sequence[str]]"] = samplemap[
+samplemap["Union[int, Sequence[Union[float, int]], Sequence[str]]"] = samplemap[
     "Union[Sequence[Union[float, int]], Sequence[str], int]"
 ]
 samplemap["Union[str, ndarray]"] = samplemap["Union[ndarray, str]"]
 samplemap["Union[float, Literal['fro', 'nuc'], None]"] = samplemap[
     "Union[Literal['fro', 'nuc'], None, float]"
 ]
-samplemap["Union[int, float, None]"] = samplemap["Union[None, float, int]"]
+samplemap["Union[float, int, None]"] = samplemap["Union[None, float, int]"]
 
 
 class TestLocalTypes(unittest.IsolatedAsyncioTestCase):

@@ -10,7 +10,7 @@ from exposedfunctionality import controlled_wrapper as wraps
 
 
 @wraps(np.e, wrapper_attribute="__fnwrapped__")
-def testf():
+def _testf():
     return 1
 
 
@@ -56,4 +56,4 @@ class TestNumpyLib(unittest.TestCase):
     def test_calls(self):
         import inspect
 
-        print(inspect.getsource(testf))
+        print(inspect.getsource(_testf))

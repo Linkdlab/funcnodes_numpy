@@ -77,11 +77,11 @@ class TestTypes(unittest.TestCase):
                     fnp.DTYPE_ENUM,
                     "funcnodes_numpy._dtypes.DTYPE_ENUM",
                 ),  # 0
-                (fnp._types.scalar, Union[int, float], "Union[int, float]"),  # 1
+                (fnp._types.scalar, Union[float, int], "Union[float, int]"),  # 1
                 (
                     fnp._types.number,
-                    Union[complex, int, float],
-                    "Union[complex, int, float]",
+                    Union[complex, float, int],
+                    "Union[complex, float, int]",
                 ),  # 2
                 (
                     fnp._types.ndarray_or_scalar,
@@ -89,12 +89,12 @@ class TestTypes(unittest.TestCase):
                         fnp._types.scalar,
                         np.ndarray,
                     ],
-                    "Union[int, float, ndarray]",
+                    "Union[float, int, ndarray]",
                 ),  # 3
                 (
                     fnp._types.ndarray_or_number,
                     Union[fnp._types.number, np.ndarray],
-                    "Union[complex, int, float, ndarray]",
+                    "Union[complex, float, int, ndarray]",
                 ),  # 4
                 (
                     fnp._types.indices_or_sections,
@@ -114,8 +114,8 @@ class TestTypes(unittest.TestCase):
                 (fnp._types.ndarray, np.ndarray, "ndarray"),  # 8
                 (
                     fnp._types.array_like,
-                    Union[int, float, complex, str, bool, np.ndarray],
-                    "Union[int, float, complex, str, bool, ndarray]",
+                    Union[float, int, complex, str, bool, np.ndarray],
+                    "Union[float, int, complex, str, bool, ndarray]",
                 ),  # 9
                 (fnp._types.int_array, np.ndarray, "ndarray"),  # 10
                 (fnp._types.bool_array, np.ndarray, "ndarray"),  # 11
