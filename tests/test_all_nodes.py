@@ -299,6 +299,10 @@ samplemap = {
         [[[1, 2, 3]]],
         "str",
     ],
+    "bytes": lambda: [
+        b"\x93NUMPY\x01\x00v\x00{'descr': '<i8', 'fortran_order': False, 'shape': (1,), }"
+        b"                                                            \n\x01\x00\x00\x00\x00\x00\x00\x00",
+    ],
 }
 
 samplemap["Union[float, int]"] = samplemap["Union[float, int]"]

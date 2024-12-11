@@ -21,11 +21,14 @@ class TestGeneral(unittest.IsolatedAsyncioTestCase):
 
     def test_all_nodes(self):
         nodes = get_module_nodes(fnp)
-        exp = 306
-        exp_shelfnodes = 373
+        exp = 308
+        exp_shelfnodes = 376
         if fnp.np_version["major_int"] < 2:
             exp -= 1
             exp_shelfnodes -= 1
+        if fnp.np_version["major_int"] >= 2 and fnp.np_version["minor_int"] >= 2:
+            exp += 3
+            exp_shelfnodes += 3
         self.assertEqual(len(nodes), exp)
         for node in nodes:
             print(node.node_name)
@@ -60,8 +63,10 @@ class TestGeneral(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(len(shelve_nodes), 9)
 
     async def test_core_shelve(self):
-        exp_nodes = 260
+        exp_nodes = 261
         if fnp.np_version["major_int"] < 2:
             exp_nodes -= 1
+        if fnp.np_version["major_int"] >= 2 and fnp.np_version["minor_int"] >= 2:
+            exp_nodes += 3
         module_nodes = get_module_nodes(fnp._core)
         self.assertEqual(len(module_nodes), exp_nodes)

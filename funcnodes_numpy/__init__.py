@@ -4,6 +4,7 @@ from ._version import np_version, version
 
 from ._core import *  # noqa F401
 
+from ._exportation import *  # noqa F401
 
 from ._lib import *  # noqa F401
 from ._linalg import *  # noqa F401
@@ -16,6 +17,7 @@ from ._lib import EMATH_NODE_SHELF
 
 
 from . import _core as core
+from . import _exportation as exportation
 from . import _linalg as linalg
 from . import _ndarray as ndarray
 from ._core._defchararray import NODE_SHELF as CHAR_NODE_SHELF
@@ -107,6 +109,7 @@ ARRAY_CREATION_SHELF = fn.Shelf(
                 core.copy,
                 core.require,
                 core.frombuffer,
+                core.from_npy,
                 # core.fromfunction,
                 core.fromiter,
                 core.fromstring,
@@ -119,6 +122,15 @@ ARRAY_CREATION_SHELF = fn.Shelf(
                 # core.copyto,
                 core.bmat,
                 core.from_dlpack,
+            ],
+            subshelves=[],
+        ),
+        fn.Shelf(
+            name="Exportation",
+            description="Array Exportation",
+            nodes=[
+                exportation.to_npy,
+                core.from_npy,
             ],
             subshelves=[],
         ),
@@ -263,6 +275,9 @@ MATH_OPERATIONS_SHELF = fn.Shelf(
                 core.signbit,
                 core.trunc,
                 core.convolve,
+                core.matvec,
+                core.vecdot,
+                core.vecmat,
             ],
             subshelves=[],
         ),
