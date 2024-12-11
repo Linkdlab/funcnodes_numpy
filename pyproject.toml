@@ -1,10 +1,13 @@
 [tool.poetry]
 name = "funcnodes-numpy"
-version = "0.2.7"
+version = "0.2.8"
 description = "implementations of numpy for funcnodes"
 authors = ["Julian Kimmig <julian.kimmig@gmx.net>"]
 readme = "README.md"
-license = "MIT"
+license = "AGPL-3.0"
+classifiers = [
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    ]
 
 [tool.poetry.urls]
 homepage  = "https://github.com/Linkdlab/funcnodes_numpy"
