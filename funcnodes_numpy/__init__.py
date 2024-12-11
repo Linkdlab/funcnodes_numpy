@@ -275,10 +275,16 @@ MATH_OPERATIONS_SHELF = fn.Shelf(
                 core.signbit,
                 core.trunc,
                 core.convolve,
-                core.matvec,
-                core.vecdot,
-                core.vecmat,
-            ],
+            ]
+            + (
+                [
+                    core.matvec,
+                    core.vecdot,
+                    core.vecmat,
+                ]
+                if np_version["major_int"] >= 2 and np_version["minor_int"] >= 2
+                else []
+            ),
             subshelves=[],
         ),
     ],
