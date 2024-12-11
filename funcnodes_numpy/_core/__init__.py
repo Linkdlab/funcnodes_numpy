@@ -1,6 +1,6 @@
 import funcnodes as fn
 from typing import Union, List, Optional, Iterable, Tuple, Sequence, Literal
-
+from io import BytesIO
 from exposedfunctionality import controlled_wrapper as wraps
 import numpy
 from .._dtypes import dtype_from_name, DTYPE_ENUM
@@ -442,6 +442,15 @@ def frombuffer(
         # like=like,
     )
     return res
+
+
+@fn.NodeDecorator(
+    node_id="np.fromnpy",
+    name="from npy",
+)
+def from_npy(data: bytes):
+    with BytesIO(data) as buffer:
+        return numpy.load(buffer)
 
 
 @fn.NodeDecorator(

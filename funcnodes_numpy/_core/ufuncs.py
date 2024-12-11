@@ -2910,6 +2910,102 @@ def get_numpy_ufucs():
     return all_funcs
 
 
+if np_version["major_int"] >= 2 and np_version["minor_int"] >= 2:
+
+    @fn.NodeDecorator(
+        node_id="np.matvec",
+        name="matvec",
+        outputs=[{"name": "y", "type": "ndarray"}],
+    )
+    @wraps(numpy.matvec, wrapper_attribute="__fnwrapped__")
+    def matvec(
+        x1: array_like,
+        x2: array_like,
+        # out: Optional[ndarray] = None,
+        # where: Union[bool_array, bool] = True,
+        # casting: casting_literal = "same_kind",
+        # order: OrderKACF = "K",
+        dtype: Optional[DTYPE_ENUM] = None,
+        # subok: bool = True,
+        # signature: Any = None,
+        # extobj: Any = None,
+    ):
+        return numpy.matvec(
+            x1,
+            x2,
+            # out=out,
+            # where=where,
+            # casting=casting,
+            # order=order,
+            dtype=dtype_from_name(dtype),
+            # subok=subok,
+            # signature=signature,
+            # extobj=extobj,
+        )
+
+    @fn.NodeDecorator(
+        node_id="np.vecdot",
+        name="vecdot",
+        outputs=[{"name": "y", "type": "ndarray"}],
+    )
+    @wraps(numpy.vecdot, wrapper_attribute="__fnwrapped__")
+    def vecdot(
+        x1: array_like,
+        x2: array_like,
+        # out: Optional[ndarray] = None,
+        # where: Union[bool_array, bool] = True,
+        # casting: casting_literal = "same_kind",
+        # order: OrderKACF = "K",
+        dtype: Optional[DTYPE_ENUM] = None,
+        # subok: bool = True,
+        # signature: Any = None,
+        # extobj: Any = None,
+    ):
+        return numpy.vecdot(
+            x1,
+            x2,
+            # out=out,
+            # where=where,
+            # casting=casting,
+            # order=order,
+            dtype=dtype_from_name(dtype),
+            # subok=subok,
+            # signature=signature,
+            # extobj=extobj,
+        )
+
+    @fn.NodeDecorator(
+        node_id="np.vecmat",
+        name="vecmat",
+        outputs=[{"name": "y", "type": "ndarray"}],
+    )
+    @wraps(numpy.vecmat, wrapper_attribute="__fnwrapped__")
+    def vecmat(
+        x1: array_like,
+        x2: array_like,
+        # out: Optional[ndarray] = None,
+        # where: Union[bool_array, bool] = True,
+        # casting: casting_literal = "same_kind",
+        # order: OrderKACF = "K",
+        dtype: Optional[DTYPE_ENUM] = None,
+        # subok: bool = True,
+        # signature: Any = None,
+        # extobj: Any = None,
+    ):
+        return numpy.vecmat(
+            x1,
+            x2,
+            # out=out,
+            # where=where,
+            # casting=casting,
+            # order=order,
+            dtype=dtype_from_name(dtype),
+            # subok=subok,
+            # signature=signature,
+            # extobj=extobj,
+        )
+
+
 NODE_SHELF = fn.Shelf(
     name="numpy_ufuncs",
     description="numpy ufuncs",
@@ -3006,6 +3102,11 @@ NODE_SHELF = fn.Shelf(
         true_divide,
         trunc,
     ]
-    + ([bitwise_count] if np_version["major_int"] >= 2 else []),
+    + ([bitwise_count] if np_version["major_int"] >= 2 else [])
+    + (
+        [matvec, vecdot, vecmat]
+        if np_version["major_int"] >= 2 and np_version["minor_int"] >= 2
+        else []
+    ),
     subshelves=[],
 )
