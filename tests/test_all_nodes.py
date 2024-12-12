@@ -430,3 +430,9 @@ class TestAllNodes(TestAllNodesBase):
         await node
 
         self.assertTrue(np.all(node.outputs["out"].value == np.array([1, 1, 2, 3])))
+
+    async def test_node_format(self):
+        for node in self.all_nodes:
+            ins = node()
+            self.assertGreater(len(ins.outputs), 0, f"{node.node_name} has no outputs")
+            self.assertGreater(len(ins.inputs), 0, f"{node.node_name} has no inputs")
