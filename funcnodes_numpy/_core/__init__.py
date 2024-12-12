@@ -448,7 +448,7 @@ def frombuffer(
     node_id="np.fromnpy",
     name="from npy",
 )
-def from_npy(data: bytes):
+def from_npy(data: bytes) -> numpy.ndarray:
     with BytesIO(data) as buffer:
         return numpy.load(buffer)
 

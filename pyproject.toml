@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "funcnodes-numpy"
-version = "0.2.8"
+version = "0.2.9"
 description = "implementations of numpy for funcnodes"
 authors = ["Julian Kimmig <julian.kimmig@gmx.net>"]
 readme = "README.md"
