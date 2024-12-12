@@ -17,7 +17,7 @@ def chararray(
     # copy: bool = True,
     # unicode: Optional[bool] = None,
     # order: OrderACF = None,
-):  # params ['obj'] ['itemsize'] []
+) -> numpy.ndarray:  # params ['obj'] ['itemsize'] []
     res = numpy.char.array(
         obj,
         itemsize,
@@ -38,7 +38,7 @@ def aschararray(
     itemsize: Optional[int],
     # unicode: Optional[bool] = None,
     # order: OrderCF = None,
-):  # params ['obj'] ['itemsize'] []
+) -> numpy.ndarray:  # params ['obj'] ['itemsize'] []
     res = numpy.char.asarray(
         obj,
         itemsize,
