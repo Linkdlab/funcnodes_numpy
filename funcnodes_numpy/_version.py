@@ -25,4 +25,4 @@ def get_version(raw_version: str) -> dict:
 np_version = get_version(numpy.__version__)
 
 
-version = "0.2.9"
+version = "0.2.10"
