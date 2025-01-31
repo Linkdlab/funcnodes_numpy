@@ -3591,7 +3591,7 @@ def where(
     x: Optional[array_like] = None,
     y: Optional[array_like] = None,
 ):
-    args = condition
+    args = (condition,)
     if x is not None and y is not None:
         args += (x, y)
 
