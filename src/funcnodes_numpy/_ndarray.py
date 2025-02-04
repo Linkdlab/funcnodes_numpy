@@ -445,7 +445,7 @@ def put(
     mode: Literal["raise", "wrap", "clip"] = "raise",
 ):
     a = a.copy()
-    res = a.put(indices, values, mode)
+    # res = a.put(indices, values, mode)
     return a
 
 
