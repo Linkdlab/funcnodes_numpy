@@ -448,9 +448,9 @@ def frombuffer(
     node_id="np.fromnpy",
     name="from npy",
 )
-def from_npy(data: bytes) -> numpy.ndarray:
+def from_npy(data: bytes, allow_pickle: bool = False) -> numpy.ndarray:
     with BytesIO(data) as buffer:
-        return numpy.load(buffer)
+        return numpy.load(buffer, allow_pickle=allow_pickle)
 
 
 @fn.NodeDecorator(

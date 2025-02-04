@@ -1,36 +1,37 @@
-[tool.poetry]
+[project]
 name = "funcnodes-numpy"
-version = "0.2.10"
+version = "0.2.11"
 description = "implementations of numpy for funcnodes"
-authors = ["Julian Kimmig <julian.kimmig@gmx.net>"]
 readme = "README.md"
-license = "AGPL-3.0"
-classifiers = [
-    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
-    ]
+classifiers = [ "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",]
+dependencies = [ "funcnodes", "numpy",]
+requires-python = ">=3.11"
+[[project.authors]]
+name = "Julian Kimmig"
+email = "julian.kimmig@gmx.net"
 
-[tool.poetry.urls]
-homepage  = "https://github.com/Linkdlab/funcnodes_numpy"
-source  = "https://github.com/Linkdlab/funcnodes_numpy"
-tracker  = "https://github.com/Linkdlab/funcnodes_numpy/issues"
-download = "https://pypi.org/project/funcnodes-numpy/#files"
-
-
-[tool.poetry.dependencies]
-python = ">=3.11"
-funcnodes = "*"
-numpy = "*"
-
-
-[tool.poetry.group.dev.dependencies]
-pytest = "*"
-pre-commit = "*"
-funcnodes-module = "^0.1.19"
+[dependency-groups]
+dev = [ "pytest", "pre-commit", "funcnodes-module>=0.2.8",]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = [ "setuptools>=42",]
+build-backend = "setuptools.build_meta"
 
-[tool.poetry.plugins."funcnodes.module"]
+[project.license]
+text = "AGPL-3.0"
+
+[project.urls]
+homepage = "https://github.com/Linkdlab/funcnodes_numpy"
+source = "https://github.com/Linkdlab/funcnodes_numpy"
+tracker = "https://github.com/Linkdlab/funcnodes_numpy/issues"
+download = "https://pypi.org/project/funcnodes-numpy/#files"
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[project.entry-points."funcnodes.module"]
 module = "funcnodes_numpy"
 shelf = "funcnodes_numpy:NODE_SHELF"
+
+[tool.setuptools.packages.find]
+where = [ "src",]

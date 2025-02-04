@@ -362,9 +362,9 @@ class TestLocalTypes(unittest.IsolatedAsyncioTestCase):
         for node in shelvenodes:
             exf = node.func.ef_funcmeta
             for ip in exf["input_params"]:
-                assert isinstance(
-                    samplemap[ip["type"]](), list
-                ), f"{ip['type']} not a list"
+                assert isinstance(samplemap[ip["type"]](), list), (
+                    f"{ip['type']} not a list"
+                )
 
 
 class TestAllNodes(TestAllNodesBase):
