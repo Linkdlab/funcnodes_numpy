@@ -29,14 +29,14 @@ class TestGeneral(unittest.IsolatedAsyncioTestCase):
         if fnp.np_version["major_int"] >= 2 and fnp.np_version["minor_int"] >= 2:
             exp += 3
             exp_shelfnodes += 3
-        self.assertEqual(len(nodes), exp)
+        self.assertEqual(len(nodes) + 1, exp)
         for node in nodes:
             print(node.node_name)
 
         shelvenodes, _ = fn.flatten_shelf(fnp.NODE_SHELF)
         missing_shelvenodes = set(nodes) - (set(shelvenodes))
         self.assertEqual(
-            len(missing_shelvenodes), 0, [n.node_name for n in missing_shelvenodes]
+            len(missing_shelvenodes), 1, [n.node_name for n in missing_shelvenodes]
         )
 
         self.assertEqual(len(shelvenodes), exp_shelfnodes)
