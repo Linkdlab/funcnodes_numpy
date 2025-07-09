@@ -302,7 +302,6 @@ STATISTICAL_OPERATIONS_SHELF = fn.Shelf(
         core.histogram,
         core.histogram2d,
         core.histogramdd,
-        core.histogramdd,
         core.histogram_bin_edges,
         core.mean,
         core.nanmean,

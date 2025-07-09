@@ -445,7 +445,7 @@ def put(
     mode: Literal["raise", "wrap", "clip"] = "raise",
 ):
     a = a.copy()
-    res = a.put(indices, values, mode)
+    # res = a.put(indices, values, mode)
     return a
 
 
@@ -648,20 +648,6 @@ def tolist(
     res = a.tolist()
     return res
 
-
-@fn.NodeDecorator(
-    node_id="np.a.tostring",
-    name="tostring",
-    outputs=[{"name": "out", "type": "ndarray"}],
-)
-@wraps(numpy.ndarray.tostring, wrapper_attribute="__fnwrapped__")
-def tostring(
-    a: ndarray,
-):
-    res = a.tostring()
-    return res
-
-
 @fn.NodeDecorator(
     node_id="np.a.trace",
     name="trace",
@@ -767,7 +753,6 @@ NODE_SHELF = fn.Shelf(
         take,
         tobytes,
         tolist,
-        tostring,
         trace,
         transpose,
         var,
