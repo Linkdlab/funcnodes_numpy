@@ -21,8 +21,8 @@ class TestGeneral(unittest.IsolatedAsyncioTestCase):
 
     def test_all_nodes(self):
         nodes = get_module_nodes(fnp)
-        exp = 308
-        exp_shelfnodes = 376
+        exp = 307
+        exp_shelfnodes = 374
         if fnp.np_version["major_int"] < 2:
             exp -= 1
             exp_shelfnodes -= 1
@@ -46,7 +46,7 @@ class TestGeneral(unittest.IsolatedAsyncioTestCase):
         shelve_nodes, _ = fn.flatten_shelf(shelf)
         module_nodes = get_module_nodes(fnp._ndarray)
         self.assertEqual(len(shelve_nodes), len(module_nodes))
-        self.assertEqual(len(shelve_nodes), 50)
+        self.assertEqual(len(shelve_nodes), 49)
 
     async def test_linalg_shelve(self):
         shelf = fnp._linalg.NODE_SHELF
