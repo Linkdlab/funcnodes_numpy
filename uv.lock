@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 2
 requires-python = ">=3.11"
 resolution-markers = [
     "sys_platform == 'emscripten'",
@@ -493,7 +493,7 @@ wheels = [
 
 [[package]]
 name = "funcnodes-core"
-version = "2.2.0"
+version = "2.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "dill" },
@@ -503,9 +503,9 @@ dependencies = [
     { name = "setuptools" },
     { name = "tqdm" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/90/3b/d2d78cc480f48567deffa275dc25700f2d2d52bdc184a5a9fc34beee2c22/funcnodes_core-2.2.0.tar.gz", hash = "sha256:b3262f87dc20f8640ed80a17d6a5de2e32d29a60686b56faa2b0c248e8d6cd9c", size = 191767, upload-time = "2025-12-12T12:58:30.232Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ad/af/bcc953424c6843927547014e7ca8b70414d95411e61fd0b664b6361f8aa2/funcnodes_core-2.3.1.tar.gz", hash = "sha256:578f786e0f0c2b050957a25cb764618dec150e89a8b7d5126dddf95251b27dcc", size = 193349, upload-time = "2025-12-23T12:06:32.111Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d4/ff/5f76caf509c614dde0f453cad55e4b890888618816a1a1e3b6f2b34e6c44/funcnodes_core-2.2.0-py3-none-any.whl", hash = "sha256:1a1d839dfe70f1c8ff2ba55abf6fc3c7875cd3de430432d2dc33b51e0c7a2ea1", size = 92765, upload-time = "2025-12-12T12:58:28.801Z" },
+    { url = "https://files.pythonhosted.org/packages/fa/95/f964c5a19f130c51cfe66639e84ceb829ea92585ff09e24134fb980a010b/funcnodes_core-2.3.1-py3-none-any.whl", hash = "sha256:1251db11d75077cafdd8f96b9904c2f8a3e2fbcc18ec24fce7f24552c8032d5b", size = 93543, upload-time = "2025-12-23T12:06:30.779Z" },
 ]
 
 [[package]]
@@ -528,6 +528,7 @@ version = "0.2.11"
 source = { editable = "." }
 dependencies = [
     { name = "funcnodes" },
+    { name = "funcnodes-core" },
     { name = "numpy" },
 ]
 
@@ -540,7 +541,8 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "funcnodes" },
+    { name = "funcnodes", specifier = ">=1.2" },
+    { name = "funcnodes-core", specifier = ">=2.3.1" },
     { name = "numpy" },
 ]
 

@@ -4,7 +4,11 @@ version = "0.2.11"
 description = "implementations of numpy for funcnodes"
 readme = "README.md"
 classifiers = [ "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",]
-dependencies = [ "funcnodes", "numpy",]
+dependencies = [
+ "funcnodes>=1.2",
+ "funcnodes-core>=2.3.1",
+ "numpy",
+]
 requires-python = ">=3.11"
 [[project.authors]]
 name = "Julian Kimmig"
