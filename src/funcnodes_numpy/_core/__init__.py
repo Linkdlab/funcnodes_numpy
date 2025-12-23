@@ -24,6 +24,7 @@ from ._multiarray import *  # noqa
 from ._defchararray import *  # noqa
 from ._datetime import *  # noqa
 from .ufuncs import *  # noqa
+from .._version import np_version
 
 
 @fn.NodeDecorator(
@@ -2692,19 +2693,22 @@ def cross(
     return res
 
 
+_trapz = numpy.trapezoid if np_version["major_int"] >= 2 else numpy.trapz
+
+
 @fn.NodeDecorator(
     node_id="np.trapz",
-    name="trapz",
+    name="trapezoid",
     outputs=[{"name": "trapz", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.trapz, wrapper_attribute="__fnwrapped__")
+@wraps(_trapz, wrapper_attribute="__fnwrapped__")
 def trapz(
     y: array_like,
     x: Optional[array_like] = None,
     dx: Optional[scalar] = 1.0,
     axis: Optional[int] = -1,
 ):  # params ['y'] ['x', 'dx', 'axis'] []
-    res = numpy.trapz(
+    res = _trapz(
         y=y,
         x=x,
         dx=dx,
