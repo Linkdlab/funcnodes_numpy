@@ -384,11 +384,11 @@ def min(
     name="newbyteorder",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.newbyteorder, wrapper_attribute="__fnwrapped__")
 def newbyteorder(
     a: ndarray,
     new_order: Literal["S", "<", ">", "=", "|"] = "S",
 ):
+    """new byte order of an array"""
     return a.view(a.dtype.newbyteorder(new_order)).copy()
 
 
