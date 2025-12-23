@@ -321,12 +321,14 @@ def item(
     name="itemset",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.itemset, wrapper_attribute="__fnwrapped__")
 def itemset(
     a: ndarray,
     pos: axis_like,
     value: float,
 ):
+    """
+    insert scalar into an array (scalar is cast to array's dtype, if possible)
+    """
     arr = numpy.atleast_1d(a).copy()
     arr = numpy.array(a)
     arr[pos] = value
@@ -647,6 +649,7 @@ def tolist(
 ):
     res = a.tolist()
     return res
+
 
 @fn.NodeDecorator(
     node_id="np.a.trace",
