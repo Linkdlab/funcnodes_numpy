@@ -24,6 +24,7 @@ from ._multiarray import *  # noqa
 from ._defchararray import *  # noqa
 from ._datetime import *  # noqa
 from .ufuncs import *  # noqa
+from .._version import np_version
 
 
 @fn.NodeDecorator(
@@ -913,7 +914,7 @@ def reshape(
 ):  # params ['a', 'newshape'] ['order'] []
     res = numpy.reshape(
         a,
-        newshape=newshape,
+        newshape,
         # order=order,
     )
     return res
@@ -1961,37 +1962,6 @@ def outer(
 
 
 @fn.NodeDecorator(
-    node_id="np.matmul",
-    name="matmul",
-    outputs=[{"name": "y", "type": "ndarray"}],
-)
-@wraps(numpy.matmul, wrapper_attribute="__fnwrapped__")
-def matmul(
-    x1: array_like,
-    x2: array_like,
-    # out: Optional[ndarray] = None,
-    # casting: casting_literal = "same_kind",
-    # order: OrderKACF = "K",
-    dtype: Optional[DTYPE_ENUM] = None,
-    # subok: bool = True,
-    # signature: Any = None,
-    # extobj: Any = None,
-):  # params ['x1', 'x2'] ['out', 'casting', 'order'] []
-    res = numpy.matmul(
-        x1,
-        x2,
-        # out=out,
-        # casting=casting,
-        # order=order,
-        dtype=dtype_from_name(dtype),
-        # subok=subok,
-        # signature=signature,
-        # extobj=extobj,
-    )
-    return res
-
-
-@fn.NodeDecorator(
     node_id="np.tensordot",
     name="tensordot",
     outputs=[{"name": "output", "type": "ndarray"}],
@@ -2692,19 +2662,22 @@ def cross(
     return res
 
 
+_trapz = numpy.trapezoid if np_version["major_int"] >= 2 else numpy.trapz
+
+
 @fn.NodeDecorator(
     node_id="np.trapz",
-    name="trapz",
+    name="trapezoid",
     outputs=[{"name": "trapz", "type": "ndarray_or_scalar"}],
 )
-@wraps(numpy.trapz, wrapper_attribute="__fnwrapped__")
+@wraps(_trapz, wrapper_attribute="__fnwrapped__")
 def trapz(
     y: array_like,
     x: Optional[array_like] = None,
     dx: Optional[scalar] = 1.0,
     axis: Optional[int] = -1,
 ):  # params ['y'] ['x', 'dx', 'axis'] []
-    res = numpy.trapz(
+    res = _trapz(
         y=y,
         x=x,
         dx=dx,
@@ -3030,6 +3003,36 @@ def ptp(
     return res
 
 
+if (
+    np_version["major_int"] <= 1 and np_version["minor_int"] < 22
+):  # smaller than numpy 1.22
+    _ST_122 = True
+    percentile_methods = Literal[
+        "linear",
+        "lower",
+        "higher",
+        "midpoint",
+        "nearest",
+    ]
+else:
+    _ST_122 = False
+    percentile_methods = Literal[
+        "inverted_cdf",
+        "averaged_inverted_cdf",
+        "closest_observation",
+        "interpolated_inverted_cdf",
+        "hazen",
+        "weibull",
+        "linear",
+        "median_unbiased",
+        "normal_unbiased",
+        "lower",
+        "higher",
+        "midpoint",
+        "nearest",
+    ]
+
+
 @fn.NodeDecorator(
     node_id="np.percentile",
     name="percentile",
@@ -3042,20 +3045,29 @@ def percentile(
     axis: Optional[axis_like] = None,
     # out: Optional[ndarray] = None,
     overwrite_input: Optional[bool] = False,
-    method: Optional[str] = "linear",
+    method: percentile_methods = "linear",
     keepdims: Optional[bool] = False,
-    interpolation: Optional[str] = None,
 ):  # params ['a', 'q'] ['axis', 'out'] []
-    res = numpy.percentile(
-        a=a,
-        q=q,
-        axis=axis,
-        # out=out,
-        overwrite_input=overwrite_input,
-        method=method,
-        keepdims=keepdims,
-        interpolation=interpolation,
-    )
+    if _ST_122:
+        res = numpy.percentile(
+            a=a,
+            q=q,
+            axis=axis,
+            # out=out,
+            overwrite_input=overwrite_input,
+            interpolation=method,
+            keepdims=keepdims,
+        )
+    else:
+        res = numpy.percentile(
+            a=a,
+            q=q,
+            axis=axis,
+            # out=out,
+            overwrite_input=overwrite_input,
+            method=method,
+            keepdims=keepdims,
+        )
     return res
 
 
@@ -3071,20 +3083,29 @@ def nanpercentile(
     axis: Optional[axis_like] = None,
     # out: Optional[ndarray] = None,
     overwrite_input: Optional[bool] = False,
-    method: Optional[str] = "linear",
+    method: percentile_methods = "linear",
     keepdims: Optional[bool] = NoValue,
-    interpolation: Optional[str] = None,
 ):  # params ['a', 'q'] ['axis', 'out'] []
-    res = numpy.nanpercentile(
-        a=a,
-        q=q,
-        axis=axis,
-        # out=out,
-        overwrite_input=overwrite_input,
-        method=method,
-        keepdims=keepdims,
-        interpolation=interpolation,
-    )
+    if _ST_122:
+        res = numpy.nanpercentile(
+            a=a,
+            q=q,
+            axis=axis,
+            # out=out,
+            overwrite_input=overwrite_input,
+            interpolation=method,
+            keepdims=keepdims,
+        )
+    else:
+        res = numpy.nanpercentile(
+            a=a,
+            q=q,
+            axis=axis,
+            # out=out,
+            overwrite_input=overwrite_input,
+            method=method,
+            keepdims=keepdims,
+        )
     return res
 
 
@@ -3100,20 +3121,29 @@ def quantile(
     axis: Optional[axis_like] = None,
     # out: Optional[ndarray] = None,
     overwrite_input: Optional[bool] = False,
-    method: Optional[str] = "linear",
+    method: percentile_methods = "linear",
     keepdims: Optional[bool] = False,
-    interpolation: Optional[str] = None,
 ):  # params ['a', 'q'] ['axis', 'out', 'overwrite_input'] []
-    res = numpy.quantile(
-        a=a,
-        q=q,
-        axis=axis,
-        # out=out,
-        overwrite_input=overwrite_input,
-        method=method,
-        keepdims=keepdims,
-        interpolation=interpolation,
-    )
+    if _ST_122:
+        res = numpy.quantile(
+            a=a,
+            q=q,
+            axis=axis,
+            # out=out,
+            overwrite_input=overwrite_input,
+            interpolation=method,
+            keepdims=keepdims,
+        )
+    else:
+        res = numpy.quantile(
+            a=a,
+            q=q,
+            axis=axis,
+            # out=out,
+            overwrite_input=overwrite_input,
+            method=method,
+            keepdims=keepdims,
+        )
     return res
 
 
@@ -3129,20 +3159,30 @@ def nanquantile(
     axis: Optional[axis_like] = None,
     # out: Optional[ndarray] = None,
     overwrite_input: Optional[bool] = False,
-    method: Optional[str] = "linear",
+    method: percentile_methods = "linear",
     keepdims: Optional[bool] = NoValue,
-    interpolation: Optional[str] = None,
 ):  # params ['a', 'q'] ['axis', 'out'] []
-    res = numpy.nanquantile(
-        a=a,
-        q=q,
-        axis=axis,
-        # out=out,
-        overwrite_input=overwrite_input,
-        method=method,
-        keepdims=keepdims,
-        interpolation=interpolation,
-    )
+    if _ST_122:
+        res = numpy.nanquantile(
+            a=a,
+            q=q,
+            axis=axis,
+            # out=out,
+            overwrite_input=overwrite_input,
+            interpolation=method,
+            keepdims=keepdims,
+        )
+
+    else:
+        res = numpy.nanquantile(
+            a=a,
+            q=q,
+            axis=axis,
+            # out=out,
+            overwrite_input=overwrite_input,
+            method=method,
+            keepdims=keepdims,
+        )
     return res
 
 

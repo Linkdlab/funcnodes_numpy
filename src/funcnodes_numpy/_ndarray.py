@@ -321,12 +321,14 @@ def item(
     name="itemset",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.itemset, wrapper_attribute="__fnwrapped__")
 def itemset(
     a: ndarray,
     pos: axis_like,
     value: float,
 ):
+    """
+    insert scalar into an array (scalar is cast to array's dtype, if possible)
+    """
     arr = numpy.atleast_1d(a).copy()
     arr = numpy.array(a)
     arr[pos] = value
@@ -382,11 +384,11 @@ def min(
     name="newbyteorder",
     outputs=[{"name": "out", "type": "ndarray"}],
 )
-@wraps(numpy.ndarray.newbyteorder, wrapper_attribute="__fnwrapped__")
 def newbyteorder(
     a: ndarray,
     new_order: Literal["S", "<", ">", "=", "|"] = "S",
 ):
+    """new byte order of an array"""
     return a.view(a.dtype.newbyteorder(new_order)).copy()
 
 
@@ -647,6 +649,7 @@ def tolist(
 ):
     res = a.tolist()
     return res
+
 
 @fn.NodeDecorator(
     node_id="np.a.trace",
