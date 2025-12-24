@@ -1,9 +1,9 @@
-from all_nodes_test_base import TestAllNodesBase
 import numpy as np
 import funcnodes_numpy as fnp
 import funcnodes as fn
-import unittest
 
+import pytest_funcnodes
+import pytest
 
 samplemap = {
     "ndarray": lambda: [
@@ -97,6 +97,32 @@ samplemap = {
         "str",
     ],
     "Union[Literal['big', 'little'], None]": lambda: ["big", "little", None],
+    "Literal['linear', 'lower', 'higher', 'midpoint', 'nearest']": lambda: [
+        "linear",
+        "lower",
+        "higher",
+        "midpoint",
+        "nearest",
+    ],
+    (
+        "Literal['inverted_cdf', 'averaged_inverted_cdf', 'closest_observation', "
+        "'interpolated_inverted_cdf', 'hazen', 'weibull', 'linear', 'median_unbiased', "
+        "'normal_unbiased', 'lower', 'higher', 'midpoint', 'nearest']"
+    ): lambda: [
+        "inverted_cdf",
+        "averaged_inverted_cdf",
+        "closest_observation",
+        "interpolated_inverted_cdf",
+        "hazen",
+        "weibull",
+        "linear",
+        "median_unbiased",
+        "normal_unbiased",
+        "lower",
+        "higher",
+        "midpoint",
+        "nearest",
+    ],
     "Union[None, int, ndarray]": lambda: [
         None,
         1,
@@ -146,6 +172,7 @@ samplemap = {
             np.array([1, 2, 3]),
         ],
         np.arange(25).reshape(1, 5, 5),
+        np.arange(25).reshape(5, 5),
     ],
     "typing.Callable": lambda: [lambda x: x],
     "funcnodes_numpy._dtypes.DTYPE_ENUM": lambda: ["f", bool],
@@ -163,7 +190,8 @@ samplemap = {
             np.array([1, 2, 3, 4]).reshape(2, 2),
             np.array([1, 2, 3]),
             "str",
-        ]
+        ],
+        [np.arange(25).reshape(5, 5)],
     ],
     "Union[float, int]": lambda: [1.0, 1],
     "bool": lambda: [True, False],
@@ -173,12 +201,28 @@ samplemap = {
     "Sequence[ndarray]": lambda: [
         [np.array([1, 2, 3, 4]).reshape(2, 2), np.array([1, 2, 3])],
         [np.array([4, 3, 2]), np.array([1, 2, 3])],
+        [
+            np.random.random((10000, 100)),
+            np.random.random((100, 1000)),
+        ],
     ],
     "Literal['L', 'U']": lambda: ["L", "U"],
     "builtins.object": lambda: [object(), np.array([1, 2, 3])],
     "Literal['raise', 'wrap', 'clip']": lambda: ["raise", "wrap", "clip"],
     "Sequence[Union[bool, complex, float, int, ndarray, str]]": lambda: [
-        [True, 1j, 1.0, 1, np.array([1, 2, 3]), "str"]
+        [
+            True,
+            1j,
+            1.0,
+            1,
+            np.array([1, 2, 3]),
+            "str",
+        ],
+        [
+            np.random.random((10000, 100)),
+            np.random.random((100, 1000)),
+        ],
+        [np.array([1, 2, 3]), np.array([4, 5, 6])],
     ],
     "Union[List[Tuple[int, int]], Tuple[int, int], int]": lambda: [
         [(1, 2), (3, 4)],
@@ -215,7 +259,7 @@ samplemap = {
         "wrap",
         "empty",
     ],
-    "str": lambda: ["str", "ii", "ij,jk,kl->il", "2005-02-25"],
+    "str": lambda: ["str", "ii", "ij,jk,kl->il", "2005-02-25", "1, 2"],
     "Union[int, List[int], None]": lambda: [1, [1, 2, 3], None],
     "Union[ndarray, int, List[int]]": lambda: [
         np.array([1, 2, 3]),
@@ -299,6 +343,12 @@ samplemap = {
         [[[1, 2, 3]]],
         "str",
     ],
+    "Union[_SupportsArray, _NestedSequence, str, _NestedSequence]": lambda: [
+        np.array([1, 2, 3]),
+        [[1, 2, 3]],
+        [[[1, 2, 3]]],
+        "str",
+    ],
     "bytes": lambda: [
         b"\x93NUMPY\x01\x00v\x00{'descr': '<i8', 'fortran_order': False, 'shape': (1,), }"
         b"                                                            \n\x01\x00\x00\x00\x00\x00\x00\x00",
@@ -345,94 +395,93 @@ samplemap["Union[float, Literal['fro', 'nuc'], None]"] = samplemap[
 samplemap["Union[float, int, None]"] = samplemap["Union[None, float, int]"]
 
 
-class TestLocalTypes(unittest.IsolatedAsyncioTestCase):
-    async def test_missing_types(self):
-        shelvenodes, _ = fn.flatten_shelf(fnp.NODE_SHELF)
-        missing_types = set()
-        missing_nodes = set()
-        for node in shelvenodes:
-            exf = node.func.ef_funcmeta
-            for ip in exf["input_params"]:
-                if ip["type"] not in samplemap:
-                    missing_nodes.add(node.node_name)
-                    missing_types.add(ip["type"])
-                    continue
-
-        self.assertEqual(len(missing_types), 0, f"{missing_types} from {missing_nodes}")
-        for node in shelvenodes:
-            exf = node.func.ef_funcmeta
-            for ip in exf["input_params"]:
-                assert isinstance(samplemap[ip["type"]](), list), (
-                    f"{ip['type']} not a list"
-                )
-
-
-class TestAllNodes(TestAllNodesBase):
-    # in this test class all nodes should be triggered at least once to mark them as testing
-    async def test_nodes(self):
-        # shelvenodes = flatten_shelves(fnp.NODE_SHELF)
-        skip = [fnp.clip]
-        for node in self.all_nodes:
-            if node in skip:
+@pytest_funcnodes.funcnodes_test
+async def test_missing_types():
+    shelvenodes, _ = fn.flatten_shelf(fnp.NODE_SHELF)
+    missing_types = set()
+    missing_nodes = set()
+    for node in shelvenodes:
+        exf = node.func.ef_funcmeta
+        for ip in exf["input_params"]:
+            if ip["type"] not in samplemap:
+                missing_nodes.add(node.node_name)
+                missing_types.add(ip["type"])
                 continue
-            ins = node()
-            exf = node.func.ef_funcmeta
 
-            kwargs = {}
-            args = []
-            types = []
-            for ip in exf["input_params"]:
-                if ip["positional"]:
-                    newargs = []
-                    types.append(ip["type"])
-                    try:
-                        options = samplemap[ip["type"]]()
-                    except KeyError as e:
-                        raise KeyError(
-                            f"KeyError for {node.node_name}{ip['type']}"
-                        ) from e
-                    for option in options:
-                        if len(args) == 0:
-                            newargs.append([option])
-                        else:
-                            for a in args:
-                                newargs.append(a + [option])
-                    args = newargs
-                else:
-                    kwargs[ip["name"]] = samplemap[ip["type"]]()[0]
+    assert len(missing_types) == 0, f"{missing_types} from {missing_nodes}"
+    for node in shelvenodes:
+        exf = node.func.ef_funcmeta
+        for ip in exf["input_params"]:
+            assert isinstance(samplemap[ip["type"]](), list), f"{ip['type']} not a list"
 
-            errors = []
-            if len(args) == 0:
-                args = [()]
-                # raise ValueError(f"len args 0 for  {node.node_name} ")
-            run = False
-            for a in args:
+
+all_nodes = fn.flatten_shelf(fnp.NODE_SHELF)[0]
+skip = [fnp.clip]
+all_nodes_wo_skipped = [node for node in all_nodes if node not in skip]
+# in this test class all nodes should be triggered at least once to mark them as testing
+
+
+@pytest_funcnodes.nodetest(all_nodes_wo_skipped)
+async def test_nodes():
+    for node in all_nodes_wo_skipped:
+        ins = node()
+        exf = node.func.ef_funcmeta
+
+        kwargs = {}
+        args = []
+        types = []
+        for ip in exf["input_params"]:
+            if ip["positional"]:
+                newargs = []
+                types.append(ip["type"])
                 try:
-                    _ = await ins.func(
-                        *a,
-                    )
-                    run = True
-                    self.nodes_to_test.remove(node)
-                    break
-                except Exception as e:
-                    errors.append((str(e), a))
-            if not run:
-                print(types)
-                errors = "\n".join([f"{e[0]} with {e[1]}" for e in errors])
-                raise Exception(
-                    f"Failed to run {node.node_name} with types {types}:\n {errors} \n {run}"
+                    options = samplemap[ip["type"]]()
+                except KeyError as e:
+                    raise KeyError(f"KeyError for {node.node_name}{ip['type']}") from e
+                for option in options:
+                    if len(args) == 0:
+                        newargs.append([option])
+                    else:
+                        for a in args:
+                            newargs.append(a + [option])
+                args = newargs
+            else:
+                kwargs[ip["name"]] = samplemap[ip["type"]]()[0]
+
+        errors = []
+        if len(args) == 0:
+            args = [()]
+            # raise ValueError(f"len args 0 for  {node.node_name} ")
+        run = False
+        for a in args:
+            try:
+                _ = await ins.func(
+                    *a,
                 )
+                run = True
+                break
+            except Exception as e:
+                errors.append((str(e), a))
+        if not run:
+            print(types)
+            errors = "\n".join([f"{e[0]} with {e[1]}" for e in errors])
+            raise Exception(
+                f"Failed to run {node.node_name} with types {types}:\n {errors} \n {run}"
+            )
 
-    async def test_clip(self):
-        node = fnp.clip()
-        node.inputs["a"].value = np.array([0, 1, 2, 3])
-        node.inputs["a_min"].value = 1
-        await node
 
-        self.assertTrue(np.all(node.outputs["out"].value == np.array([1, 1, 2, 3])))
+@pytest_funcnodes.nodetest(fnp.clip)
+async def test_clip():
+    node = fnp.clip()
+    node["a"] = np.array([0, 1, 2, 3])
+    node["a_min"] = 1
+    await node
+    assert np.all(node["out"].value == np.array([1, 1, 2, 3]))
 
-    async def test_node_format(self):
-        for node in self.all_nodes:
-            ins = node()
-            self.assertGreater(len(ins.outputs), 0, f"{node.node_name} has no outputs")
-            self.assertGreater(len(ins.inputs), 0, f"{node.node_name} has no inputs")
+
+@pytest.mark.asyncio
+async def test_node_format():
+    for node in all_nodes:
+        ins = node()
+        assert len(ins.outputs) > 0, f"{node.node_name} has no outputs"
+        assert len(ins.inputs) > 0, f"{node.node_name} has no inputs"

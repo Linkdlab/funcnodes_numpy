@@ -1993,6 +1993,39 @@ def logical_xor(
     return res
 
 
+if np_version["major_int"] >= 2:
+
+    @fn.NodeDecorator(
+        node_id="np.matmul",
+        name="matmul",
+        outputs=[{"name": "y", "type": "ndarray"}],
+    )
+    @wraps(numpy.matmul, wrapper_attribute="__fnwrapped__")
+    def matmul(
+        x1: array_like,
+        x2: array_like,
+        # out: Optional[ndarray] = None,
+        # casting: casting_literal = "same_kind",
+        # order: OrderKACF = "K",
+        dtype: Optional[DTYPE_ENUM] = None,
+        # subok: bool = True,
+        # signature: Any = None,
+        # extobj: Any = None,
+    ):  # params ['x1', 'x2'] ['out', 'casting', 'order'] []
+        res = numpy.matmul(
+            x1,
+            x2,
+            # out=out,
+            # casting=casting,
+            # order=order,
+            dtype=dtype_from_name(dtype),
+            # subok=subok,
+            # signature=signature,
+            # extobj=extobj,
+        )
+        return res
+
+
 @fn.NodeDecorator(
     node_id="np.maximum",
     name="maximum",
@@ -3102,7 +3135,7 @@ NODE_SHELF = fn.Shelf(
         true_divide,
         trunc,
     ]
-    + ([bitwise_count] if np_version["major_int"] >= 2 else [])
+    + ([bitwise_count, matmul] if np_version["major_int"] >= 2 else [])
     + (
         [matvec, vecdot, vecmat]
         if np_version["major_int"] >= 2 and np_version["minor_int"] >= 2

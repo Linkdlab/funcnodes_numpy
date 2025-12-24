@@ -4,21 +4,17 @@ version = "0.2.11"
 description = "implementations of numpy for funcnodes"
 readme = "README.md"
 classifiers = [ "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",]
-dependencies = [
- "funcnodes>=1.2",
- "funcnodes-core>=2.3.1",
- "numpy",
-]
+dependencies = [ "funcnodes>=1.2", "funcnodes-core>=2.3.1", "numpy",]
 requires-python = ">=3.11"
 [[project.authors]]
 name = "Julian Kimmig"
 email = "julian.kimmig@gmx.net"
 
 [dependency-groups]
-dev = [ "pytest", "pre-commit", "funcnodes-module>=0.2.8",]
+dev = [ "pytest", "pre-commit", "funcnodes-module>=0.2.8", "pytest-funcnodes>=1.1.0",]
 
 [build-system]
-requires = ["hatchling"]
+requires = [ "hatchling",]
 build-backend = "hatchling.build"
 
 [project.license]
@@ -30,15 +26,22 @@ source = "https://github.com/Linkdlab/funcnodes_numpy"
 tracker = "https://github.com/Linkdlab/funcnodes_numpy/issues"
 download = "https://pypi.org/project/funcnodes-numpy/#files"
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/funcnodes_numpy"]
-
 [tool.commitizen]
 name = "cz_conventional_commits"
 tag_format = "v$version"
 version_scheme = "pep440"
 version_provider = "uv"
 update_changelog_on_bump = true
+
 [project.entry-points."funcnodes.module"]
 module = "funcnodes_numpy"
 shelf = "funcnodes_numpy:NODE_SHELF"
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.packages.find]
+where = [ "src",]
+
+[tool.hatch.build.targets.wheel]
+packages = [ "src/funcnodes_numpy",]

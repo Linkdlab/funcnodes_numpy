@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.11"
 resolution-markers = [
     "sys_platform == 'emscripten'",
@@ -459,7 +459,7 @@ wheels = [
 
 [[package]]
 name = "funcnodes"
-version = "1.4.0"
+version = "1.5.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "funcnodes-basic" },
@@ -468,14 +468,15 @@ dependencies = [
     { name = "funcnodes-react-flow", marker = "sys_platform != 'emscripten'" },
     { name = "funcnodes-worker" },
     { name = "funcnodes-worker", extra = ["all"], marker = "sys_platform != 'emscripten'" },
+    { name = "rich" },
     { name = "subprocess-monitor", marker = "sys_platform != 'emscripten'" },
     { name = "uv", marker = "sys_platform != 'emscripten'" },
     { name = "venvmngr", marker = "sys_platform != 'emscripten'" },
     { name = "virtualenv", marker = "sys_platform != 'emscripten'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c9/2b/1a9083db724c546b6774a06e67b4015b33561e600ff09415ddc329bec892/funcnodes-1.4.0.tar.gz", hash = "sha256:d02c01532dced30ea32abe219658f5ec8ca5b2778738ae454be64d3c8210b95a", size = 586110, upload-time = "2025-12-18T23:31:15.233Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6c/42/33dedebd66a14a4cbf79694f13d5fd88fa1d8d9f05dab9b8b056ddf30e52/funcnodes-1.5.0.tar.gz", hash = "sha256:5c7fe4e63dfc408b7dac2d5cf4c3e4cd02830845cfd03434f7e47752778366d0", size = 600513, upload-time = "2025-12-23T08:55:02.464Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/eb/6a/903c90f0aef3c3af0c0e3e2f55ba75408a0713ed9b7036f295c8081c155e/funcnodes-1.4.0-py3-none-any.whl", hash = "sha256:9ff1e770bda94dac96937f4ebd9f701dda9a841170708bf6d9cdc679d39a3ed9", size = 576420, upload-time = "2025-12-18T23:31:12.977Z" },
+    { url = "https://files.pythonhosted.org/packages/35/64/0d301573e4f7726bfeaf1bba079b2ac48f04adcfa92bee6e0b76af0a15b0/funcnodes-1.5.0-py3-none-any.whl", hash = "sha256:70c9f28e8f52586b162c826c281a202a54d6a4d05a4eb7bd9348a667f8763b29", size = 584028, upload-time = "2025-12-23T08:54:59.966Z" },
 ]
 
 [[package]]
@@ -537,6 +538,7 @@ dev = [
     { name = "funcnodes-module" },
     { name = "pre-commit" },
     { name = "pytest" },
+    { name = "pytest-funcnodes" },
 ]
 
 [package.metadata]
@@ -551,6 +553,7 @@ dev = [
     { name = "funcnodes-module", specifier = ">=0.2.8" },
     { name = "pre-commit" },
     { name = "pytest" },
+    { name = "pytest-funcnodes", specifier = ">=1.1.0" },
 ]
 
 [[package]]
@@ -1388,15 +1391,15 @@ wheels = [
 
 [[package]]
 name = "subprocess-monitor"
-version = "0.3.0"
+version = "0.4.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp", marker = "sys_platform != 'emscripten'" },
     { name = "psutil", marker = "sys_platform != 'emscripten'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/47/e1/1034846227a49627f1fc3a74367de16321970f7de72aebcca7660552e1b7/subprocess_monitor-0.3.0.tar.gz", hash = "sha256:5a11eb91777e1f8b2e558076cca79bbed62591824eb7e90a72b4944ebee5584d", size = 97265, upload-time = "2025-07-15T22:23:35.909Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/94/5a/8b70bd3d6340c8c39e05bc68b28c22beae2aa1b908a16001cd71873f3c0b/subprocess_monitor-0.4.0.tar.gz", hash = "sha256:bcb40d351d8ee501e7291064cc29e5459e406b51bc7739803b1a1b430bb20aeb", size = 122019, upload-time = "2025-12-23T07:58:57.769Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/52/57/979ab56e413c0c1523370cb96e7118cdca9c8a891ac7dd5ad7eeabfb3da0/subprocess_monitor-0.3.0-py3-none-any.whl", hash = "sha256:0b6aae269beabf523d85ee2e1b9c64558c73ea9469eefc7c20b465c29fed7399", size = 19698, upload-time = "2025-07-15T22:23:34.359Z" },
+    { url = "https://files.pythonhosted.org/packages/ca/f0/e78794052f46181bd881455e25e726dcb3494502dc1b15d9883764c02b41/subprocess_monitor-0.4.0-py3-none-any.whl", hash = "sha256:d931b0ecb5bd7ba33be62e9cd24c785a3b6ffe332e0addfe3b5acd689a6847b3", size = 19828, upload-time = "2025-12-23T07:58:56.381Z" },
 ]
 
 [[package]]
