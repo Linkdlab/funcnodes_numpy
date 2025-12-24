@@ -1,6 +1,6 @@
 [project]
 name = "funcnodes-numpy"
-version = "0.2.11"
+version = "0.2.12"
 description = "implementations of numpy for funcnodes"
 readme = "README.md"
 classifiers = [ "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",]
