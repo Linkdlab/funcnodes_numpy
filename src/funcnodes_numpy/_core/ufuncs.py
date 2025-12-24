@@ -1994,6 +1994,37 @@ def logical_xor(
 
 
 @fn.NodeDecorator(
+    node_id="np.matmul",
+    name="matmul",
+    outputs=[{"name": "y", "type": "ndarray"}],
+)
+@wraps(numpy.matmul, wrapper_attribute="__fnwrapped__")
+def matmul(
+    x1: array_like,
+    x2: array_like,
+    # out: Optional[ndarray] = None,
+    # casting: casting_literal = "same_kind",
+    # order: OrderKACF = "K",
+    dtype: Optional[DTYPE_ENUM] = None,
+    # subok: bool = True,
+    # signature: Any = None,
+    # extobj: Any = None,
+):  # params ['x1', 'x2'] ['out', 'casting', 'order'] []
+    res = numpy.matmul(
+        x1,
+        x2,
+        # out=out,
+        # casting=casting,
+        # order=order,
+        dtype=dtype_from_name(dtype),
+        # subok=subok,
+        # signature=signature,
+        # extobj=extobj,
+    )
+    return res
+
+
+@fn.NodeDecorator(
     node_id="np.maximum",
     name="maximum",
     outputs=[{"name": "y", "type": "ndarray_or_scalar"}],
@@ -3073,6 +3104,7 @@ NODE_SHELF = fn.Shelf(
         logical_or,
         logical_xor,
         maximum,
+        matmul,
         minimum,
         mod,
         modf,
